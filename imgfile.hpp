@@ -7,14 +7,17 @@
 #include <eigen3/Eigen/Core>
 
 
-class IImgFile {
+class IImgTypes {
 public:
     using  SizeT     = int32_t;
     using  ColorPart = unsigned char;
     struct Point { SizeT x, y; };
     struct Pixel { ColorPart b, g, r; };
     using  Color = Pixel;
+};
 
+
+class IImgFile : public IImgTypes {
 public:
     IImgFile()                             = default;
     virtual ~IImgFile()                    = default;

@@ -12,6 +12,7 @@
 
 ImgBmp::ImgBmp(std::string const & filename)
 {
+    // TODO(file optimize)
     std::ifstream ifs;
     ifs.open(filename.c_str(), std::ios::binary);
     ifs.exceptions(std::ios::badbit | std::ios::failbit);
@@ -109,11 +110,10 @@ ImgBmp::SizeT ImgBmp::height() const
 
 
 ImgBmp::ImgBmp(ImgBmp const & other)
-{
-    bmp_header_ = other.bmp_header_;
-    padding_    = other.padding_;
-    image_      = other.image_;
-}
+    : bmp_header_(other.bmp_header_)
+    , padding_   (other.padding_)
+    , image_     (other.image_)
+{ }
 
 
 ImgBmp::SizeT ImgBmp::calc_padding(BmpHeader const & header) const

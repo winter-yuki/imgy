@@ -5,7 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
-    imgfile.cpp
+    imgfile.cpp \
+    imgeff.cpp \
+    imgeff_warp.cpp
 
 HEADERS += \
-    imgfile.hpp
+    imgfile.hpp \
+    imgeff.hpp

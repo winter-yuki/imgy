@@ -18,6 +18,7 @@ public:
 public:
     Render() = default;
 
+    void render();
 
 private:
     ValT  scr_w_ = 500;

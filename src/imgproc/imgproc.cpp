@@ -3,19 +3,19 @@
 
 namespace
 {
-double PixIntermediateColor(ImgEff::Pixel p)
+double PixIntermediateColor(ImgProc::Pixel p)
 {
     return double(int(p.b) + p.g + p.r) / 3.0;
 }
 } // namespace
 
 
-ImgEff::ImgEff(IImgFile & image)
+ImgProc::ImgProc(IImgFile & image)
     : image_(image)
 {}
 
 
-void ImgEff::fill_color(Color c)
+void ImgProc::fill_color(Color c)
 {
     for (SizeT row = 0, h = rows(); row < h; ++row) {
         for (SizeT col = 0, w = cols(); col < w; ++col) {
@@ -25,31 +25,31 @@ void ImgEff::fill_color(Color c)
 }
 
 
-void ImgEff::negative()
+void ImgProc::negative()
 {
     lut_apply(lut_negative());
 }
 
 
-void ImgEff::brightness(Param coef)
+void ImgProc::brightness(Param coef)
 {
     lut_apply(lut_brightness(coef));
 }
 
 
-void ImgEff::contrast(Param a, Param b)
+void ImgProc::contrast(Param a, Param b)
 {
     lut_apply(lut_contrast(a, b));
 }
 
 
-void ImgEff::gamma_correction(Param gamma)
+void ImgProc::gamma_correction(Param gamma)
 {
     lut_apply(lut_gamma_correction(gamma));
 }
 
 
-void ImgEff::lut_apply(LUTTable const & table)
+void ImgProc::lut_apply(LUTTable const & table)
 {
     auto apply = [this, &table](SizeT row, SizeT col) {
         Pixel p = image_(row, col);
@@ -64,7 +64,7 @@ void ImgEff::lut_apply(LUTTable const & table)
 }
 
 
-ImgEff::LUTTable ImgEff::lut_get_matr(LUTFunc const & f)
+ImgProc::LUTTable ImgProc::lut_get_matr(LUTFunc const & f)
 {
     LUTTable table;
     table.reserve(COLOR_MAX_);
@@ -75,37 +75,37 @@ ImgEff::LUTTable ImgEff::lut_get_matr(LUTFunc const & f)
 }
 
 
-ImgEff::LUTTable ImgEff::lut_negative()
+ImgProc::LUTTable ImgProc::lut_negative()
 {
-    return lut_get_matr([](ImgEff::ColorPart c) {
-        return ImgEff::COLOR_MAX_ - c; });
+    return lut_get_matr([](ImgProc::ColorPart c) {
+        return ImgProc::COLOR_MAX_ - c; });
 }
 
 
-ImgEff::LUTTable ImgEff::lut_brightness(Param coef)
+ImgProc::LUTTable ImgProc::lut_brightness(Param coef)
 {
-    return lut_get_matr([coef](ImgEff::ColorPart c) {
-        return ImgEff::clamp_color(int(c + coef * ImgEff::COLOR_MAX_)); });
+    return lut_get_matr([coef](ImgProc::ColorPart c) {
+        return ImgProc::clamp_color(int(c + coef * ImgProc::COLOR_MAX_)); });
 }
 
 
-ImgEff::LUTTable ImgEff::lut_contrast(Param a, Param b)
+ImgProc::LUTTable ImgProc::lut_contrast(Param a, Param b)
 {
-    return lut_get_matr([a, b](ImgEff::ColorPart c) {
-        return ImgEff::clamp_color(
-                    int(ImgEff::COLOR_MAX_ * (c - a) / (b - a))); });
+    return lut_get_matr([a, b](ImgProc::ColorPart c) {
+        return ImgProc::clamp_color(
+                    int(ImgProc::COLOR_MAX_ * (c - a) / (b - a))); });
 }
 
 
-ImgEff::LUTTable ImgEff::lut_gamma_correction(Param gamma)
+ImgProc::LUTTable ImgProc::lut_gamma_correction(Param gamma)
 {
-    return lut_get_matr([gamma](ImgEff::ColorPart c) {
-        return ImgEff::COLOR_MAX_ *
-                std::pow(double(c) / ImgEff::COLOR_MAX_, 1.0 / gamma); });
+    return lut_get_matr([gamma](ImgProc::ColorPart c) {
+        return ImgProc::COLOR_MAX_ *
+                std::pow(double(c) / ImgProc::COLOR_MAX_, 1.0 / gamma); });
 }
 
 
-void ImgEff::bayer_filter(SizeT matr_size)
+void ImgProc::bayer_filter(SizeT matr_size)
 {
     auto what_matr = [this](BayerMtr const & matr, SizeT row0, SizeT col0) {
         SizeT  n_all = 0;
@@ -152,7 +152,7 @@ void ImgEff::bayer_filter(SizeT matr_size)
 }
 
 
-void ImgEff::error_diffusion()
+void ImgProc::error_diffusion()
 {
     // Set matrix of error separation.
     using ErrDifMtr = Eigen::Array<SizeT, Eigen::Dynamic, Eigen::Dynamic>;
@@ -238,7 +238,7 @@ void ImgEff::error_diffusion()
 }
 
 
-ImgEff::ColorPart ImgEff::clamp_color(int color)
+ImgProc::ColorPart ImgProc::clamp_color(int color)
 {
     if (color <= 0) {
         return 0;
@@ -252,7 +252,7 @@ ImgEff::ColorPart ImgEff::clamp_color(int color)
 }
 
 
-ImgEff::BayerMtr ImgEff::get_bayer_matrix(SizeT size)
+ImgProc::BayerMtr ImgProc::get_bayer_matrix(SizeT size)
 {
     auto next_matr = [](BayerMtr mtr, SizeT size0) {
         auto size = size0 * 2;
@@ -284,7 +284,7 @@ ImgEff::BayerMtr ImgEff::get_bayer_matrix(SizeT size)
 }
 
 
-ImgEff::Pixel ImgEff::hsv2rgb(PixelHSV p)
+ImgProc::Pixel ImgProc::hsv2rgb(PixelHSV p)
 {
     if (p.s == 0) {
         return {p.v, p.v, p.v};
@@ -316,7 +316,7 @@ ImgEff::Pixel ImgEff::hsv2rgb(PixelHSV p)
 }
 
 
-ImgEff::PixelHSV ImgEff::rgb2hsv(Pixel p)
+ImgProc::PixelHSV ImgProc::rgb2hsv(Pixel p)
 {
     auto maxc  = std::max({p.b, p.g, p.r});
     auto minc  = std::min({p.b, p.g, p.r});

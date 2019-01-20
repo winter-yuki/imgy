@@ -40,7 +40,7 @@ void test()
     p->print(path + "20.bmp");
     img.print(path + "30.bmp");
 
-    ImgEff img_wrap(img);
+    ImgProc img_wrap(img);
     img_wrap.negative();
     img.print(path + "40.bmp");
     img_wrap.error_diffusion();

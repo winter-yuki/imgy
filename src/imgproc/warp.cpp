@@ -3,7 +3,7 @@
 #include <memory>
 
 
-void ImgEff::warp(Point from, Point dest)
+void ImgProc::warp(Point from, Point dest)
 {
     // Get back mapping.
     auto map = get_back_mapping(from, dest);
@@ -29,7 +29,7 @@ void ImgEff::warp(Point from, Point dest)
 }
 
 
-ImgEff::TriTransform ImgEff::get_back_mapping(Point from, Point dest)
+ImgProc::TriTransform ImgProc::get_back_mapping(Point from, Point dest)
 {
     ValT w = cols();
     ValT h = rows();
@@ -67,7 +67,7 @@ ImgEff::TriTransform ImgEff::get_back_mapping(Point from, Point dest)
 }
 
 
-ImgEff::Matrix ImgEff::find_triangle(TriTransform const & map, Point p)
+ImgProc::Matrix ImgProc::find_triangle(TriTransform const & map, Point p)
 {
     for (auto const & i : map) {
         // Move to the zero of coordinates

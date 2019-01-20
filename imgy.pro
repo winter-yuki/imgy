@@ -4,16 +4,18 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp \
-    imgfile.cpp \
-    imgeff.cpp \
-    imgeff_warp.cpp \
-    objs.cpp \
-    render.cpp
+        src/main.cpp \
+    src/file/imgfile.cpp \
+    src/imgproc/imgeff.cpp \
+    src/imgproc/imgeff_warp.cpp \
+    src/render/objs.cpp \
+    src/render/render.cpp \
+    src/cmd/cmd.cpp
 
 HEADERS += \
-    imgfile.hpp \
-    imgeff.hpp \
-    objs.hpp \
-    glmath.hpp \
-    render.hpp
+    include/file/imgfile.hpp \
+    include/imgproc/imgeff.hpp \
+    include/render/objs.hpp \
+    include/math/glmath.hpp \
+    include/render/render.hpp \
+    include/cmd/cmd.hpp

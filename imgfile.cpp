@@ -39,6 +39,24 @@ ImgBmp::ImgBmp(std::string const & filename)
 }
 
 
+ImgBmp::ImgBmp(SizeT width, SizeT height)
+{
+    static_assert(BMP_HEADER_SIZE_ == sizeof (bmp_header_),
+                  "Struct pack doesn't work");
+
+    const std::string path = "../res/header.data";
+    std::ifstream ifs;
+    ifs.open(path, std::ios::binary);
+    ifs.exceptions(std::ios::badbit | std::ios::failbit);
+    ifs.read(reinterpret_cast<char *>(&bmp_header_), sizeof (bmp_header_));
+
+    bmp_header_.width  = width;
+    bmp_header_.height = height;
+    padding_ = calc_padding(bmp_header_);
+    image_ = ImageMtr(height, width);
+}
+
+
 void ImgBmp::print(std::string const & filename)
 {
     std::ofstream ofs;

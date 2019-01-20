@@ -34,7 +34,7 @@ public:
     void bayer_filter         (SizeT matr_size);
     void error_diffusion      ();
     void warp                 (Point from, Point dest);
-//    void free_form_deformation(SizeT i_point, SizeT right, SizeT up);
+//    void free_form_deformation(SizeT i_point, SizeT right, SizeT up); // TODO()
 
     static Pixel    hsv2rgb (PixelHSV p);
     static PixelHSV rgb2hsv (Pixel    p);

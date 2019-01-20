@@ -44,6 +44,7 @@ public:
 class ImgBmp : public IImgFile {
 public:
     explicit ImgBmp(std::string const & filename);
+    ImgBmp(SizeT width, SizeT height);
 
     void print(std::string const & filename) override;
 

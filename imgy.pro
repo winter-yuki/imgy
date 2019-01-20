@@ -7,8 +7,13 @@ SOURCES += \
         main.cpp \
     imgfile.cpp \
     imgeff.cpp \
-    imgeff_warp.cpp
+    imgeff_warp.cpp \
+    objs.cpp \
+    render.cpp
 
 HEADERS += \
     imgfile.hpp \
-    imgeff.hpp
+    imgeff.hpp \
+    objs.hpp \
+    glmath.hpp \
+    render.hpp

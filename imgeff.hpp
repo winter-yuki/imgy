@@ -58,6 +58,7 @@ private:
 
     static ColorPart clamp_color(int color);
 
+    // warp
     using ValT         = double;
     using Matrix       = Eigen::Matrix<ValT, 3, 3>;
     using PointH       = Eigen::Matrix<ValT, 1, 3>;

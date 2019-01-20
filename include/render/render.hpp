@@ -16,8 +16,19 @@ public:
     using Matrix = GLMath::Matrix<ValT>;
 
 public:
+    Render() = default;
 
-    Render();
+
+private:
+    ValT  scr_w_ = 500;
+    ValT  scr_h_ = 500;
+    SizeT pix_w_ = 500;
+    SizeT pix_h_ = 500;
+
+    ValT   dist_ = 10;
+    Vector cam_pos_;
+    Vector cam_up_;
+    Vector cam_to_;
 };
 
 }  // namespace Render

@@ -10,7 +10,7 @@
 namespace GLMath
 {
 
-using SizeT          = int32_t;
+using SizeT          = int64_t;
 const SizeT SIZE     = 4;
 const SizeT N_COORDS = 3;
 
@@ -21,10 +21,9 @@ public:
     struct View { Type x, y, z; };
 
     Vector() = default;
-    Vector(Type x1, Type x2, Type x3);
-    Vector(Type x1, Type x2, Type x3, Type x4);
+    Vector(Type x1, Type x2, Type x3, Type x4 = 0);
 
-    View view() const { return {data_[0], data_[1], data_[2]}; }
+    View view() const { return { data_[0], data_[1], data_[2] }; }
     Type norm() const;
 
     template <class T2>
@@ -49,8 +48,8 @@ template <class Type>
 class Matrix {
 public:
     Matrix();
-    Matrix(Vector<Type> a, Vector<Type> b, Vector<Type> c);
-    Matrix(Vector<Type> v1, Vector<Type> v2, Vector<Type> v3, Vector<Type> v4);
+    Matrix(Vector<Type> v1, Vector<Type> v2, Vector<Type> v3,
+           Vector<Type> v4 = {0, 0, 0, 1});
 
     Type & operator()(SizeT row, SizeT col);
     Type   operator()(SizeT row, SizeT col) const;
@@ -73,15 +72,6 @@ private:
 };
 
 
-
-template <class Type>
-Vector<Type>::Vector(Type x1, Type x2, Type x3)
-{
-    data_[0] = x1;
-    data_[1] = x2;
-    data_[2] = x3;
-    data_[3] = 0;
-}
 
 template <class Type>
 Vector<Type>::Vector(Type x1, Type x2, Type x3, Type x4)
@@ -151,27 +141,6 @@ Matrix<Type>::Matrix()
     for (SizeT i = 0; i < SIZE; ++i) {
         data(i, i) = 1;
     }
-}
-
-template <class Type>
-Matrix<Type>::Matrix(Vector<Type> a, Vector<Type> b, Vector<Type> c)
-{
-    SizeT matr_pos = 0;
-
-    for (SizeT vec_pos = 0; vec_pos < SIZE; ++vec_pos, ++matr_pos) {
-        data_[matr_pos] = a[vec_pos];
-    }
-    for (SizeT vec_pos = 0; vec_pos < SIZE; ++vec_pos, ++matr_pos) {
-        data_[matr_pos] = b[vec_pos];
-    }
-    for (SizeT vec_pos = 0; vec_pos < SIZE; ++vec_pos, ++matr_pos) {
-        data_[matr_pos] = c[vec_pos];
-    }
-    for (SizeT vec_pos = 0; vec_pos < SIZE; ++vec_pos, ++matr_pos) {
-        data_[matr_pos] = 0;
-    }
-    data_[matr_pos - 1] = 1;
-    assert(matr_pos == SIZE * 4);
 }
 
 template <class Type>

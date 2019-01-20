@@ -6,16 +6,17 @@ CONFIG -= qt
 SOURCES += \
         src/main.cpp \
     src/file/imgfile.cpp \
-    src/imgproc/imgeff.cpp \
-    src/imgproc/imgeff_warp.cpp \
     src/render/objs.cpp \
     src/render/render.cpp \
-    src/cmd/cmd.cpp
+    src/cmd/cmd.cpp \
+    src/imgproc/imgproc.cpp \
+    src/imgproc/warp.cpp
 
 HEADERS += \
     include/file/imgfile.hpp \
-    include/imgproc/imgeff.hpp \
     include/render/objs.hpp \
     include/math/glmath.hpp \
     include/render/render.hpp \
-    include/cmd/cmd.hpp
+    include/cmd/cmd.hpp \
+    include/imgproc/imgproc.hpp \
+    include/render/types.hpp

@@ -8,7 +8,7 @@
 #include "include/file/imgfile.hpp"
 
 
-class ImgProc final : public IImgTypes {
+class ImgProc final : public ImgTypes {
 public:
     using  Param = double;
     struct PixelHSV { ColorPart h, s, v; };
@@ -34,7 +34,8 @@ public:
     void bayer_filter         (SizeT matr_size);
     void error_diffusion      ();
     void warp                 (Point from, Point dest);
-//    void free_form_deformation(SizeT i_point, SizeT right, SizeT up); // TODO()
+    // TODO(ffd)
+//    void free_form_deformation(SizeT i_point, SizeT right, SizeT up);
 
     static Pixel    hsv2rgb (PixelHSV p);
     static PixelHSV rgb2hsv (Pixel    p);

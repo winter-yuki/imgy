@@ -1,15 +1,19 @@
 #ifndef INCLUDE_RENDER_TYPES_HPP
 #define INCLUDE_RENDER_TYPES_HPP
 
-#include <cinttypes>
+#include "include/math/glmath.hpp"
 
 
 namespace Render
 {
 
-using SizeT = int64_t;
-using ValT  = double;
-inline ValT EPSILON() { static const ValT E = 1e-7; return E; }
+class RenderTypes {
+public:
+    using ValT    = double;
+    using Vector  = GLMath::Vector<ValT>;
+    using Matrix  = GLMath::Matrix<ValT>;
+    constexpr static const ValT EPSILON = 1e-7;
+};
 
 } // namespace Render
 

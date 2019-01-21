@@ -25,7 +25,7 @@ public:
 
     View view() const { return { data_[0], data_[1], data_[2] }; }
     Type norm() const;
-    void normalize();
+    Vector const & normalize();
 
     template <class T2>
     auto dot(Vector<T2> const & v) const
@@ -94,12 +94,13 @@ Type Vector<Type>::norm() const
 }
 
 template <class Type>
-void Vector<Type>::normalize()
+Vector<Type> const & Vector<Type>::normalize()
 {
     auto n = norm();
     for (SizeT i = 0; i < N_COORDS; ++i) {
         data_[i] /= n;
     }
+    return *this;
 }
 
 template <class T1>

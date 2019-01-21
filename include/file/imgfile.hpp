@@ -7,7 +7,7 @@
 #include <eigen3/Eigen/Core>
 
 
-class IImgTypes {
+class ImgTypes {
 public:
     using  SizeT     = int64_t;
     using  ColorPart = unsigned char;
@@ -17,7 +17,7 @@ public:
 };
 
 
-class IImgFile : public IImgTypes {
+class IImgFile : public ImgTypes {
 public:
     IImgFile()                             = default;
     virtual ~IImgFile()                    = default;

@@ -1,16 +1,19 @@
 #ifndef INCLUDE_RENDER_OBJS_HPP
 #define INCLUDE_RENDER_OBJS_HPP
 
+#include <utility>
+
+#include "include/file/imgfile.hpp"
+#include "include/render/types.hpp"
+
 
 namespace Render
 {
 
-class ISceneObj {
+class ISceneObj
+        : public ImgTypes
+        , public RenderTypes {
 public:
-    using ValT = double;
-    const ValT EPSILON = 1e-10;
-    struct Point { ValT x, y, z; };
-
     ISceneObj()                              = default;
     virtual ~ISceneObj()                     = default;
     ISceneObj(ISceneObj const &)             = delete;
@@ -18,13 +21,36 @@ public:
 };
 
 
-class Sphere final : ISceneObj {
+class ISceneFig
+        : public ISceneObj {
 public:
-    Sphere(Point const & center, ValT radius);
+    using Intersect = std::pair<ValT, Color>;
+
+public:
+    virtual Intersect intersect(Vector const & ray,
+                                Vector const & cam_pos) = 0;
+};
+
+
+class Sphere final
+        : public ISceneFig {
+public:
+    Sphere(Vector const & center, ValT radius, Color color);
+
+    Intersect intersect(Vector const & ray, Vector const & cam_pos) override;
+
 
 private:
-    Point center_;
-    ValT  radius_;
+    Vector center_;
+    ValT   radius_;
+    Color  color_;
+};
+// TODO(obj types)
+
+class ISceneLight
+        : public ISceneObj {
+public:
+    // TODO(lights)
 };
 
 }  // namespace Render

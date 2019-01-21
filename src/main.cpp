@@ -5,11 +5,15 @@
 #include <string>
 
 #include "include/imgproc/imgproc.hpp"
+#include "include/render/render.hpp"
 
 
 namespace
 {
-void test();
+
+void test_proc();
+void test_render();
+
 } // namespace
 
 
@@ -18,7 +22,8 @@ int main(int argc, char *argv[])
 {
     try {
         //        parse(argc, argv);
-        test();
+//        test_proc();
+        test_render();
     } catch (std::exception const & e) {
         std::cout << e.what() << std::endl;
         return 1;
@@ -29,7 +34,8 @@ int main(int argc, char *argv[])
 
 namespace
 {
-void test()
+
+void test_proc()
 {
     std::string path = "../test/";
     ImgBmp img(path + "1.bmp");
@@ -54,4 +60,17 @@ void test()
     ImgBmp immgg(100, 500);
     immgg.print(path + "70.bmp");
 }
+
+
+void test_render()
+{
+    std::string path = "../test/";
+    ImgBmp img(500, 500);
+
+    Render::Render::Objects objs;
+    Render::Render rnd(img, objs);
+    rnd.render();
+    img.print(path + "100.bmp");
+}
+
 } // namespace

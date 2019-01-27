@@ -12,15 +12,16 @@
 class ImgBmp final
         : public IImgFile {
 public:
+    ImgBmp();
     explicit ImgBmp(std::string const & filename);
     ImgBmp(SizeT cols, SizeT rows);
 
     void print(std::string const & filename) override;
 
+    void resize(SizeT new_rows, SizeT new_cols) override;
+
     void     swap(IImgFile & other) override;
     ImgBmp * clone()                override;
-
-    void resize_up(SizeT new_h, SizeT new_w) override;
 
     Pixel       & operator()(SizeT row, SizeT col)       override;
     Pixel       & operator()(Point p)                    override;

@@ -87,13 +87,13 @@ private:
     void shift_pivots(Point p, SizeT right, SizeT up);
     void ffd_map(ImgProc const & from);
     Pixel & get_param_point(ValT v, ValT u);
-    Pixel & get_param_point(ValT v, ValT u) const;
+    Pixel   get_param_point(ValT v, ValT u) const;
     PointD  bilinear_interp(ImgTypes::Point p,
                             Param u /*p00 - p01*/, Param v /*p00 - p10*/) const;
     PointD bilinear_interp(PointD const & p00, PointD const & p01,
                            PointD const & p10, PointD const & p11,
                            Param u /*p00 - p01*/, Param v /*p00 - p10*/) const;
-
+    static PointD to_PointD(Point p) { return { p.x, p.y }; }
 private:
     IImgFile & image_;
     Pivots     ffd_pivots_;

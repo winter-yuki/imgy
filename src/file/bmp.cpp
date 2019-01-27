@@ -10,6 +10,11 @@
 #include <utility>
 
 
+ImgBmp::ImgBmp()
+    : ImgBmp(0, 0)
+{}
+
+
 ImgBmp::ImgBmp(std::string const & filename)
 {
     // TODO(file optimize)
@@ -43,6 +48,8 @@ ImgBmp::ImgBmp(SizeT width, SizeT height)
 {
     static_assert(BMP_HEADER_SIZE_ == sizeof (bmp_header_),
                   "Struct pack doesn't work");
+    assert(width >= 0);
+    assert(height >= 0);
 
     const std::string path = "../res/header.data";
     std::ifstream ifs;
@@ -76,9 +83,12 @@ void ImgBmp::print(std::string const & filename)
 }
 
 
-void ImgBmp::resize_up(SizeT new_h, SizeT new_w)
+void ImgBmp::resize(SizeT new_rows, SizeT new_cols)
 {
-    // TODO(resize_up)
+    assert(new_rows >= 0);
+    assert(new_cols >= 0);
+    ImgBmp new_bmp(new_cols, new_rows);
+    swap(new_bmp);
 }
 
 

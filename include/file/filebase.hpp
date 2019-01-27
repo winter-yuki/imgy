@@ -18,7 +18,7 @@ public:
 
     virtual void print(std::string const & filename) = 0;
 
-    virtual void resize_up(SizeT new_h, SizeT new_w) = 0;
+    virtual void resize(SizeT new_rows, SizeT new_cols) = 0;
 
     virtual void       swap (IImgFile & other) = 0;
     virtual IImgFile * clone()                 = 0;

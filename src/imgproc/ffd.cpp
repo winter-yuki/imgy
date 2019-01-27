@@ -45,30 +45,30 @@ ImgProc::get_new_size(Point p, SizeT right, SizeT up) const
     Point to_move = ffd_pivots_(p.y, p.x);
     Point moved{to_move.x += right, to_move.y -= up};
 
-    if (moved.x < 0 || moved.x >= image_.width() ||
-            moved.y < 0 || moved.y >= image_.height()) {
-        return { image_.height(), image_.width() };
+    if (moved.x < 0 || moved.x >= image_.cols() ||
+            moved.y < 0 || moved.y >= image_.rows()) {
+        return { image_.rows(), image_.cols() };
     }
 
     SizeT dx{};
     if (moved.x < 0) {
         dx = 0 - moved.x;
     } else {
-        assert(moved.x >= image_.width());
-        dx = moved.x - image_.width();
+        assert(moved.x >= image_.cols());
+        dx = moved.x - image_.cols();
     }
     SizeT dy{};
     if (moved.y < 0) {
         dy = 0 - moved.y;
     } else {
-        assert(moved.y >= image_.height());
-        dy = moved.y - image_.height();
+        assert(moved.y >= image_.rows());
+        dy = moved.y - image_.rows();
     }
     // Previous picture can be placed on center.
     dx *= 2;
     dy *= 2;
 
-    return { image_.height() + dy, image_.width() + dx };
+    return { image_.rows() + dy, image_.cols() + dx };
 }
 
 
@@ -81,8 +81,8 @@ void ImgProc::shift_pivots(Point p, SizeT right, SizeT up)
 
 void ImgProc::ffd_map(ImgProc const & from)
 {
-    const SizeT row_max = image_.height() / 2;
-    const SizeT col_max = image_.width()  / 2;
+    const SizeT row_max = image_.rows() / 2;
+    const SizeT col_max = image_.cols()  / 2;
     const ValT STEP_V = 1.0 / row_max;
     const ValT STEP_H = 1.0 / col_max;
     ValT u = 0, v = 0;

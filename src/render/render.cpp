@@ -21,9 +21,9 @@ void Render::render()
     right_   = (cam_up_.cross(pos_scr_)).normalize();
 
     // TODO(odd viewport sizes)
-    assert(image_.height() % 2 == 0 && image_.width() % 2 == 0);
-    for (SizeT row = 0; row < image_.height(); ++row) {
-        for (SizeT col = 0; col < image_.width(); ++col) {
+    assert(image_.rows() % 2 == 0 && image_.cols() % 2 == 0);
+    for (SizeT row = 0; row < image_.rows(); ++row) {
+        for (SizeT col = 0; col < image_.cols(); ++col) {
            auto ray = calc_ray_dir(row, col);
            image_(row, col) = trace_ray(ray);
         }
@@ -34,11 +34,11 @@ void Render::render()
 Render::Vector Render::calc_ray_dir(SizeT row, SizeT col)
 {
     // TODO(prove)
-    ValT   r_coef = (col + 0.5 - scr_w_ / 2) / scr_w_ * image_.width();
+    ValT   r_coef = (col + 0.5 - scr_w_ / 2) / scr_w_ * image_.cols();
     Vector shift_right = right_ * r_coef;
 
     ValT   u_coef = (-(row + 0.5) + scr_h_ / 2) /
-            scr_h_ * image_.height();
+            scr_h_ * image_.rows();
     Vector shift_up = cam_up_ * u_coef;
 
     Vector to_pix = pos_scr_ + shift_up + shift_right;

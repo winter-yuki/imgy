@@ -12,7 +12,7 @@ double PixIntermediateColor(ImgProc::Pixel p)
 
 ImgProc::ImgProc(IImgFile & image)
     : image_(image)
-    , ffd_pivots_(gen_pivots(image.width(), image.height()))
+    , ffd_pivots_(gen_pivots(image.cols(), image.rows()))
 {}
 
 

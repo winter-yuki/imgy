@@ -3,7 +3,7 @@
 
 #include <utility>
 
-#include "include/file/imgfile.hpp"
+#include "include/file/bmp.hpp"
 #include "include/render/types.hpp"
 
 

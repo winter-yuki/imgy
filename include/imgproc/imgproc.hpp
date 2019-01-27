@@ -3,10 +3,11 @@
 
 #include <limits>
 #include <tuple>
+#include <vector>
 
 #include <eigen3/Eigen/Dense>
 
-#include "include/file/imgfile.hpp"
+#include "include/file/filebase.hpp"
 
 
 class ImgProc final
@@ -43,8 +44,8 @@ public:
 
     void swap(ImgProc & other);
 
-    SizeT rows() const { return image_.height(); }
-    SizeT cols() const { return image_.width();  }
+    SizeT rows() const { return image_.rows(); }
+    SizeT cols() const { return image_.cols(); }
 
     static Pixel    hsv2rgb (PixelHSV p);
     static PixelHSV rgb2hsv (Pixel    p);
@@ -79,7 +80,7 @@ private:
     static ValT norm(Vector v) { return std::sqrt(v[0]*v[0] + v[1]*v[1]); }
 
     // ffd
-    using PointD = Eigen::Matrix<ValT, 1, 3>;
+    using PointD = Eigen::Matrix<ValT, 1, 2>;
     Pivots gen_pivots(SizeT img_w, SizeT img_h)  const;
     std::tuple<SizeT /*height*/, SizeT /*width*/>
     get_new_size(Point p, SizeT right, SizeT up) const;

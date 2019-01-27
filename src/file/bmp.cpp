@@ -1,4 +1,4 @@
-#include "include/file/imgfile.hpp"
+#include "include/file/bmp.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -121,13 +121,13 @@ ImgBmp::Pixel const & ImgBmp::operator()(Point p) const
 }
 
 
-ImgBmp::SizeT ImgBmp::width()  const
+ImgBmp::SizeT ImgBmp::cols()  const
 {
     return image_.cols();
 }
 
 
-ImgBmp::SizeT ImgBmp::height() const
+ImgBmp::SizeT ImgBmp::rows() const
 {
     return image_.rows();
 }

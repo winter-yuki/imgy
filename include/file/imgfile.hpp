@@ -28,6 +28,8 @@ public:
 
     virtual void print(std::string const & filename) = 0;
 
+    virtual void resize_up(SizeT new_h, SizeT new_w) = 0;
+
     virtual void       swap (IImgFile & other) = 0;
     virtual IImgFile * clone()                 = 0;
 
@@ -50,6 +52,8 @@ public:
 
     void     swap(IImgFile & other) override;
     ImgBmp * clone()                override;
+
+    void resize_up(SizeT new_h, SizeT new_w) override;
 
     Pixel       & operator()(SizeT row, SizeT col)       override;
     Pixel       & operator()(Point p)                    override;

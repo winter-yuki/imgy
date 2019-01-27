@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 {
     try {
         //        parse(argc, argv);
-//        test_proc();
-        test_render();
+        test_proc();
+//        test_render();
     } catch (std::exception const & e) {
         std::cout << e.what() << std::endl;
         return 1;
@@ -52,10 +52,11 @@ void test_proc()
     img_wrap.error_diffusion();
     img.print(path + "50.bmp");
 
+//    img_wrap.free_form_deformation({0, 0}, 0, 0);
+
     img_wrap.warp({img_wrap.cols() / 2, img_wrap.rows() / 2},
     {img_wrap.cols() * 3 / 4, img_wrap.rows() * 3 / 4});
     img.print(path + "60.bmp");
-
 
     ImgBmp immgg(100, 500);
     immgg.print(path + "70.bmp");

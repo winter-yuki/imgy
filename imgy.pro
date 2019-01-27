@@ -10,7 +10,8 @@ SOURCES += \
     src/render/render.cpp \
     src/cmd/cmd.cpp \
     src/imgproc/imgproc.cpp \
-    src/imgproc/warp.cpp
+    src/imgproc/warp.cpp \
+    src/imgproc/ffd.cpp
 
 HEADERS += \
     include/file/imgfile.hpp \

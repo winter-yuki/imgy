@@ -76,6 +76,12 @@ void ImgBmp::print(std::string const & filename)
 }
 
 
+void ImgBmp::resize_up(SizeT new_h, SizeT new_w)
+{
+    // TODO(resize_up)
+}
+
+
 void ImgBmp::swap(IImgFile & other)
 {
     auto & o_bmp = dynamic_cast<ImgBmp &>(other);

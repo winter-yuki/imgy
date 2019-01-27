@@ -26,11 +26,12 @@ public:
 
     void render();
 
+
 private:
     Vector calc_ray_dir(SizeT row, SizeT col);
     Color  trace_ray   (Vector const & ray);
 
-private:
+private: // TODO(ray separate class)
     ValT scr_w_ = 50;
     ValT scr_h_ = 50;
     ValT dist_  = 50;

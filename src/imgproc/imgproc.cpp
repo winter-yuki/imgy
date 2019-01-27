@@ -12,6 +12,7 @@ double PixIntermediateColor(ImgProc::Pixel p)
 
 ImgProc::ImgProc(IImgFile & image)
     : image_(image)
+    , ffd_pivots_(gen_pivots(image.width(), image.height()))
 {}
 
 
@@ -281,6 +282,13 @@ ImgProc::BayerMtr ImgProc::get_bayer_matrix(SizeT size)
     }
 
     return newMatr;
+}
+
+
+void ImgProc::swap(ImgProc & other)
+{
+    image_.swap(other.image_);
+    std::swap(ffd_pivots_, other.ffd_pivots_);
 }
 
 

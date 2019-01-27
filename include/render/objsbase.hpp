@@ -1,10 +1,8 @@
-#ifndef INCLUDE_RENDER_OBJS_HPP
-#define INCLUDE_RENDER_OBJS_HPP
+#ifndef INCLUDE_RENDER_OBJSBASE_HPP
+#define INCLUDE_RENDER_OBJSBASE_HPP
 
-#include <utility>
-
-#include "include/file/bmp.hpp"
 #include "include/render/types.hpp"
+#include "include/file/types.hpp"
 
 
 namespace Render
@@ -24,7 +22,7 @@ public:
 class ISceneFig
         : public ISceneObj {
 public:
-    using Intersect = std::pair<ValT, Color>;
+    using Intersect = std::pair<Double, Color>;
 
 public:
     virtual Intersect intersect(Vector const & ray,
@@ -32,28 +30,13 @@ public:
 };
 
 
-class Sphere final
-        : public ISceneFig {
-public:
-    Sphere(Vector const & center, ValT radius, Color color);
-
-    Intersect intersect(Vector const & ray, Vector const & cam_pos) override;
-
-
-private:
-    Vector center_;
-    ValT   radius_;
-    Color  color_;
-};
-// TODO(obj types)
-
 class ISceneLight
         : public ISceneObj {
 public:
     // TODO(lights)
 };
 
-}  // namespace Render
+} // namespace Render
 
 
-#endif // INCLUDE_RENDER_OBJS_HPP
+#endif // INCLUDE_RENDER_OBJSBASE_HPP

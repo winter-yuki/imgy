@@ -9,10 +9,10 @@ namespace Render
 
 class RenderTypes {
 public:
-    using ValT   = double;
-    using Vector = GLMath::Vector<ValT>;
-    using Matrix = GLMath::Matrix<ValT>;
-    constexpr static const ValT EPSILON = 1e-7;
+    using Double = double;
+    using Vector = GLMath::Vector<Double>;
+    using Matrix = GLMath::Matrix<Double>;
+    constexpr static const Double EPSILON = 1e-7;
 };
 
 } // namespace Render

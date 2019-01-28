@@ -12,7 +12,7 @@ class FigSphere final
 public:
     FigSphere(Vector const & center, Double radius, Color color);
 
-    Intersect intersect(Vector const & ray, Vector const & cam_pos) override;
+    Intersect intersect(Ray const & ray) const override;
 
 private:
     Vector center_;
@@ -24,14 +24,14 @@ private:
 class FigCuboid final
         : public ISceneFig {
 public:
-    Intersect intersect(Vector const & ray, Vector const & cam_pos) override;
+    Intersect intersect(Ray const & ray) const override;
 };
 
 
 class FigPlane final
         : public ISceneFig {
 public:
-    Intersect intersect(Vector const & ray, Vector const & cam_pos) override;
+    Intersect intersect(Ray const & ray) const override;
 };
 
 }  // namespace Render

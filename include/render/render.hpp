@@ -3,8 +3,9 @@
 
 #include <vector>
 
-#include "include/file/bmp.hpp"
-#include "include/render/objs.hpp"
+#include "include/file/filebase.hpp"
+#include "include/render/objsbase.hpp"
+#include "include/render/ray.hpp"
 #include "include/render/types.hpp"
 
 
@@ -15,10 +16,10 @@ class Render final
         : public ImgTypes
         , public RenderTypes {
 public:
-    using Objects = std::vector<ISceneFig *>;
+    using Figures = std::vector<ISceneFig *>;
 
 public:
-    Render(IImgFile & image, Objects objs);
+    Render(IImgFile & image, Figures objs);
     Render(Render const &)             = delete;
     Render & operator=(Render const &) = delete;
     Render(Render &&)                  = delete;
@@ -28,23 +29,22 @@ public:
 
 
 private:
-    Vector calc_ray_dir(SizeT row, SizeT col);
-    Color  trace_ray   (Vector const & ray);
+    void  prep_dirs   ();
+    Ray   calc_ray_dir(SizeT row, SizeT col) const;
+    Color trace_ray   (Ray const & ray)      const;
 
-private: // TODO(ray separate class)
-    ValT scr_w_ = 50;
-    ValT scr_h_ = 50;
-    ValT dist_  = 50;
+private:
+    Double vport_w_ = 2;
+    Double vport_h_ = 2;
+    Double dist_    = 2;
 
-    Vector cam_pos_;
-    Vector cam_up_ = {0, 1, 0}; // oy
-    Vector cam_to_ = {0, 0, 1}; // oz
-
-    Vector pos_scr_;
+    Vector up_    = {0, 1, 0}; // oy
+    Vector to_    = {0, 0, -1}; // oz
+    Vector pos_   = {0, 0, 0};
     Vector right_;
 
     IImgFile & image_;
-    Objects    objs_;
+    Figures    figs_;
 };
 
 }  // namespace Render

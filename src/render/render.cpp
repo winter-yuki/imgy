@@ -1,61 +1,70 @@
-#include <functional>
-#include <utility>
-
 #include "include/render/render.hpp"
+
+#include <functional>
+#include <iostream> // TODO(dbg print)
+#include <limits>
+#include <utility>
 
 
 namespace Render
 {
 
-Render::Render(IImgFile & image, Objects objs)
+Render::Render(IImgFile & image, Figures figs)
     : image_(image)
-    , objs_ (std::move(objs))
+    , figs_ (std::move(figs))
 {}
 
 
 void Render::render()
 {
-    // WARNING normalize return value reference
-    cam_up_.normalize();
-    pos_scr_ = (cam_to_ - cam_pos_).normalize() * dist_;
-    right_   = (cam_up_.cross(pos_scr_)).normalize();
+    prep_dirs();
 
-    // TODO(odd viewport sizes)
-    assert(image_.rows() % 2 == 0 && image_.cols() % 2 == 0);
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
-           auto ray = calc_ray_dir(row, col);
-           image_(row, col) = trace_ray(ray);
+            auto ray = calc_ray_dir(row, col);
+//            std::cout << ray.get_view().D << std::endl; // TODO(dbg print)
+            image_(row, col) = trace_ray(ray);
         }
     }
 }
 
 
-Render::Vector Render::calc_ray_dir(SizeT row, SizeT col)
+void Render::prep_dirs()
 {
-    // TODO(prove)
-    ValT   r_coef = (col + 0.5 - scr_w_ / 2) / scr_w_ * image_.cols();
-    Vector shift_right = right_ * r_coef;
-
-    ValT   u_coef = (-(row + 0.5) + scr_h_ / 2) /
-            scr_h_ * image_.rows();
-    Vector shift_up = cam_up_ * u_coef;
-
-    Vector to_pix = pos_scr_ + shift_up + shift_right;
-    Vector ray    = (cam_pos_ + to_pix).normalize();
-
-    return ray;
+    up_.normalize();
+    to_.normalize();
+    right_ = to_.cross(up_);
+    right_.normalize();
 }
 
 
-Render::Color Render::trace_ray(Vector const & ray)
+Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 {
-    ValT  t_min = std::numeric_limits<ValT>::max();
-    Color color{};
+    Vector pos_vport = to_ * dist_;
+    Double r_coef = (col + 0.5 - image_.cols() / 2.0) /
+            image_.cols() * vport_w_;
+    Vector shift_right = right_ * r_coef;
 
-    for (auto obj : objs_) {
-        auto rez = obj->intersect(ray, cam_pos_);
-        if (rez.first < t_min) {
+    Double u_coef = (-(row + 0.5) + image_.rows() / 2.0) /
+            image_.rows() * vport_h_;
+    Vector shift_up = up_ * u_coef;
+
+    Vector pos_vport_point = pos_vport + shift_right + shift_up;
+    Vector from = pos_ + pos_vport_point;
+    pos_vport_point.normalize();
+
+    return { pos_vport_point, from };
+}
+
+
+Render::Color Render::trace_ray(Ray const & ray) const
+{
+    Double t_min = std::numeric_limits<Double>::max();
+    Color  color{};
+
+    for (auto fig : figs_) {
+        auto rez = fig->intersect(ray);
+        if (rez.first < t_min && rez.first > 0) {
             t_min = rez.first;
             color = rez.second;
         }
@@ -65,3 +74,39 @@ Render::Color Render::trace_ray(Vector const & ray)
 }
 
 } // namespace Render
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

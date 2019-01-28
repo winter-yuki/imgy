@@ -11,7 +11,7 @@ SOURCES += \
     src/imgproc/warp.cpp \
     src/imgproc/ffd.cpp \
     src/file/bmp.cpp \
-    src/render/ray.cpp
+    src/render/figures.cpp
 
 HEADERS += \
     include/math/glmath.hpp \

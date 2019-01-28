@@ -12,12 +12,19 @@ namespace Render
 class Ray final
         : public RenderTypes
 {
-    // TODO(Ray)
+public:
+    struct View {
+        Vector const & D; // Direction
+        Vector const & O; // Point of begining
+    };
+
 public:
     Ray(Vector const & dir, Vector const & from)
         : dir_ (dir)
         , from_(from)
-    {}
+    { dir_.normalize(); }
+
+    View get_view() const { return { dir_, from_ }; }
 
 
 private:

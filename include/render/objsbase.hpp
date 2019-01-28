@@ -3,6 +3,7 @@
 
 #include "include/render/types.hpp"
 #include "include/file/types.hpp"
+#include "include/render/ray.hpp"
 
 
 namespace Render
@@ -22,11 +23,10 @@ public:
 class ISceneFig
         : public ISceneObj {
 public:
-    using Intersect = std::pair<Double, Color>;
+    using Intersect = std::pair<Double /*t*/, Color>;
 
 public:
-    virtual Intersect intersect(Vector const & ray,
-                                Vector const & cam_pos) = 0;
+    virtual Intersect intersect(Ray const & ray) const = 0;
 };
 
 

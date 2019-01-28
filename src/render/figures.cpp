@@ -16,7 +16,6 @@ FigSphere::FigSphere(Vector const & center, Double radius, Color color)
 
 FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
 {
-    // TODO(FigSphere::intersect)
     auto r = ray.get_view();
 
     Vector OC = r.O - center_;
@@ -36,7 +35,7 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
 }
 
 
-FigCuboid::Intersect FigCuboid::intersect(Ray const & ray) const
+FigBox::Intersect FigBox::intersect(Ray const & ray) const
 {
     // TODO(FigCuboid::intersect)
 }

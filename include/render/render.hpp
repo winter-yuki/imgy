@@ -36,10 +36,10 @@ private:
 private:
     Double vport_w_ = 2;
     Double vport_h_ = 2;
-    Double dist_    = 2;
+    Double dist_    = 1;
 
     Vector up_    = {0, 1, 0}; // oy
-    Vector to_    = {0, 0, -1}; // oz
+    Vector to_    = {0, 0, 1}; // oz
     Vector pos_   = {0, 0, 0};
     Vector right_;
 

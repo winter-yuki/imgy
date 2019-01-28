@@ -21,7 +21,7 @@ private:
 };
 
 
-class FigCuboid final
+class FigBox final
         : public ISceneFig {
 public:
     Intersect intersect(Ray const & ray) const override;

@@ -22,7 +22,6 @@ void Render::render()
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
             auto ray = calc_ray_dir(row, col);
-//            std::cout << ray.get_view().D << std::endl; // TODO(dbg print)
             image_(row, col) = trace_ray(ray);
         }
     }
@@ -40,20 +39,18 @@ void Render::prep_dirs()
 
 Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 {
-    Vector pos_vport = to_ * dist_;
-    Double r_coef = (col + 0.5 - image_.cols() / 2.0) /
-            image_.cols() * vport_w_;
-    Vector shift_right = right_ * r_coef;
+    // TODO(add_x & add_y needed?)
+    Double add_x = image_.cols() % 2 == 1 ? 0 : 0.5;
+    Double add_y = image_.rows() % 2 == 1 ? 0 : 0.5;
 
-    Double u_coef = (-(row + 0.5) + image_.rows() / 2.0) /
-            image_.rows() * vport_h_;
-    Vector shift_up = up_ * u_coef;
+    Double x = (col + add_x - image_.cols() / 2.0) / image_.cols() * vport_w_;
+    Double y = (row + add_y - image_.rows() / 2.0) / image_.rows() * vport_h_;
 
-    Vector pos_vport_point = pos_vport + shift_right + shift_up;
-    Vector from = pos_ + pos_vport_point;
-    pos_vport_point.normalize();
+    Vector on_vport = { x, y, dist_ };
+    Vector dir      = on_vport - pos_;
+    Vector from     = pos_ + dir;
 
-    return { pos_vport_point, from };
+    return { dir, from };
 }
 
 

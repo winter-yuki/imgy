@@ -2,11 +2,7 @@
 
 #include <cassert>
 #include <exception>
-#include <iostream>
 #include <memory>
-
-using std::cout;
-using std::endl;
 
 
 void ImgProc::free_form_deformation(Point p, SizeT right, SizeT up)
@@ -24,24 +20,6 @@ void ImgProc::free_form_deformation(Point p, SizeT right, SizeT up)
 
     new_img_proc.fill_color(BLACK_);
     new_img_proc.shift_pivots(p, right, up);
-    /**/
-    { // TODO (dbg pivots)
-        cout << "curr" << endl;
-        for (SizeT row = 0; row < 3; ++row) {
-            for (SizeT col = 0; col < 3; ++ col) {
-                cout << "(" << row << ", " << col << "): "
-                     << ffd_pivots_(row, col) << endl;
-            }
-        }
-        cout << "new" << endl;
-        for (SizeT row = 0; row < 3; ++row) {
-            for (SizeT col = 0; col < 3; ++ col) {
-                cout << "(" << row << ", " << col << "): "
-                     << new_img_proc.ffd_pivots_(row, col) << endl;
-            }
-        }
-    }
-    /**/
     new_img_proc.ffd_map(*this);
 
     swap(new_img_proc);
@@ -144,7 +122,6 @@ ImgProc::Pixel & ImgProc::get_param_point(ValT u, ValT v)
     if (p.x >= image_.cols() || p.y >= image_.rows() || p.x < 0 || p.y < 0) {
         return image_(0, 0);
     }
-//    cout << u << " " << v << " " << p << endl; // TODO (print dbg)
     return image_(p);
 }
 

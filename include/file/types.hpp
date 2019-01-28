@@ -3,6 +3,7 @@
 
 #include <cinttypes>
 #include <iostream>
+#include <limits>
 
 
 class ImgTypes {
@@ -12,6 +13,12 @@ public:
     struct Point { SizeT x, y; };
     struct Pixel { ColorPart b, g, r; };
     using  Color = Pixel;
+
+public:
+    static const ColorPart COLOR_MAX_ = std::numeric_limits<ColorPart>::max();
+    static const ColorPart COLOR_MIN_ = 0;
+    const Pixel WHITE_ = { COLOR_MAX_, COLOR_MAX_, COLOR_MAX_ }; // TODO(static)
+    const Pixel BLACK_ = { COLOR_MIN_, COLOR_MIN_, COLOR_MIN_ };
 };
 
 

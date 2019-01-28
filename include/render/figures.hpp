@@ -31,9 +31,18 @@ public:
 class FigPlane final
         : public ISceneFig {
 public:
+    FigPlane(Vector const & n, Vector const & p, Color color);
+
     Intersect intersect(Ray const & ray) const override;
+
+private:
+    Vector n_; // {a, b, c}
+    Vector p_;
+    Double d_; // ax + by + cz + d = 0
+    Color  color_;
 };
 
 }  // namespace Render
+
 
 #endif // INCLUDE_RENDER_FIGURES_HPP

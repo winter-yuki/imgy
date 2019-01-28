@@ -19,11 +19,6 @@ public:
     using  Pivots = Eigen::Matrix<Point, N_PIVOTS_V, N_PIVOTS_H>;
     struct PixelHSV { ColorPart h, s, v; };
 
-    static const ColorPart COLOR_MAX_ = std::numeric_limits<ColorPart>::max();
-    static const ColorPart COLOR_MIN_ = 0;
-    const Pixel WHITE_ = { COLOR_MAX_, COLOR_MAX_, COLOR_MAX_ }; // TODO(static)
-    const Pixel BLACK_ = { COLOR_MIN_, COLOR_MIN_, COLOR_MIN_ };
-
 public:
     explicit ImgProc(IImgFile & image);
     ImgProc(ImgProc const &)             = delete;

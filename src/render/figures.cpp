@@ -24,7 +24,7 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
     Double k3 = OC * OC - radius_ * radius_;
     Double diskr = k2 * k2 - k1 * k3;
     if (diskr < 0) {
-        return { std::numeric_limits<Double>::max(), {0, 0, 0} };
+        return { NO_INTERSECT, BLACK_ };
     }
 
     Double sdiskr = std::sqrt(diskr);
@@ -41,9 +41,24 @@ FigBox::Intersect FigBox::intersect(Ray const & ray) const
 }
 
 
+FigPlane::FigPlane(Vector const & n, Vector const & p, Color color)
+    : n_    (n)
+    , p_    (p)
+    , d_    (-(n_ * p_))
+    , color_(color)
+{}
+
+
 FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
 {
-    // TODO(FigPlane::intersect)
+    auto r = ray.get_view();
+    Double den = n_ * r.D;
+    if (std::abs(den) < EPSILON) {
+        return { NO_INTERSECT, BLACK_ };
+    }
+
+    Double t = -(n_ * r.O + d_) / den;
+    return { t, color_ };
 }
 
 } // namespace Render

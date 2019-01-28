@@ -78,6 +78,8 @@ void test_render()
     figs.push_back(&sphere1);
     Render::FigSphere sphere2{{ 1, 1, 4 }, 0.8, {0, 100, 0}};
     figs.push_back(&sphere2);
+    Render::FigPlane p1({0, 1, 0}, {0, -0.2, 3}, {100, 0, 0});
+    figs.push_back(&p1);
 
     Render::Render rnd(img, figs);
     rnd.render();

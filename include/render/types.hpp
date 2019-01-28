@@ -1,7 +1,10 @@
 #ifndef INCLUDE_RENDER_TYPES_HPP
 #define INCLUDE_RENDER_TYPES_HPP
 
+#include <limits>
+
 #include "include/math/glmath.hpp"
+#include "include/file/types.hpp"
 
 
 namespace Render
@@ -12,7 +15,8 @@ public:
     using Double = double;
     using Vector = GLMath::Vector<Double>;
     using Matrix = GLMath::Matrix<Double>;
-    constexpr static const Double EPSILON = 1e-7;
+    const Double EPSILON = 1e-7; // TODO(static)
+    const Double NO_INTERSECT = std::numeric_limits<Double>::max();
 };
 
 } // namespace Render

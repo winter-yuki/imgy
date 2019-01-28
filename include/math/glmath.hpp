@@ -87,7 +87,7 @@ template <class Type>
 Type Vector<Type>::norm() const
 {
     Type rez = 0;
-    for (auto i : data_) {
+    for (SizeT i = 0; i < N_COORDS; ++i) {
         rez += i * i;
     }
     return std::sqrt(rez);
@@ -259,7 +259,7 @@ auto operator+(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] + b[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < SIZE; ++i) {
+    for (SizeT i = 0; i < N_COORDS; ++i) {
         rez[i] = a[i] + b[i];
     }
     return rez;
@@ -271,7 +271,7 @@ auto operator-(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] - b[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < SIZE; ++i) {
+    for (SizeT i = 0; i < N_COORDS; ++i) {
         rez[i] = a[i] - b[i];
     }
     return rez;
@@ -283,7 +283,7 @@ auto operator*(T1 x, Vector<T2> const & v)
 {
     using Type = decltype (x * v[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < SIZE; ++i) {
+    for (SizeT i = 0; i < N_COORDS; ++i) {
         rez[i] = x * v[i];
     }
     return rez;
@@ -302,7 +302,7 @@ auto operator*(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] * b[0]);
     Type sum{};
-    for (SizeT i = 0; i < SIZE; ++i) {
+    for (SizeT i = 0; i < N_COORDS; ++i) {
         sum = sum + a[i] * b[i];
     }
     return sum;

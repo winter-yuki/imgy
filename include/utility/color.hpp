@@ -1,28 +1,26 @@
 #ifndef INCLUDE_RENDER_COLOR_HPP
 #define INCLUDE_RENDER_COLOR_HPP
 
-#include "include/file/types.hpp"
-#include "include/render/types.hpp"
+#include "include/file/filebase.hpp"
 
-
-namespace Render
-{
 
 class Color final {
 public:
     using ColorPart = int64_t;
-    using RawCP     = ImgTypes::ColorPart;
-    using Double    = RenderTypes::Double;
+    using RawCP     = IImgFile::ColorPart;
+    using Double    = double;
 
-    static const RawCP COLOR_MAX_ = ImgTypes::COLOR_MAX_;
-    static const RawCP COLOR_MIN_ = ImgTypes::COLOR_MIN_;
+    static const RawCP COLOR_MAX_ = IImgFile::COLOR_MAX_;
+    static const RawCP COLOR_MIN_ = IImgFile::COLOR_MIN_;
 
 public:
     Color() = default;
     Color(ColorPart r, ColorPart g, ColorPart b);
-    explicit Color(ImgTypes::Color c);
+    explicit Color(IImgFile::RawColor c);
 
     void apply_intensity(Double i);
+
+    Double get_intermediate_color() const;
 
     RawCP r() const { return color_.r; }
     RawCP g() const { return color_.g; }
@@ -32,12 +30,12 @@ public:
     RawCP set_g(ColorPart g);
     RawCP set_b(ColorPart b);
 
-    ImgTypes::Pixel get_pix() const;
+    IImgFile::RawPix get_pix() const;
 
     static RawCP clamp_color(ColorPart c);
 
 private:
-    ImgTypes::Color color_{};
+    IImgFile::RawColor color_{};
 };
 
 
@@ -57,7 +55,7 @@ inline Color::Color(ColorPart r, ColorPart g, ColorPart b)
     : color_({clamp_color(b), clamp_color(g), clamp_color(r)})
 {}
 
-inline Color::Color(ImgTypes::Color c)
+inline Color::Color(IImgFile::RawColor c)
     : color_(c)
 {}
 
@@ -66,6 +64,11 @@ inline void Color::apply_intensity(Double i) {
     color_.r = clamp_color(ColorPart(color_.r * i));
     color_.g = clamp_color(ColorPart(color_.g * i));
     color_.b = clamp_color(ColorPart(color_.b * i));
+}
+
+
+inline Color::Double Color::get_intermediate_color() const {
+    return Double(ColorPart(color_.r) + color_.g + color_.b) / 3;
 }
 
 
@@ -84,7 +87,7 @@ inline Color::RawCP Color::set_b(ColorPart b) {
     return color_.b;
 }
 
-inline ImgTypes::Pixel Color::get_pix() const {
+inline IImgFile::RawPix Color::get_pix() const {
     return color_;
 }
 
@@ -97,8 +100,6 @@ inline Color::RawCP Color::clamp_color(ColorPart c) {
     }
     return RawCP(c);
 }
-
-} // namespace Render
 
 
 #endif // INCLUDE_RENDER_COLOR_HPP

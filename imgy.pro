@@ -13,19 +13,26 @@ SOURCES += \
     src/file/bmp.cpp \
     src/render/figures.cpp \
     src/render/light.cpp \
-    src/imgproc/luteffects.cpp
+    src/imgproc/luteffects.cpp \
+    src/imgproc/bayer.cpp \
+    src/imgproc/errdiff.cpp \
 
 HEADERS += \
     include/math/glmath.hpp \
-    include/render/render.hpp \
     include/cmd/cmd.hpp \
-    include/imgproc/imgproc.hpp \
-    include/render/types.hpp \
     include/file/filebase.hpp \
     include/file/bmp.hpp \
+    include/render/render.hpp \
+    include/render/types.hpp \
     include/render/ray.hpp \
     include/render/objsbase.hpp \
     include/render/figures.hpp \
     include/render/light.hpp \
-    include/render/color.hpp \
-    include/imgproc/luteffects.hpp
+    include/imgproc/imgproc.hpp \
+    include/imgproc/luteffects.hpp \
+    include/imgproc/bayer.hpp \
+    include/imgproc/errdiff.hpp \
+    include/imgproc/warp.hpp \
+    include/imgproc/ffd.hpp \
+    include/imgproc/types.hpp \
+    include/utility/color.hpp \

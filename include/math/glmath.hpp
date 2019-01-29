@@ -85,6 +85,8 @@ private:
 template <class Type>
 Vector<Type>::Vector(Type x1, Type x2, Type x3, Type x4)
 {
+    assert(SIZE     == ::GLMath::SIZE());
+    assert(N_COORDS == ::GLMath::N_COORDS());
     data_[0] = x1;
     data_[1] = x2;
     data_[2] = x3;
@@ -157,6 +159,8 @@ Type Vector<Type>::operator[](SizeT pos) const
 template <class Type>
 Matrix<Type>::Matrix()
 {
+    assert(SIZE == ::GLMath::SIZE());
+
     for (SizeT i = 0; i < SIZE; ++i) {
         data(i, i) = 1;
     }
@@ -166,6 +170,8 @@ template <class Type>
 Matrix<Type>::Matrix(Vector<Type> v1, Vector<Type> v2,
                      Vector<Type> v3, Vector<Type> v4)
 {
+    assert(SIZE == ::GLMath::SIZE());
+
     SizeT matr_pos = 0;
 
     for (SizeT vec_pos = 0; vec_pos < SIZE; ++vec_pos, ++matr_pos) {

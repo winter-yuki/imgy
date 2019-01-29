@@ -7,8 +7,11 @@
 namespace ImageProcessing
 {
 
-using SizeT  = IImgFile::SizeT;
-using Double = double;
+using SizeT    = IImgFile::SizeT;
+using Double   = double;
+using RawPix   = IImgFile::RawPix;
+using RawColor = IImgFile::RawColor;
+using RawCP    = IImgFile::ColorPart;
 
 inline constexpr IImgFile::ColorPart COLOR_MAX() { return IImgFile::COLOR_MAX_; }
 inline constexpr IImgFile::ColorPart COLOR_MIN() { return IImgFile::COLOR_MIN_; }

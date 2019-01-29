@@ -12,7 +12,8 @@ SOURCES += \
     src/imgproc/ffd.cpp \
     src/file/bmp.cpp \
     src/render/figures.cpp \
-    src/render/light.cpp
+    src/render/light.cpp \
+    src/imgproc/luteffects.cpp
 
 HEADERS += \
     include/math/glmath.hpp \
@@ -21,10 +22,10 @@ HEADERS += \
     include/imgproc/imgproc.hpp \
     include/render/types.hpp \
     include/file/filebase.hpp \
-    include/file/types.hpp \
     include/file/bmp.hpp \
     include/render/ray.hpp \
     include/render/objsbase.hpp \
     include/render/figures.hpp \
     include/render/light.hpp \
-    include/render/color.hpp
+    include/render/color.hpp \
+    include/imgproc/luteffects.hpp

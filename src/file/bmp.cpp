@@ -32,7 +32,7 @@ ImgBmp::ImgBmp(std::string const & filename)
     image_ = ImageMtr(bmp_header_.height, bmp_header_.width);
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
-            Pixel tmp{};
+            RawPix tmp{};
             ifs.read(reinterpret_cast<char *>(&tmp), sizeof (tmp));
             image_(row, col) = tmp;
         }
@@ -107,25 +107,25 @@ ImgBmp * ImgBmp::clone()
 }
 
 
-ImgBmp::Pixel & ImgBmp::operator()(SizeT row, SizeT col)
+ImgBmp::RawPix & ImgBmp::operator()(SizeT row, SizeT col)
 {
     return image_(row, col);
 }
 
 
-ImgBmp::Pixel & ImgBmp::operator()(Point p)
+ImgBmp::RawPix & ImgBmp::operator()(Point p)
 {
     return image_(p.y, p.x);
 }
 
 
-ImgBmp::Pixel const & ImgBmp::operator()(SizeT row, SizeT col) const
+ImgBmp::RawPix const & ImgBmp::operator()(SizeT row, SizeT col) const
 {
     return image_(row, col);
 }
 
 
-ImgBmp::Pixel const & ImgBmp::operator()(Point p) const
+ImgBmp::RawPix const & ImgBmp::operator()(Point p) const
 {
     return image_(p.y, p.x);
 }

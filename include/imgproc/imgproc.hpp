@@ -49,7 +49,7 @@ public:
 private:
     using LUTTable = std::vector<ColorPart>;
     using LUTFunc  = std::function<ColorPart (ColorPart)>;
-    void lut_apply (LUTTable const & table);
+    void lut_apply(LUTTable const & table);
     static LUTTable lut_get_matr        (LUTFunc const & f);
     static LUTTable lut_negative        ();
     static LUTTable lut_brightness      (Param coef);

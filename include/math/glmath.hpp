@@ -98,7 +98,7 @@ Type Vector<Type>::norm() const
 {
     Type rez = 0;
     for (SizeT i = 0; i < N_COORDS; ++i) {
-        rez += i * i;
+        rez += data_[i] * data_[i];
     }
     return std::sqrt(rez);
 }

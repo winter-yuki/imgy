@@ -8,6 +8,7 @@ namespace ImageProcessing
 {
 
 using SizeT    = IImgFile::SizeT;
+using Point    = IImgFile::Point;
 using Double   = double;
 using RawPix   = IImgFile::RawPix;
 using RawColor = IImgFile::RawColor;

@@ -1,22 +1,16 @@
 #ifndef INCLUDE_IMGPROC_IMGPROC_HPP
 #define INCLUDE_IMGPROC_IMGPROC_HPP
 
-#include <limits>
-#include <tuple>
-#include <vector>
-
-#include <eigen3/Eigen/Dense>
-
 #include "include/file/filebase.hpp"
+#include "include/imgproc/types.hpp"
 
+
+namespace ImageProcessing
+{
 
 class ImgProc final {
 public:
-    using  Param  = double;
-    static const SizeT N_PIVOTS_V = 3; // TODO(N_PIVOTS)
-    static const SizeT N_PIVOTS_H = 3;
-    using  Pivots = Eigen::Matrix<Point, N_PIVOTS_V, N_PIVOTS_H>;
-    struct PixelHSV { ColorPart h, s, v; };
+    struct PixelHSV { RawCP h, s, v; };
 
 public:
     explicit ImgProc(IImgFile & image);
@@ -25,11 +19,11 @@ public:
     ImgProc(ImgProc &&)                  = delete;
     ImgProc & operator=(ImgProc &&)      = delete;
 
-    void fill_color      (Color c);
+    void fill_color      (RawColor c);
     void negative        ();
-    void brightness      (Param coef);
-    void contrast        (Param a, Param b);
-    void gamma_correction(Param gamma);
+    void brightness      (Double coef);
+    void contrast        (Double a, Double b);
+    void gamma_correction(Double gamma);
 
     void bayer_filter         (SizeT matr_size);
     void error_diffusion      ();
@@ -41,13 +35,15 @@ public:
     SizeT rows() const { return image_.rows(); }
     SizeT cols() const { return image_.cols(); }
 
-    static Pixel    hsv2rgb (PixelHSV p);
-    static PixelHSV rgb2hsv (Pixel    p);
+    static RawPix    hsv2rgb (PixelHSV p);
+    static PixelHSV rgb2hsv (RawPix   p);
 
 
 private:
     IImgFile & image_;
 };
+
+} // namespace ImageProcessing
 
 
 #endif // INCLUDE_IMGPROC_IMGPROC_HPP

@@ -3,7 +3,6 @@
 
 ImgProc::ImgProc(IImgFile & image)
     : image_(image)
-    , ffd_pivots_(gen_pivots(image.cols(), image.rows()))
 {}
 
 
@@ -40,35 +39,6 @@ void ImgProc::gamma_correction(Param gamma)
     lut_apply(lut_gamma_correction(gamma));
 }
 
-
-
-
-
-
-
-
-ImgProc::ColorPart ImgProc::clamp_color(int color)
-{
-    if (color <= 0) {
-        return 0;
-    }
-
-    if (color > COLOR_MAX_) {
-        return COLOR_MAX_;
-    }
-
-    return color;
-}
-
-
-
-
-
-void ImgProc::swap(ImgProc & other)
-{
-    image_.swap(other.image_);
-    std::swap(ffd_pivots_, other.ffd_pivots_);
-}
 
 
 ImgProc::Pixel ImgProc::hsv2rgb(PixelHSV p)

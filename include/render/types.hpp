@@ -4,7 +4,6 @@
 #include <limits>
 
 #include "include/math/glmath.hpp"
-#include "include/file/types.hpp"
 
 
 namespace Render

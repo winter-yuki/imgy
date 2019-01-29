@@ -22,7 +22,7 @@ public:
     Ray(Vector const & dir, Vector const & from)
         : dir_ (dir)
         , from_(from)
-    { dir_.normalize(); }
+    { dir_.normalize(); dir_[3] = 0; }
 
     Vector count(Double t) const { return from_ + dir_ * t; }
 

@@ -15,8 +15,11 @@ public:
     using Double = double;
     using Vector = GLMath::Vector<Double>;
     using Matrix = GLMath::Matrix<Double>;
+
     const Double EPSILON = 1e-7; // TODO(static)
     const Double NO_INTERSECT = std::numeric_limits<Double>::max();
+    const Vector NO_NORMAL    = { 0, 0, 0 };
+    const Vector CAM_POS      = { 0, 0, 0 };
 };
 
 } // namespace Render

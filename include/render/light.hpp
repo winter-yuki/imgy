@@ -7,6 +7,43 @@
 namespace Render
 {
 
+class LightAmbient final
+        : public ISceneLight {
+public:
+    explicit LightAmbient(Double intensity);
+    Double light(Vector const & /*normal*/,
+                 Vector const & /*point*/) const override;
+
+private:
+    Double intensity_;
+};
+
+
+class LightPoint final
+        : public ISceneLight {
+public:
+    LightPoint(Vector const & position, Double intensity);
+    Double light(Vector const & normal,
+                 Vector const & point) const override;
+
+private:
+    Vector pos_;
+    Double intensity_;
+};
+
+
+class LightDirectional final
+        : public ISceneLight {
+public:
+    LightDirectional(Vector const & direction, Double intensity);
+    Double light(Vector const & normal,
+                 Vector const & /*point*/) const override;
+
+private:
+    Vector dir_;
+    Double intensity_;
+};
+
 } // namespace Render
 
 

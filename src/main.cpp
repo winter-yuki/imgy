@@ -7,7 +7,9 @@
 #include "include/file/bmp.hpp"
 #include "include/imgproc/imgproc.hpp"
 #include "include/render/figures.hpp"
+#include "include/render/light.hpp"
 #include "include/render/render.hpp"
+#include "include/render/types.hpp"
 
 
 namespace
@@ -74,14 +76,25 @@ void test_render()
     ImgBmp img(500, 500);
 
     Render::Render::Figures figs;
+
     Render::FigSphere sphere1{{ 0, 0, 2 }, 0.5, {0, 0, 100}};
     figs.push_back(&sphere1);
     Render::FigSphere sphere2{{ 1, 1, 4 }, 0.8, {0, 100, 0}};
     figs.push_back(&sphere2);
-    Render::FigPlane p1({0, 1, 0}, {0, -0.2, 3}, {100, 0, 0});
+    Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0});
     figs.push_back(&p1);
+    Render::FigBox b1({-2, -2, 2}, {2, 2.3, 3}, {100, 100, 100});
+    figs.push_back(&b1);
 
-    Render::Render rnd(img, figs);
+
+    Render::Render::Lights lts;
+
+    Render::LightPoint lp1({2, 2, 1}, 1.5);
+    lts.push_back(&lp1);
+    Render::LightAmbient la1(1.5);
+//    lts.push_back(&la1);
+
+    Render::Render rnd(img, figs, lts);
     rnd.render();
     img.print(path + "200.bmp");
 }

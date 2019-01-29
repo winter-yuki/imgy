@@ -17,9 +17,10 @@ class Render final
         , public RenderTypes {
 public:
     using Figures = std::vector<ISceneFig *>;
+    using Lights  = std::vector<ISceneLight *>;
 
 public:
-    Render(IImgFile & image, Figures objs);
+    Render(IImgFile & image, Figures objs, Lights lts);
     Render(Render const &)             = delete;
     Render & operator=(Render const &) = delete;
     Render(Render &&)                  = delete;
@@ -40,11 +41,12 @@ private:
 
     Vector up_    = {0, 1, 0}; // oy
     Vector to_    = {0, 0, 1}; // oz
-    Vector pos_   = {0, 0, 0};
+    Vector pos_   = CAM_POS;
     Vector right_;
 
     IImgFile & image_;
     Figures    figs_;
+    Lights     lts_;
 };
 
 }  // namespace Render

@@ -10,18 +10,23 @@
 namespace GLMath
 {
 
-using SizeT          = int64_t;
-const SizeT SIZE     = 4;
-const SizeT N_COORDS = 3;
+using SizeT = int64_t;
+
+inline SizeT SIZE()     { static const SizeT x = 4; return x; }
+inline SizeT N_COORDS() { static const SizeT x = 3; return x; }
 
 
 template <class Type>
 class Vector {
 public:
+    static const SizeT SIZE     = 4;
+    static const SizeT N_COORDS = 3;
+
+public:
     struct View { Type x, y, z; };
 
     Vector() = default;
-    Vector(Type x1, Type x2, Type x3, Type x4 = 0);
+    Vector(Type x1, Type x2, Type x3, Type x4 = 1);
 
     View view() const { return { data_[0], data_[1], data_[2] }; }
     Type norm() const;
@@ -47,6 +52,9 @@ private:
 
 template <class Type>
 class Matrix {
+public:
+    static const SizeT SIZE = 4;
+
 public:
     Matrix();
     Matrix(Vector<Type> v1, Vector<Type> v2, Vector<Type> v3,
@@ -111,7 +119,7 @@ auto Vector<T1>::dot(Vector<T2> const & v) const
     using Type = decltype ((*this)[0] * v[0]);
     Type sum{};
     for (SizeT i = 0; i < N_COORDS; ++i) {
-        sum = sum + data_[i] * v[i];
+        sum += data_[i] * v[i];
     }
     return sum;
 }
@@ -259,7 +267,7 @@ auto operator+(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] + b[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < N_COORDS; ++i) {
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
         rez[i] = a[i] + b[i];
     }
     return rez;
@@ -271,7 +279,7 @@ auto operator-(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] - b[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < N_COORDS; ++i) {
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
         rez[i] = a[i] - b[i];
     }
     return rez;
@@ -283,7 +291,7 @@ auto operator*(T1 x, Vector<T2> const & v)
 {
     using Type = decltype (x * v[0]);
     Vector<Type> rez;
-    for (SizeT i = 0; i < N_COORDS; ++i) {
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
         rez[i] = x * v[i];
     }
     return rez;
@@ -302,8 +310,8 @@ auto operator*(Vector<T1> const & a, Vector<T2> const & b)
 {
     using Type = decltype (a[0] * b[0]);
     Type sum{};
-    for (SizeT i = 0; i < N_COORDS; ++i) {
-        sum = sum + a[i] * b[i];
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
+        sum += a[i] * b[i];
     }
     return sum;
 }
@@ -331,8 +339,8 @@ auto operator+(Matrix<T1> const & a, Matrix<T2> const & b)
 {
     using Type = decltype (a(0, 0) + b(0, 0));
     Matrix<Type> rez;
-    for (SizeT row = 0; row < SIZE; ++row) {
-        for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
+        for (SizeT col = 0; col < SIZE(); ++col) {
             rez(row, col) = a(row, col) + b(row, col);
         }
     }
@@ -345,8 +353,8 @@ auto operator-(Matrix<T1> const & a, Matrix<T2> const & b)
 {
     using Type = decltype (a(0, 0) - b(0, 0));
     Matrix<Type> rez;
-    for (SizeT row = 0; row < SIZE; ++row) {
-        for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
+        for (SizeT col = 0; col < SIZE(); ++col) {
             rez(row, col) = a(row, col) - b(row, col);
         }
     }
@@ -359,11 +367,11 @@ auto operator*(Matrix<T1> const & a, Matrix<T2> const & b)
 {
     using Type = decltype (a(0, 0) * b(0, 0));
     Matrix<Type> rez;
-    for (SizeT row = 0; row < SIZE; ++row) {
-        for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
+        for (SizeT col = 0; col < SIZE(); ++col) {
 
             Type sum{};
-            for (SizeT i = 0; i < SIZE; ++i) {
+            for (SizeT i = 0; i < SIZE(); ++i) {
                 sum = sum + a(row, i) * b(i, col);
             }
             rez(row, col) = sum;
@@ -378,10 +386,10 @@ auto operator*(Matrix<T1> const & m, Vector<T2> const & v)
 {
     using Type = decltype (m(0, 0) * v[0]);
     Vector<Type> rez;
-    for (SizeT row = 0; row < SIZE; ++row) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
         Type sum{};
-        for (SizeT i = 0; i < SIZE; ++i) {
-            sum = sum + m(row, i) * v[i];
+        for (SizeT i = 0; i < SIZE(); ++i) {
+            sum += m(row, i) * v[i];
         }
         rez[row] = sum;
     }
@@ -394,10 +402,10 @@ auto operator*(Vector<T1> const & v, Matrix<T2> const & m)
 {
     using Type = decltype (v[0] * m(0, 0));
     Vector<Type> rez;
-    for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT col = 0; col < SIZE(); ++col) {
         Type sum{};
-        for (SizeT i = 0; i < SIZE; ++i) {
-            sum = sum + v[i] * m(i, col);
+        for (SizeT i = 0; i < SIZE(); ++i) {
+            sum += v[i] * m(i, col);
         }
         rez[col] = sum;
     }
@@ -409,8 +417,8 @@ auto operator*(T1 x, Matrix<T2> const & m)
 -> Matrix<decltype (x * m(0, 0))>
 {
     Matrix<decltype (x * m(0, 0))> rez;
-    for (SizeT row = 0; row < SIZE; ++row) {
-        for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
+        for (SizeT col = 0; col < SIZE(); ++col) {
             rez(row, col) = x * m(row, col);
         }
     }
@@ -427,8 +435,8 @@ auto operator*(Matrix<T1> const & m, T2 x)
 template <class Type>
 std::ostream & operator<<(std::ostream & os, Matrix<Type> const & m)
 {
-    for (SizeT row = 0; row < SIZE; ++row) {
-        for (SizeT col = 0; col < SIZE; ++col) {
+    for (SizeT row = 0; row < SIZE(); ++row) {
+        for (SizeT col = 0; col < SIZE(); ++col) {
             os << m(row, col) << ' ';
         }
         os << std::endl;
@@ -439,7 +447,7 @@ std::ostream & operator<<(std::ostream & os, Matrix<Type> const & m)
 template <class Type>
 std::ostream & operator<<(std::ostream & os, Vector<Type> const & v)
 {
-    for (SizeT i = 0; i < SIZE; ++i) {
+    for (SizeT i = 0; i < SIZE(); ++i) {
         os << v[i] << ' ';
     }
     os << std::endl;

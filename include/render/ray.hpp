@@ -24,8 +24,12 @@ public:
         , from_(from)
     { dir_.normalize(); }
 
+    Vector count(Double t) const { return from_ + dir_ * t; }
+
     View get_view() const { return { dir_, from_ }; }
 
+    Vector dir () const { return dir_;  }
+    Vector from() const { return from_; }
 
 private:
     Vector dir_;

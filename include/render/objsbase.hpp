@@ -23,7 +23,7 @@ public:
 class ISceneFig
         : public ISceneObj {
 public:
-    using Intersect = std::pair<Double /*t*/, Color>;
+    using Intersect = std::tuple<Double /*t*/, Vector /*normal*/, Color>;
 
 public:
     virtual Intersect intersect(Ray const & ray) const = 0;
@@ -33,7 +33,8 @@ public:
 class ISceneLight
         : public ISceneObj {
 public:
-    // TODO(lights)
+    virtual Double light(Vector const & /*normal*/,
+                         Vector const & /*point*/) const = 0;
 };
 
 } // namespace Render

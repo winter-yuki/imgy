@@ -30,12 +30,10 @@ public:
     void warp                 (Point from, Point dest);
     void free_form_deformation(Point p, SizeT right, SizeT up);
 
-    void swap(ImgProc & other);
-
     SizeT rows() const { return image_.rows(); }
     SizeT cols() const { return image_.cols(); }
 
-    static RawPix    hsv2rgb (PixelHSV p);
+    static RawPix   hsv2rgb (PixelHSV p);
     static PixelHSV rgb2hsv (RawPix   p);
 
 

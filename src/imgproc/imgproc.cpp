@@ -1,12 +1,24 @@
 #include "include/imgproc/imgproc.hpp"
 
+#include <algorithm>
 
+#include "include/imgproc/bayer.hpp"
+#include "include/imgproc/errdiff.hpp"
+#include "include/imgproc/ffd.hpp"
+#include "include/imgproc/luteffects.hpp"
+#include "include/imgproc/warp.hpp"
+
+
+namespace ImageProcessing
+{
+// TODO(imgproc refactoring)
+// TODO(imgprot testing)
 ImgProc::ImgProc(IImgFile & image)
     : image_(image)
 {}
 
 
-void ImgProc::fill_color(Color c)
+void ImgProc::fill_color(RawColor c)
 {
     for (SizeT row = 0, h = rows(); row < h; ++row) {
         for (SizeT col = 0, w = cols(); col < w; ++col) {
@@ -18,30 +30,61 @@ void ImgProc::fill_color(Color c)
 
 void ImgProc::negative()
 {
-    lut_apply(lut_negative());
+    LUTeffects lut(image_);
+    lut.negative();
 }
 
 
-void ImgProc::brightness(Param coef)
+void ImgProc::brightness(Double coef)
 {
-    lut_apply(lut_brightness(coef));
+    LUTeffects lut(image_);
+    lut.brightness(coef);
 }
 
 
-void ImgProc::contrast(Param a, Param b)
+void ImgProc::contrast(Double a, Double b)
 {
-    lut_apply(lut_contrast(a, b));
+    LUTeffects lut(image_);
+    lut.contrast(a, b);
 }
 
 
-void ImgProc::gamma_correction(Param gamma)
+void ImgProc::gamma_correction(Double gamma)
 {
-    lut_apply(lut_gamma_correction(gamma));
+    LUTeffects lut(image_);
+    lut.gamma_correction(gamma);
 }
 
 
+void ImgProc::bayer_filter(SizeT matr_size)
+{
+    Bayer b(image_);
+    b.bayer_filter(matr_size);
+}
 
-ImgProc::Pixel ImgProc::hsv2rgb(PixelHSV p)
+
+void ImgProc::error_diffusion()
+{
+    ErrDiff ed(image_);
+    ed.error_diffusion();
+}
+
+
+void ImgProc::warp(Point from, Point dest)
+{
+    Warp w(image_);
+    w.warp(from, dest);
+}
+
+
+void ImgProc::free_form_deformation(Point p, SizeT right, SizeT up)
+{
+    FFDeffect ffd(image_);
+    ffd.free_form_deformation(p, right, up);
+}
+
+
+RawPix ImgProc::hsv2rgb(PixelHSV p)
 {
     if (p.s == 0) {
         return {p.v, p.v, p.v};
@@ -50,9 +93,9 @@ ImgProc::Pixel ImgProc::hsv2rgb(PixelHSV p)
     auto newH = p.h / 60.0;
     auto n = int(newH);
     auto frac = newH - n;
-    auto c1 = ColorPart(p.v * (1.0 - p.s));
-    auto c2 = ColorPart(p.v * (1.0 - p.s * frac));
-    auto c3 = ColorPart(p.v * (1.0 - p.s * (1.0 - frac)));
+    auto c1 = RawCP(p.v * (1.0 - p.s));
+    auto c2 = RawCP(p.v * (1.0 - p.s * frac));
+    auto c3 = RawCP(p.v * (1.0 - p.s * (1.0 - frac)));
 
     switch (n) {
     case 0:
@@ -73,19 +116,19 @@ ImgProc::Pixel ImgProc::hsv2rgb(PixelHSV p)
 }
 
 
-ImgProc::PixelHSV ImgProc::rgb2hsv(Pixel p)
+ImgProc::PixelHSV ImgProc::rgb2hsv(RawPix p)
 {
     auto maxc  = std::max({p.b, p.g, p.r});
     auto minc  = std::min({p.b, p.g, p.r});
     auto delta = maxc - minc;
 
-    ColorPart s{};
+    RawCP s{};
     if (maxc > 0) {
         s = delta / maxc;
     }
 
     auto v = maxc;
-    ColorPart h{};
+    RawCP h{};
     if (s == 0) {
         h = 0;
     } else {
@@ -105,7 +148,7 @@ ImgProc::PixelHSV ImgProc::rgb2hsv(Pixel p)
     return {h, s, v};
 }
 
-
+} // namespace ImageProcessing
 
 
 

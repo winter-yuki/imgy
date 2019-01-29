@@ -1,16 +1,26 @@
-#include "include/imgproc/imgproc.hpp"
+#include "include/imgproc/warp.hpp"
 
 #include <memory>
 
 
-void ImgProc::warp(Point from, Point dest)
+namespace ImageProcessing
+{
+// TODO(warp refactor)
+// TODO(warp speed up)
+// TODO(warp test)
+Warp::Warp(IImgFile & image)
+    : image_(image)
+{}
+
+
+void Warp::warp(Point from, Point dest)
 {
     // Get back mapping.
     auto map = get_back_mapping(from, dest);
 
     std::shared_ptr<IImgFile> new_img(image_.clone());
-    for (SizeT y = 0; y < rows(); ++y) {
-        for (SizeT x = 0; x < cols(); ++x) {
+    for (SizeT y = 0; y < image_.rows(); ++y) {
+        for (SizeT x = 0; x < image_.cols(); ++x) {
             auto transform = find_triangle(map, {x, y});
 
             PointH ph;
@@ -18,8 +28,8 @@ void ImgProc::warp(Point from, Point dest)
             ph *= transform;
             auto p = convert(ph);
 
-            if (p.x >= 0 && p.x < cols() &&
-                    p.y >= 0 && p.y < rows()) {
+            if (p.x >= 0 && p.x < image_.cols() &&
+                    p.y >= 0 && p.y < image_.rows()) {
                 (*new_img)(Point({x, y})) = image_(p);
             }
         }
@@ -29,17 +39,17 @@ void ImgProc::warp(Point from, Point dest)
 }
 
 
-ImgProc::TriTransform ImgProc::get_back_mapping(Point from, Point dest)
+Warp::TriTransform Warp::get_back_mapping(Point from, Point dest)
 {
-    ValT w = cols();
-    ValT h = rows();
+    Double w = image_.cols();
+    Double h = image_.rows();
     PointH top_left     = {0,     0,     1};
     PointH top_right    = {w - 1, 0,     1};
     PointH bottom_left  = {0,     h - 1, 1};
     PointH bottom_right = {w - 1, h - 1, 1};
 
-    PointH from_h = {ValT(from.x), ValT(from.y), 1};
-    PointH dest_h = {ValT(dest.x), ValT(dest.y), 1};
+    PointH from_h = {Double(from.x), Double(from.y), 1};
+    PointH dest_h = {Double(dest.x), Double(dest.y), 1};
 
     Triangle t11, t12, t13, t14;
     t11 << from_h, top_left,     top_right;
@@ -68,7 +78,7 @@ ImgProc::TriTransform ImgProc::get_back_mapping(Point from, Point dest)
 }
 
 
-ImgProc::Matrix ImgProc::find_triangle(TriTransform const & map, Point p)
+Warp::Matrix Warp::find_triangle(TriTransform const & map, Point p)
 {
     for (auto const & i : map) {
         // Move to the zero of coordinates
@@ -85,9 +95,9 @@ ImgProc::Matrix ImgProc::find_triangle(TriTransform const & map, Point p)
         rh *= translate;
         auto r = convert(rh);
 
-        ValT m = ValT(r.x*b.y - b.x*r.y) / (c.x*b.y - b.x*c.y);
+        Double m = Double(r.x*b.y - b.x*r.y) / (c.x*b.y - b.x*c.y);
         if (m >= 0 && m <= 1) {
-            ValT l = (r.x - m*c.x) / b.x;
+            Double l = (r.x - m*c.x) / b.x;
             if (l >= 0 && m + l <= 1) {
                 return i.second;
             }
@@ -96,3 +106,5 @@ ImgProc::Matrix ImgProc::find_triangle(TriTransform const & map, Point p)
 
     return Matrix::Zero();
 }
+
+} // namespace ImageProcessing

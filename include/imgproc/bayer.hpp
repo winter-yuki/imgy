@@ -21,7 +21,7 @@ private:
     using BayerMtr = Eigen::Array<SizeT, Eigen::Dynamic, Eigen::Dynamic>;
 
     BayerMtr get_bayer_matrix(SizeT size);
-    BayerMtr get_next_matr(BayerMtr mtr, SizeT size0);
+    BayerMtr get_next_matr(BayerMtr mtr, SizeT size);
     SizeT    what_matr(BayerMtr const & matr, SizeT row0, SizeT col0);
     void     apply_matr(BayerMtr const & matr, SizeT n_matr,
                                SizeT row0, SizeT col0);

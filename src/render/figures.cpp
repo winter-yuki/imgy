@@ -27,7 +27,7 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
     Double k3 = OC * OC - radius_ * radius_;
     Double diskr = k2 * k2 - k1 * k3;
     if (diskr < 0) {
-        return { NO_INTERSECT, NO_NORMAL, BLACK_ };
+        return { NO_INTERSECT, NO_NORMAL, BLACK() };
     }
 
     Double sdiskr = std::sqrt(diskr);
@@ -67,28 +67,7 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color)
 FigBox::Intersect FigBox::intersect(Ray const & ray) const
 {
     // TODO()
-//    using PQ = std::priority_queue<Double,
-//    std::vector<Double>, std::greater<Double>>;
-
-//    PQ q_near;
-//    for (auto & face : faces_near_) {
-//        auto rez = face->intersect(ray);
-//        q_near.push(rez.first);
-//    }
-
-//    PQ q_far;
-//    for (auto & face : faces_far_) {
-//        auto rez = face->intersect(ray);
-//        q_far.push(rez.first);
-//    }
-
-//    if (q_near.top() <= q_far.top()) {
-//        q_near.pop();
-//        if (q_near.top() <= q_far.top()) {
-//            return { q_near.top(), color_ };
-//        }
-//    }
-    return { NO_INTERSECT, NO_NORMAL, BLACK_ };
+    return { NO_INTERSECT, NO_NORMAL, BLACK() };
 }
 
 
@@ -110,7 +89,7 @@ FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
     auto r = ray.get_view();
     Double den = n_ * r.D;
     if (std::abs(den) < EPSILON) {
-        return { NO_INTERSECT, NO_NORMAL, BLACK_ };
+        return { NO_INTERSECT, NO_NORMAL, BLACK() };
     }
 
     Double t = -(n_ * r.O + d_) / den;

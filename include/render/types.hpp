@@ -13,6 +13,7 @@ namespace Render
 class RenderTypes {
 public:
     using Double = double;
+    using SizeT  = ImgTypes::SizeT;
     using Vector = GLMath::Vector<Double>;
     using Matrix = GLMath::Matrix<Double>;
 

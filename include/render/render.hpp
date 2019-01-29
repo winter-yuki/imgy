@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "include/file/filebase.hpp"
+#include "include/render/color.hpp"
 #include "include/render/objsbase.hpp"
 #include "include/render/ray.hpp"
 #include "include/render/types.hpp"
@@ -13,8 +14,7 @@ namespace Render
 {
 
 class Render final
-        : public ImgTypes
-        , public RenderTypes {
+        : public RenderTypes {
 public:
     using Figures = std::vector<ISceneFig *>;
     using Lights  = std::vector<ISceneLight *>;
@@ -30,11 +30,13 @@ public:
 
 
 private:
-    void  prep_dirs   ();
-    Ray   calc_ray_dir(SizeT row, SizeT col) const;
-    Color trace_ray   (Ray const & ray)      const;
+    void   prep_dirs   ();
+    Ray    calc_ray_dir(SizeT row, SizeT col)     const;
+    Color  trace_ray   (Ray const & ray)          const;
+    Double count_light(Vector const & point, Vector const & normal) const;
 
 private:
+    Color  background_color_ = BLACK();
     Double vport_w_ = 2;
     Double vport_h_ = 2;
     Double dist_    = 1;

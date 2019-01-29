@@ -89,9 +89,9 @@ void test_render()
 
     Render::Render::Lights lts;
 
-    Render::LightPoint lp1({2, 2, 1}, 1.5);
+    Render::LightPoint lp1({2, 1, 1}, 50);
     lts.push_back(&lp1);
-    Render::LightAmbient la1(1.5);
+    Render::LightAmbient la1(1.1);
 //    lts.push_back(&la1);
 
     Render::Render rnd(img, figs, lts);

@@ -26,4 +26,5 @@ HEADERS += \
     include/render/ray.hpp \
     include/render/objsbase.hpp \
     include/render/figures.hpp \
-    include/render/light.hpp
+    include/render/light.hpp \
+    include/render/color.hpp

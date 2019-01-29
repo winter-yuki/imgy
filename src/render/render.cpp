@@ -23,7 +23,7 @@ void Render::render()
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
             auto ray = calc_ray_dir(row, col);
-            image_(row, col) = trace_ray(ray);
+            image_(row, col) = trace_ray(ray).get_pix();
         }
     }
 }
@@ -56,7 +56,7 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 }
 
 
-Render::Color Render::trace_ray(Ray const & ray) const
+Color Render::trace_ray(Ray const & ray) const
 {
     Double t_min  = std::numeric_limits<Double>::max();
     Vector rez_normal;
@@ -79,17 +79,20 @@ Render::Color Render::trace_ray(Ray const & ray) const
         return rez_color;
     }
 
+    Double i = count_light(ray.count(t_min), rez_normal);
+    rez_color.apply_intensity(i);
+    return rez_color;
+}
 
-    // TODO(color)
+
+Render::Double Render::count_light(Vector const & point,
+                                   Vector const & normal) const
+{
     Double intensity = 1;
-    Vector point     = ray.count(t_min);
     for (auto const & lts : lts_) {
-        intensity += lts->light(rez_normal, point);
+        intensity += lts->light(normal, point);
     }
-
-    return { static_cast<ColorPart>(rez_color.b * intensity),
-                static_cast<ColorPart>(rez_color.r * intensity),
-                static_cast<ColorPart>(rez_color.g * intensity) };
+    return intensity;
 }
 
 } // namespace Render

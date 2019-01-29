@@ -1,17 +1,17 @@
 #ifndef INCLUDE_RENDER_OBJSBASE_HPP
 #define INCLUDE_RENDER_OBJSBASE_HPP
 
-#include "include/render/types.hpp"
+#include "include/render/color.hpp"
 #include "include/file/types.hpp"
 #include "include/render/ray.hpp"
+#include "include/render/types.hpp"
 
 
 namespace Render
 {
 
 class ISceneObj
-        : public ImgTypes
-        , public RenderTypes {
+        : public RenderTypes {
 public:
     ISceneObj()                              = default;
     virtual ~ISceneObj()                     = default;

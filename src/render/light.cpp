@@ -26,11 +26,11 @@ LightPoint::Double LightPoint::light(Vector const & normal,
                                      Vector const & point) const
 {
     Vector L = pos_ - point;
+//    Vector L = point - pos_; // TODO()
     Double coef = (normal * L) / (normal.norm() * L.norm());
-    if (coef <= 0) {
+    if (coef < 0) {
         return 0;
     }
-    coef = 1; // TODO()
     return intensity_ * coef;
 }
 

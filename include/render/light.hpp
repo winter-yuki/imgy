@@ -11,8 +11,11 @@ class LightAmbient final
         : public ISceneLight {
 public:
     explicit LightAmbient(Double intensity);
-    Double light(Vector const & /*normal*/,
-                 Vector const & /*point*/) const override;
+
+    Vector dir_to   (Vector /*from*/)     const override;
+    Double pos_param(Ray const & /*ray*/) const override;
+    Double light    (Vector const & /*normal*/,
+                     Vector const & /*point*/) const override;
 
 private:
     Double intensity_;
@@ -23,8 +26,11 @@ class LightPoint final
         : public ISceneLight {
 public:
     LightPoint(Vector const & position, Double intensity);
-    Double light(Vector const & normal,
-                 Vector const & point) const override;
+
+    Vector dir_to   (Vector from)     const override;
+    Double pos_param(Ray const & ray) const override;
+    Double light    (Vector const & normal,
+                     Vector const & point) const override;
 
 private:
     Vector pos_;
@@ -36,8 +42,11 @@ class LightDirectional final
         : public ISceneLight {
 public:
     LightDirectional(Vector const & direction, Double intensity);
-    Double light(Vector const & normal,
-                 Vector const & /*point*/) const override;
+
+    Vector dir_to   (Vector /*from*/)     const override;
+    Double pos_param(Ray const & /*ray*/) const override;
+    Double light    (Vector const & normal,
+                     Vector const & /*point*/) const override;
 
 private:
     Vector dir_;

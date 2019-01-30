@@ -29,8 +29,10 @@ public:
 class ISceneLight
         : public ISceneObj {
 public:
-    virtual Double light(Vector const & /*normal*/,
-                         Vector const & /*point*/) const = 0;
+    virtual Vector dir_to   (Vector from)     const = 0;
+    virtual Double pos_param(Ray const & ray) const = 0;
+    virtual Double light    (Vector const & /*normal*/,
+                             Vector const & /*point*/) const = 0;
 };
 
 } // namespace Render

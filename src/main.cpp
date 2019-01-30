@@ -116,7 +116,7 @@ void test_render()
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});
     figs.push_back(&p1);
-    Render::FigBox b1({-2, -2, 2}, {2, 2.3, 3}, {100, 100, 100}, {0, 0, 0});
+    Render::FigBox b1({0, 0, 0}, {10, 0.2, 10}, {100, 100, 100}, {0, 0, 0});
     figs.push_back(&b1);
 
 
@@ -124,15 +124,19 @@ void test_render()
 
     Render::LightPoint lp1({1, 2, 1.1}, 3);
     lts.push_back(&lp1);
-    Render::LightPoint lp2({-1, 2, 2}, 1);
-    lts.push_back(&lp2);
+    Render::LightPoint lp2({-0.3, 1.4, 1}, 2);
+//    lts.push_back(&lp2);
+    Render::LightPoint lp3({-0.6, -0.5, 1}, 2);
+    lts.push_back(&lp3);
     Render::LightAmbient la1(0.2);
     lts.push_back(&la1);
     //    Render::LightDirectional ld1({0, 0, -1}, 20);
     //    lts.push_back(&ld1);
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({1.5, 0.2, -2});
+//    rnd.set_pos({1.5, 0.2, -2});
+    rnd.set_to({0, 0, 1});
+    rnd.set_pos({-2, -0.2, -3});
     rnd.render();
     img.print(path + "200.bmp");
 }

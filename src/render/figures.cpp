@@ -1,5 +1,6 @@
 #include "include/render/figures.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <exception>
 #include <limits>
@@ -53,11 +54,11 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
                Vector const & cam_pos)
     : color_(color)
 {
-    // TODO(args issue)
-    //    if ((b1[0] < b2[0] && b1[1] < b2[1] && b1[2] < b2[2]) == false) {
-    //        throw std::runtime_error("Coordinates of first point of box should be"
-    //                                 "less than coordinates of second one");
-    //    }
+    // WARNING (args issue)
+    if ((b1[0] <= b2[0] && b1[1] <= b2[1] && b1[2] <= b2[2]) == false) {
+        throw std::runtime_error("Coordinates of first point of box should be"
+                                 "less than coordinates of second one");
+    }
 
     faces_near_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color, cam_pos));
     faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color, cam_pos));
@@ -71,7 +72,33 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
 
 Intersect FigBox::intersect(Ray const & ray) const
 {
-    // TODO()
+    Intersect rez;
+
+    Double t_near_max = 0;
+    for (auto const & face : faces_near_) {
+        Double t{};
+        Vector n;
+        Color  c{};
+        Intersect inter   = face->intersect(ray);
+        std::tie(t, n, c) = inter;
+        if (t_near_max < t) {
+            t_near_max = t;
+            rez        = inter;
+        }
+    }
+
+    Double t_far_min  = INF_PARAM();
+    for (auto const & face : faces_far_) {
+        Double t{};
+        Vector n;
+        Color  c{};
+        std::tie(t, n, c) = face->intersect(ray);
+        t_far_min = std::min(t_far_min, t);
+    }
+
+    if (t_near_max < t_far_min) {
+        return rez;
+    }
     return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
 }
 

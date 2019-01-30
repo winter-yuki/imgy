@@ -192,6 +192,7 @@ Color Render::what_color (Ray const & ray) const
 
     Double i = count_light(ray.count(t), normal);
     color.apply_intensity(i);
+
     return color;
 }
 
@@ -227,7 +228,18 @@ Double Render::count_light(Vector const & point,
 {
     Double intensity = 0;
     for (auto const & lts : lts_) {
-        intensity += lts->light(normal, point);
+        Vector dir = lts->dir_to(point);
+        Ray ray(dir, point);
+        Double t_max = lts->pos_param(ray);
+
+        Double t{};
+        Vector n{};
+        Color  color{};
+        std::tie(t, n, color) = trace_ray(ray);
+
+        if (t > t_max) {
+            intensity += lts->light(normal, point);
+        }
     }
     return intensity;
 }

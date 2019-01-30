@@ -20,7 +20,10 @@ using Intersect = std::tuple<Double /*t*/, Vector /*normal*/, Color>;
 inline constexpr Double EPSILON()      { return 1e-7; }
 inline constexpr Double NO_INTERSECT() {
     return std::numeric_limits<Double>::max(); }
-inline           Vector NO_NORMAL()    { return Vector{0, 0, 0, 0}; }
+inline constexpr Double INF_PARAM() {
+    return std::numeric_limits<Double>::max(); }
+inline Vector NULL_VECTOR() { return Vector{0, 0, 0, 0}; }
+inline Vector NO_NORMAL()   { return NULL_VECTOR(); }
 
 } // namespace Render
 

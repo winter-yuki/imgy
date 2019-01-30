@@ -9,18 +9,15 @@
 namespace Render
 {
 
-class RenderTypes {
-public:
-    using Double = double;
-    using SizeT  = ImgTypes::SizeT;
-    using Vector = GLMath::Vector<Double>;
-    using Matrix = GLMath::Matrix<Double>;
+using Double = double;
+using SizeT  = int64_t;
+using Vector = GLMath::Vector<Double>;
+using Matrix = GLMath::Matrix<Double>;
 
-    const Double EPSILON = 1e-7; // TODO(static)
-    const Double NO_INTERSECT = std::numeric_limits<Double>::max();
-    const Vector NO_NORMAL    = { 0, 0, 0 };
-    const Vector CAM_POS      = { 0, 0, 0 };
-};
+inline constexpr Double EPSILON()      { return 1e-7; }
+inline constexpr Double NO_INTERSECT() {
+    return std::numeric_limits<Double>::max(); }
+inline           Vector NO_NORMAL()    { return Vector{0, 0, 0, 0}; }
 
 } // namespace Render
 

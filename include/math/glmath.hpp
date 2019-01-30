@@ -12,8 +12,8 @@ namespace GLMath
 
 using SizeT = int64_t;
 
-inline SizeT SIZE()     { static const SizeT x = 4; return x; }
-inline SizeT N_COORDS() { static const SizeT x = 3; return x; }
+inline constexpr SizeT SIZE()     { return 4; }
+inline constexpr SizeT N_COORDS() { return 3; }
 
 
 template <class Type>
@@ -85,8 +85,8 @@ private:
 template <class Type>
 Vector<Type>::Vector(Type x1, Type x2, Type x3, Type x4)
 {
-    assert(SIZE     == ::GLMath::SIZE());
-    assert(N_COORDS == ::GLMath::N_COORDS());
+    static_assert (SIZE     == ::GLMath::SIZE(),     "");
+    static_assert (N_COORDS == ::GLMath::N_COORDS(), "");
     data_[0] = x1;
     data_[1] = x2;
     data_[2] = x3;

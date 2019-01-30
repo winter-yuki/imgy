@@ -101,7 +101,7 @@ Color Render::trace_ray(Ray const & ray) const
 }
 
 
-Render::Double Render::count_light(Vector const & point,
+Double Render::count_light(Vector const & point,
                                    Vector const & normal) const
 {
     Double intensity = 1;

@@ -27,7 +27,7 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
     Double k3 = OC * OC - radius_ * radius_;
     Double diskr = k2 * k2 - k1 * k3;
     if (diskr < 0) {
-        return { NO_INTERSECT, NO_NORMAL, BLACK() };
+        return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
     }
 
     Double sdiskr = std::sqrt(diskr);
@@ -39,7 +39,7 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
 }
 
 
-FigSphere::Vector FigSphere::normal(Vector const & point) const
+Vector FigSphere::normal(Vector const & point) const
 {
     return (point - center_).normalize();
 }
@@ -67,7 +67,7 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color)
 FigBox::Intersect FigBox::intersect(Ray const & ray) const
 {
     // TODO()
-    return { NO_INTERSECT, NO_NORMAL, BLACK() };
+    return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
 }
 
 
@@ -78,7 +78,7 @@ FigPlane::FigPlane(Vector const & n, Vector const & p, Color color)
     , color_(color)
 {
     // Direct normal to cam
-    if (count(CAM_POS) < -EPSILON) {
+    if (count({0, 0, 0}) < -EPSILON()) { // TODO(cam_pos)
         n_ = n_ * -1;
     }
 }
@@ -88,8 +88,8 @@ FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
 {
     auto r = ray.get_view();
     Double den = n_ * r.D;
-    if (std::abs(den) < EPSILON) {
-        return { NO_INTERSECT, NO_NORMAL, BLACK() };
+    if (std::abs(den) < EPSILON()) {
+        return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
     }
 
     Double t = -(n_ * r.O + d_) / den;
@@ -97,7 +97,7 @@ FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
 }
 
 
-FigPlane::Double FigPlane::count(Vector const & point)
+Double FigPlane::count(Vector const & point)
 {
     return n_ * point + d_;
 }

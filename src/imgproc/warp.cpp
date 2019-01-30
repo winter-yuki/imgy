@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include <eigen3/Eigen/Dense>
+
 
 namespace ImageProcessing
 {

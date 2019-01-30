@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "include/render/color.hpp"
 #include "include/render/objsbase.hpp"
 
 

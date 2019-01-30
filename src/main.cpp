@@ -52,7 +52,7 @@ void test_proc()
     //    p->print(path + "20.bmp");
     //    img.print(path + "30.bmp");
 
-    ImgProc img_wrap(img);
+//    ImgProc img_wrap(img);
     //    img_wrap.negative();
     //    img.print(path + "40.bmp");
     //    img_wrap.error_diffusion();

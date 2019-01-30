@@ -4,17 +4,16 @@
 #include <vector>
 
 #include "include/file/filebase.hpp"
-#include "include/render/color.hpp"
 #include "include/render/objsbase.hpp"
 #include "include/render/ray.hpp"
 #include "include/render/types.hpp"
+#include "include/utility/color.hpp"
 
 
 namespace Render
 {
 
-class Render final
-        : public RenderTypes {
+class Render final {
 public:
     using Figures = std::vector<ISceneFig *>;
     using Lights  = std::vector<ISceneLight *>;
@@ -43,7 +42,7 @@ private:
 
     Vector up_    = {0, 1, 0}; // oy
     Vector to_    = {0, 0, 1}; // oz
-    Vector pos_   = CAM_POS;
+    Vector pos_   = {0, 0, 0};
     Vector right_;
 
     IImgFile & image_;

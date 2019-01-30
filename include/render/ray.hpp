@@ -9,9 +9,7 @@
 namespace Render
 {
 
-class Ray final
-        : public RenderTypes
-{
+class Ray final {
 public:
     struct View {
         Vector const & D; // Direction

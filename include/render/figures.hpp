@@ -13,7 +13,8 @@ namespace Render
 class FigPlane final
         : public ISceneFig {
 public:
-    FigPlane(Vector const & n, Vector const & p, Color color);
+    FigPlane(Vector const & n, Vector const & p, Color color,
+             Vector const & cam_pos);
 
     Intersect intersect(Ray const & ray) const override;
 
@@ -46,7 +47,8 @@ private:
 class FigBox final
         : public ISceneFig {
 public:
-    FigBox(Vector const & b1, Vector const & b2, Color color);
+    FigBox(Vector const & b1, Vector const & b2, Color color,
+           Vector const & cam_pos);
 
     Intersect intersect(Ray const & ray) const override;
 

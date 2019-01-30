@@ -27,6 +27,22 @@ public:
 
     void render();
 
+    Double get_vport_coef() const;
+    Double get_vport_dist() const;
+    Vector  const & get_up    () const;
+    Vector  const & get_to    () const;
+    Vector  const & get_pos   () const;
+    Figures const & get_figs  () const;
+    Lights  const & get_lights() const;
+
+    void set_vport_coef(Double coef);
+    void set_vport_dist(Double dist);
+    void set_up    (Vector const & up);
+    void set_to    (Vector const & to);
+    void set_pos   (Vector const & pos);
+    void set_figs  (Figures && figs);
+    void set_lights(Lights  && lts);
+
 
 private:
     void   prep_dirs   ();
@@ -36,13 +52,16 @@ private:
 
 private:
     Color  background_color_ = BLACK();
-    Double vport_w_ = 2;
-    Double vport_h_ = 2;
-    Double dist_    = 1;
+
+    Double vport_coef_ = 1.0 / 500;
+    Double vport_w_{};
+    Double vport_h_{};
+    Double dist_ = 1;
 
     Vector up_    = {0, 1, 0}; // oy
     Vector to_    = {0, 0, 1}; // oz
     Vector pos_   = {0, 0, 0};
+    Vector view_;
     Vector right_;
 
     IImgFile & image_;

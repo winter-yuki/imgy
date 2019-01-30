@@ -45,7 +45,8 @@ Vector FigSphere::normal(Vector const & point) const
 }
 
 
-FigBox::FigBox(Vector const & b1, Vector const & b2, Color color)
+FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
+               Vector const & cam_pos)
     : color_(color)
 {
     // TODO(args issue)
@@ -54,13 +55,13 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color)
     //                                 "less than coordinates of second one");
     //    }
 
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color));
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color));
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b1, color));
+    faces_near_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color, cam_pos));
+    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color, cam_pos));
+    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b1, color, cam_pos));
 
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 0), b2, color));
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b2, color));
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b2, color));
+    faces_far_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 0), b2, color, cam_pos));
+    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b2, color, cam_pos));
+    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b2, color, cam_pos));
 }
 
 
@@ -71,14 +72,15 @@ FigBox::Intersect FigBox::intersect(Ray const & ray) const
 }
 
 
-FigPlane::FigPlane(Vector const & n, Vector const & p, Color color)
+FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
+                   Vector const & cam_pos)
     : n_    (n)
     , p_    (p)
     , d_    (-(n_ * p_))
     , color_(color)
 {
     // Direct normal to cam
-    if (count({0, 0, 0}) < -EPSILON()) { // TODO(cam_pos)
+    if (count(cam_pos) < -EPSILON()) {
         n_ = n_ * -1;
     }
 }

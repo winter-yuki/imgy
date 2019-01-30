@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     try {
         //        parse(argc, argv);
-        //        test_proc();
+        test_proc();
         test_render();
     } catch (std::exception const & e) {
         std::cout << e.what() << std::endl;
@@ -52,53 +52,66 @@ void test_proc()
 
         ImageProcessing::ImgProc img(*tmp);
 
+        if (i != 7) {
+            continue;
+        }
+
+        std::string operation;
         switch (i) {
         case 0:
             img.negative();
-            std::cout << "negative" << std::endl;
+            operation = "negative";
+            std::cout << operation << std::endl;
             break;
 
         case 1:
             img.brightness(0.2);
-            std::cout << "brightness" << std::endl;
+            operation = "brightness";
+            std::cout << operation << std::endl;
             break;
 
         case 2:
             img.contrast(20, 100);
-            std::cout << "contrast" << std::endl;
+            operation = "contrast";
+            std::cout << operation << std::endl;
             break;
 
         case 3:
             img.gamma_correction(0.5);
-            std::cout << "gamma_correction" << std::endl;
+            operation = "gamma_correction";
+            std::cout << operation << std::endl;
             break;
 
         case 4:
             img.bayer_filter(4);
-            std::cout << "bayer_filter" << std::endl;
+            operation = "bayer_filter";
+            std::cout << operation << std::endl;
             break;
 
         case 5:
             img.error_diffusion();
-            std::cout << "error_diffusion" << std::endl;
+            operation = "error_diffusion";
+            std::cout << operation << std::endl;
             break;
 
         case 6:
             img.warp({img.cols() / 2, img.rows() / 2},
             {img.cols() * 3 / 4, img.rows() * 3 / 4});
-            std::cout << "warp" << std::endl;
+            operation = "warp";
+            std::cout << operation << std::endl;
             break;
 
         case 7:
-            img.free_form_deformation({0, 0}, 100, 50);
-            std::cout << "free_form_deformation" << std::endl;
+            img.free_form_deformation({2, 2}, 100, 50);
+            operation = "free_form_deformation";
+            std::cout << operation << std::endl;
             break;
 
         default:
             assert(false);
         }
 
-        tmp->print(rez + name + " " + std::to_string(i) + ".bmp");
+        tmp->print(rez + std::to_string(i) + "test" + "_" + operation + ".bmp");
     }
 }
 
@@ -116,7 +129,7 @@ void test_render()
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});
     figs.push_back(&p1);
-    Render::FigBox b1({0, 0, 0}, {10, 0.2, 10}, {100, 100, 100}, {0, 0, 0});
+    Render::FigBox b1({-2, -2, 0}, {-1, -1, 0}, {100, 100, 100}, {0, 0, 0});
     figs.push_back(&b1);
 
 
@@ -125,7 +138,7 @@ void test_render()
     Render::LightPoint lp1({1, 2, 1.1}, 3);
     lts.push_back(&lp1);
     Render::LightPoint lp2({-0.3, 1.4, 1}, 2);
-//    lts.push_back(&lp2);
+    //    lts.push_back(&lp2);
     Render::LightPoint lp3({-0.6, -0.5, 1}, 2);
     lts.push_back(&lp3);
     Render::LightAmbient la1(0.2);
@@ -134,11 +147,13 @@ void test_render()
     //    lts.push_back(&ld1);
 
     Render::Render rnd(img, figs, lts);
-//    rnd.set_pos({1.5, 0.2, -2});
+    //    rnd.set_pos({1.5, 0.2, -2});
     rnd.set_to({0, 0, 1});
-    rnd.set_pos({-2, -0.2, -3});
+    rnd.set_pos({5, 2, -12});
     rnd.render();
-    img.print(path + "200.bmp");
+    img.print(path + "render.bmp");
+
+    std::cout << "render tested" << std::endl;
 }
 
 } // namespace

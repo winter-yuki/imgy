@@ -7,7 +7,7 @@
 
 namespace ImageProcessing
 {
-// TODO(FFD test)
+
 FFDeffect::FFDeffect(IImgFile & image)
     : image_     (image)
     , ffd_pivots_(gen_pivots(image.cols(), image.rows()))
@@ -70,7 +70,7 @@ std::tuple<SizeT /*height*/, SizeT /*width*/>
 FFDeffect::get_new_size(Point p, SizeT right, SizeT up) const
 {
     Point to_move = ffd_pivots_(p.y, p.x);
-    Point moved{to_move.x += right, to_move.y -= up};
+    Point moved{to_move.x += right, to_move.y += up};
 
     if (moved.x >= 0 && moved.x < image_.cols() &&
             moved.y >= 0 && moved.y < image_.rows()) {
@@ -89,18 +89,15 @@ FFDeffect::get_new_size(Point p, SizeT right, SizeT up) const
     } else if (moved.y >= image_.rows()){
         dy = moved.y - image_.rows();
     }
-    // Previous picture can be placed on center.
-    dx *= 2;
-    dy *= 2;
 
-    return { image_.rows() + dy, image_.cols() + dx };
+    return { image_.rows() + dy + 1, image_.cols() + dx + 1 };
 }
 
 
 void FFDeffect::shift_pivots(Point p, SizeT right, SizeT up)
 {
     ffd_pivots_(p.y, p.x).x += right;
-    ffd_pivots_(p.y, p.x).y -= up;    // oy is inverted
+    ffd_pivots_(p.y, p.x).y += up;
 }
 
 

@@ -24,7 +24,8 @@ public:
     using Intersect = std::tuple<Double /*t*/, Vector /*normal*/, Color>;
 
 public:
-    virtual Intersect intersect(Ray const & ray) const = 0;
+    virtual Intersect intersect  (Ray const & ray) const  = 0;
+    virtual void      set_cam_pos(Vector const & new_pos) = 0;
 };
 
 

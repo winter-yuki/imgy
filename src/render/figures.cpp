@@ -39,6 +39,10 @@ FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
 }
 
 
+void FigSphere::set_cam_pos(Vector const & /*new_pos*/)
+{}
+
+
 Vector FigSphere::normal(Vector const & point) const
 {
     return (point - center_).normalize();
@@ -72,6 +76,17 @@ FigBox::Intersect FigBox::intersect(Ray const & ray) const
 }
 
 
+void FigBox::set_cam_pos(Vector const & new_pos)
+{
+    for (auto & face : faces_near_) {
+        face->set_cam_pos(new_pos);
+    }
+    for (auto & face : faces_far_) {
+        face->set_cam_pos(new_pos);
+    }
+}
+
+
 FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
                    Vector const & cam_pos)
     : n_    (n)
@@ -80,9 +95,7 @@ FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
     , color_(color)
 {
     // Direct normal to cam
-    if (count(cam_pos) < -EPSILON()) {
-        n_ = n_ * -1;
-    }
+    set_cam_pos(cam_pos);
 }
 
 
@@ -96,6 +109,14 @@ FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
 
     Double t = -(n_ * r.O + d_) / den;
     return { t, n_, color_ };
+}
+
+
+void FigPlane::set_cam_pos(Vector const & new_pos)
+{
+    if (count(new_pos) < -EPSILON()) {
+        n_ = n_ * -1;
+    }
 }
 
 

@@ -21,7 +21,7 @@ Render::Render(IImgFile & image, Figures figs, Lights lts)
 
 void Render::render()
 {
-    prep_dirs();
+    prep_dirs(); // TODO (change to asserts)
 
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
@@ -29,6 +29,61 @@ void Render::render()
             image_(row, col) = trace_ray(ray).get_pix();
         }
     }
+}
+
+
+Color Render::get_bg_color  () const
+{
+    return background_color_;
+}
+
+
+Double Render::get_vport_coef() const
+{
+    return vport_coef_;
+}
+
+
+Double Render::get_vport_dist() const
+{
+    return dist_;
+}
+
+
+Vector const & Render::get_up() const
+{
+    return up_;
+}
+
+
+Vector const & Render::get_to() const
+{
+    return to_;
+}
+
+
+Vector const & Render::get_pos() const
+{
+    return pos_;
+}
+
+
+Render::Figures const & Render::get_figs() const
+{
+    return figs_;
+}
+
+
+Render::Lights const & Render::get_lights() const
+{
+    return lts_;
+}
+
+
+void Render::set_bg_color(Color c)
+{
+    background_color_ = c;
+    fill_color(c);
 }
 
 
@@ -64,6 +119,10 @@ void Render::set_pos(Vector const & pos)
 {
     pos_ = pos;
     prep_dirs();
+
+    for (auto fig : figs_) {
+        fig->set_cam_pos(pos);
+    }
 }
 
 
@@ -92,9 +151,18 @@ void Render::prep_dirs()
 }
 
 
+void Render::fill_color(Color color)
+{
+    for (SizeT row = 0; row < image_.rows(); ++row) {
+        for (SizeT col = 0; col < image_.cols(); ++col) {
+            image_(row, col) = color.get_pix();
+        }
+    }
+}
+
+
 Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 {
-    assert(image_.rows() == image_.cols()); // TODO(rows == cols)
     Double add_x = image_.cols() % 2 == 1 ? 0 : 0.5;
     Double add_y = image_.rows() % 2 == 1 ? 0 : 0.5;
 
@@ -113,9 +181,9 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 
 Color Render::trace_ray(Ray const & ray) const
 {
-    Double t_min  = std::numeric_limits<Double>::max();
+    Double t_min  = NO_INTERSECT();
     Vector rez_normal;
-    Color  rez_color{};
+    Color  rez_color = background_color_;
 
     for (auto const & fig : figs_) {
         Double t{};
@@ -130,7 +198,7 @@ Color Render::trace_ray(Ray const & ray) const
         }
     }
 
-    if (t_min <= 0) {
+    if (t_min <= 0 || std::abs(t_min - NO_INTERSECT()) < EPSILON()) {
         return rez_color;
     }
 
@@ -143,7 +211,7 @@ Color Render::trace_ray(Ray const & ray) const
 Double Render::count_light(Vector const & point,
                            Vector const & normal) const
 {
-    Double intensity = 1;
+    Double intensity = 0;
     for (auto const & lts : lts_) {
         intensity += lts->light(normal, point);
     }

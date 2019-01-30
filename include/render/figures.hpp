@@ -16,7 +16,8 @@ public:
     FigPlane(Vector const & n, Vector const & p, Color color,
              Vector const & cam_pos);
 
-    Intersect intersect(Ray const & ray) const override;
+    Intersect intersect  (Ray const & ray) const  override;
+    void      set_cam_pos(Vector const & new_pos) override;
 
 private:
     Double count(Vector const & point);
@@ -34,6 +35,7 @@ public:
     FigSphere(Vector const & center, Double radius, Color color);
 
     Intersect intersect(Ray const & ray) const override;
+    void set_cam_pos(Vector const & /*new_pos*/) override;
 
 private:
     Vector normal(Vector const & point) const;
@@ -50,7 +52,8 @@ public:
     FigBox(Vector const & b1, Vector const & b2, Color color,
            Vector const & cam_pos);
 
-    Intersect intersect(Ray const & ray) const override;
+    Intersect intersect  (Ray const & ray) const  override;
+    void      set_cam_pos(Vector const & new_pos) override;
 
 private:
     std::vector<std::shared_ptr<FigPlane>> faces_near_;

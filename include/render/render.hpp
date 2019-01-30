@@ -27,6 +27,7 @@ public:
 
     void render();
 
+    Color  get_bg_color  () const;
     Double get_vport_coef() const;
     Double get_vport_dist() const;
     Vector  const & get_up    () const;
@@ -35,6 +36,7 @@ public:
     Figures const & get_figs  () const;
     Lights  const & get_lights() const;
 
+    void set_bg_color  (Color c);
     void set_vport_coef(Double coef);
     void set_vport_dist(Double dist);
     void set_up    (Vector const & up);
@@ -46,6 +48,7 @@ public:
 
 private:
     void   prep_dirs   ();
+    void   fill_color  (Color color);
     Ray    calc_ray_dir(SizeT row, SizeT col)                        const;
     Color  trace_ray   (Ray const & ray)                             const;
     Double count_light (Vector const & point, Vector const & normal) const;

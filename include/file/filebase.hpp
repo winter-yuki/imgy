@@ -11,13 +11,13 @@ public:
     using  SizeT     = int64_t;
     using  ColorPart = unsigned char;
     struct Point { SizeT x, y; };
-    struct RawPix { ColorPart b, g, r; };
-    using  RawColor = RawPix;
+    struct Pixel { ColorPart b, g, r; };
+    using  RawColor = Pixel;
 
     static const ColorPart COLOR_MAX_ = std::numeric_limits<ColorPart>::max();
     static const ColorPart COLOR_MIN_ = std::numeric_limits<ColorPart>::min();
-    constexpr static const RawPix WHITE_ = { COLOR_MAX_, COLOR_MAX_, COLOR_MAX_ };
-    constexpr static const RawPix BLACK_ = { COLOR_MIN_, COLOR_MIN_, COLOR_MIN_ };
+    constexpr static const Pixel WHITE_ = { COLOR_MAX_, COLOR_MAX_, COLOR_MAX_ };
+    constexpr static const Pixel BLACK_ = { COLOR_MIN_, COLOR_MIN_, COLOR_MIN_ };
 
 public:
     IImgFile()                             = default;
@@ -34,17 +34,17 @@ public:
     virtual void       swap (IImgFile & other) = 0;
     virtual IImgFile * clone()                 = 0;
 
-    virtual RawPix       & operator()(SizeT row, SizeT col)       = 0;
-    virtual RawPix       & operator()(Point p)                    = 0;
-    virtual RawPix const & operator()(SizeT row, SizeT col) const = 0;
-    virtual RawPix const & operator()(Point p)              const = 0;
+    virtual Pixel       & operator()(SizeT row, SizeT col)       = 0;
+    virtual Pixel       & operator()(Point p)                    = 0;
+    virtual Pixel const & operator()(SizeT row, SizeT col) const = 0;
+    virtual Pixel const & operator()(Point p)              const = 0;
 
     virtual SizeT rows() const = 0;
     virtual SizeT cols() const = 0;
 };
 
 
-inline bool operator==(IImgFile::RawPix p1, IImgFile::RawPix p2) {
+inline bool operator==(IImgFile::Pixel p1, IImgFile::Pixel p2) {
     return p1.b == p2.b && p1.g == p2.g && p1.r == p2.r;
 }
 

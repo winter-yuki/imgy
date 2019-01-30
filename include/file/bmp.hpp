@@ -23,18 +23,19 @@ public:
     void     swap(IImgFile & other) override;
     ImgBmp * clone()                override;
 
-    RawPix       & operator()(SizeT row, SizeT col)       override;
-    RawPix       & operator()(Point p)                    override;
-    RawPix const & operator()(SizeT row, SizeT col) const override;
-    RawPix const & operator()(Point p)              const override;
+    Pixel       & operator()(SizeT row, SizeT col)       override;
+    Pixel       & operator()(Point p)                    override;
+    Pixel const & operator()(SizeT row, SizeT col) const override;
+    Pixel const & operator()(Point p)              const override;
 
     SizeT rows() const override;
     SizeT cols() const override;
 
 
 private:
-    using ImageMtr  = Eigen::Array<RawPix, Eigen::Dynamic, Eigen::Dynamic>;
+    using ImageMtr  = Eigen::Array<Pixel, Eigen::Dynamic, Eigen::Dynamic>;
     using ByteT     = unsigned char;
+    struct __attribute__((packed)) BmpPix { ColorPart b, g, r; };
     struct __attribute__((packed)) BmpHeader {
         ByteT    space1[18];
         uint32_t width;

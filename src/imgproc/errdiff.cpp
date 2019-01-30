@@ -8,9 +8,6 @@
 namespace ImageProcessing
 {
 
-// TODO (ErrDiff refactor)
-// TODO (ErrDiff test)
-
 ErrDiff::ErrDiff(IImgFile & image)
     : image_(image)
 {}

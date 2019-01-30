@@ -30,7 +30,7 @@ public:
     RawCP set_g(ColorPart g);
     RawCP set_b(ColorPart b);
 
-    IImgFile::RawPix get_pix() const;
+    IImgFile::Pixel get_pix() const;
 
     static RawCP clamp_color(ColorPart c);
 
@@ -87,7 +87,7 @@ inline Color::RawCP Color::set_b(ColorPart b) {
     return color_.b;
 }
 
-inline IImgFile::RawPix Color::get_pix() const {
+inline IImgFile::Pixel Color::get_pix() const {
     return color_;
 }
 

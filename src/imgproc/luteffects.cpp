@@ -7,8 +7,7 @@
 
 namespace ImageProcessing
 {
-// TODO(lut refactor)
-// TODO(lut test)
+
 LUTeffects::LUTeffects(IImgFile & image)
     : image_(image)
 {}

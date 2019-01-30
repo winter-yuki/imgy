@@ -7,9 +7,7 @@
 
 namespace ImageProcessing
 {
-// TODO(warp refactor)
-// TODO(warp speed up)
-// TODO(warp test)
+
 Warp::Warp(IImgFile & image)
     : image_(image)
 {}
@@ -72,7 +70,6 @@ Warp::TriTransform Warp::get_back_mapping(Point from, Point dest)
     map.reserve(4);
     for (SizeT i = 0; uint64_t(i) < tri_to.size(); ++i) {
         // from = to * mtr
-        // TODO (optimize warp)
         Matrix mtr = tri_to[i].inverse() * tri_from[i];
         map.push_back(std::make_pair(tri_to[i], mtr));
     }

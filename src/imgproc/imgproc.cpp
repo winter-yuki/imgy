@@ -11,8 +11,7 @@
 
 namespace ImageProcessing
 {
-// TODO(imgproc refactoring)
-// TODO(imgprot testing)
+
 ImgProc::ImgProc(IImgFile & image)
     : image_(image)
 {}

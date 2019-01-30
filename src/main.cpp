@@ -52,10 +52,6 @@ void test_proc()
 
         ImageProcessing::ImgProc img(*tmp);
 
-        if (i != 7) {
-            continue;
-        }
-
         std::string operation;
         switch (i) {
         case 0:
@@ -111,7 +107,7 @@ void test_proc()
             assert(false);
         }
 
-        tmp->print(rez + std::to_string(i) + "test" + "_" + operation + ".bmp");
+        tmp->print(rez + std::to_string(i) + "_" + operation + ".bmp");
     }
 }
 

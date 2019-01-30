@@ -7,7 +7,7 @@
 
 namespace ImageProcessing
 {
-// TODO(test bayer)
+
 Bayer::Bayer(IImgFile & image)
     : image_(image)
 {}

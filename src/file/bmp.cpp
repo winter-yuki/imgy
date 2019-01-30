@@ -32,9 +32,9 @@ ImgBmp::ImgBmp(std::string const & filename)
     image_ = ImageMtr(bmp_header_.height, bmp_header_.width);
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
-            RawPix tmp{};
+            BmpPix tmp{};
             ifs.read(reinterpret_cast<char *>(&tmp), sizeof (tmp));
-            image_(row, col) = tmp;
+            image_(row, col) = { tmp.b, tmp.g, tmp.r };
         }
         // Padding
         ByteT dev_null[PIX_SIZE_];
@@ -107,25 +107,25 @@ ImgBmp * ImgBmp::clone()
 }
 
 
-ImgBmp::RawPix & ImgBmp::operator()(SizeT row, SizeT col)
+ImgBmp::Pixel & ImgBmp::operator()(SizeT row, SizeT col)
 {
     return image_(row, col);
 }
 
 
-ImgBmp::RawPix & ImgBmp::operator()(Point p)
+ImgBmp::Pixel & ImgBmp::operator()(Point p)
 {
     return image_(p.y, p.x);
 }
 
 
-ImgBmp::RawPix const & ImgBmp::operator()(SizeT row, SizeT col) const
+ImgBmp::Pixel const & ImgBmp::operator()(SizeT row, SizeT col) const
 {
     return image_(row, col);
 }
 
 
-ImgBmp::RawPix const & ImgBmp::operator()(Point p) const
+ImgBmp::Pixel const & ImgBmp::operator()(Point p) const
 {
     return image_(p.y, p.x);
 }
@@ -147,7 +147,7 @@ ImgBmp::ImgBmp(ImgBmp const & other)
     : bmp_header_(other.bmp_header_)
     , padding_   (other.padding_)
     , image_     (other.image_)
-{ }
+{}
 
 
 ImgBmp::SizeT ImgBmp::calc_padding(BmpHeader const & header) const

@@ -16,7 +16,6 @@ FFDeffect::FFDeffect(IImgFile & image)
 
 void FFDeffect::free_form_deformation(Point p, SizeT right, SizeT up)
 {
-    // TODO(ffd)
     if (p.x >= ffd_pivots_.cols() || p.y >= ffd_pivots_.rows()) {
         throw std::runtime_error("Wrong point number");
     }

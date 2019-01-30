@@ -24,7 +24,7 @@ private:
     BayerMtr get_next_matr(BayerMtr mtr, SizeT size);
     SizeT    what_matr(BayerMtr const & matr, SizeT row0, SizeT col0);
     void     apply_matr(BayerMtr const & matr, SizeT n_matr,
-                               SizeT row0, SizeT col0);
+                        SizeT row0, SizeT col0);
 
 private:
     IImgFile & image_;

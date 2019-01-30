@@ -17,7 +17,7 @@ FigSphere::FigSphere(Vector const & center, Double radius, Color color)
 {}
 
 
-FigSphere::Intersect FigSphere::intersect(Ray const & ray) const
+Intersect FigSphere::intersect(Ray const & ray) const
 {
     auto r = ray.get_view();
 
@@ -69,7 +69,7 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
 }
 
 
-FigBox::Intersect FigBox::intersect(Ray const & ray) const
+Intersect FigBox::intersect(Ray const & ray) const
 {
     // TODO()
     return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
@@ -99,7 +99,7 @@ FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
 }
 
 
-FigPlane::Intersect FigPlane::intersect(Ray const & ray) const
+Intersect FigPlane::intersect(Ray const & ray) const
 {
     auto r = ray.get_view();
     Double den = n_ * r.D;

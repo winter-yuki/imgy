@@ -26,7 +26,7 @@ void Render::render()
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {
             auto ray = calc_ray_dir(row, col);
-            image_(row, col) = trace_ray(ray).get_pix();
+            image_(row, col) = what_color(ray).get_pix();
         }
     }
 }
@@ -179,32 +179,46 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 }
 
 
-Color Render::trace_ray(Ray const & ray) const
+Color Render::what_color (Ray const & ray) const
 {
-    Double t_min  = NO_INTERSECT();
-    Vector rez_normal;
-    Color  rez_color = background_color_;
+    Double t{};
+    Vector normal;
+    Color  color = background_color_;
+    std::tie(t, normal, color) = trace_ray(ray);
+
+    if (t <= EPSILON() || std::abs(t - NO_INTERSECT()) < EPSILON()) {
+        return color;
+    }
+
+    Double i = count_light(ray.count(t), normal);
+    color.apply_intensity(i);
+    return color;
+}
+
+
+Intersect Render::trace_ray(Ray const & ray) const
+{
+    Double    t_min  = NO_INTERSECT();
+    Vector    rez_normal;
+    Color     rez_color = background_color_;
+    Intersect rez_intr(t_min, rez_normal, rez_color);
 
     for (auto const & fig : figs_) {
         Double t{};
         Vector normal{};
         Color  color{};
-        std::tie(t, normal, color) = fig->intersect(ray);
+        auto intr = fig->intersect(ray);
+        std::tie(t, normal, color) = intr;
 
-        if (t < t_min && t > 0) {
+        if (t + EPSILON() < t_min && t > EPSILON()) {
             t_min      = t;
             rez_normal = normal;
             rez_color  = color;
+            rez_intr   = intr;
         }
     }
 
-    if (t_min <= 0 || std::abs(t_min - NO_INTERSECT()) < EPSILON()) {
-        return rez_color;
-    }
-
-    Double i = count_light(ray.count(t_min), rez_normal);
-    rez_color.apply_intensity(i);
-    return rez_color;
+    return rez_intr;
 }
 
 

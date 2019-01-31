@@ -115,6 +115,7 @@ void test_proc()
 void test_render()
 {
     std::string path = "../test/tmp/";
+    std::string RTIMG = "../../RTIMG/";
     ImgBmp img(500, 500);
 
     Render::Render::Figures figs;

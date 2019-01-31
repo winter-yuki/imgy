@@ -21,7 +21,7 @@ Render::Render(IImgFile & image, Figures figs, Lights lts)
 
 void Render::render()
 {
-    prep_dirs(); // TODO (change to asserts)
+    prep_dirs();
 
     for (SizeT row = 0; row < image_.rows(); ++row) {
         for (SizeT col = 0; col < image_.cols(); ++col) {

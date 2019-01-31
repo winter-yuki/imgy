@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <exception>
+#include <functional>
 #include <limits>
 #include <memory>
 #include <queue>
@@ -52,7 +53,9 @@ Vector FigSphere::normal(Vector const & point) const
 
 FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
                Vector const & cam_pos)
-    : color_(color)
+    : b1_(b1)
+    , b2_(b2)
+    , color_(color)
 {
     // WARNING (args issue)
     if ((b1[0] <= b2[0] && b1[1] <= b2[1] && b1[2] <= b2[2]) == false) {
@@ -73,34 +76,42 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
 Intersect FigBox::intersect(Ray const & ray) const
 {
     // TODO()
-//    Intersect rez;
+    //    Intersect rez;
 
-//    Double t_near_max = 0;
-//    for (auto const & face : faces_near_) {
-//        Double t{};
-//        Vector n;
-//        Color  c{};
-//        Intersect inter   = face->intersect(ray);
-//        std::tie(t, n, c) = inter;
+    //    Double t_near_max = 0;
+    //    for (auto const & face : faces_near_) {
+    //        Double t{};
+    //        Vector n;
+    //        Color  c{};
+    //        Intersect inter   = face->intersect(ray);
+    //        std::tie(t, n, c) = inter;
 
-//        if (t_near_max < t && std::abs(t - NO_INTERSECT()) > EPSILON()) {
-//            t_near_max = t;
-//            rez        = inter;
-//        }
-//    }
+    //        if (t_near_max < t && std::abs(t - NO_INTERSECT()) > EPSILON()) {
+    //            t_near_max = t;
+    //            rez        = inter;
+    //        }
+    //    }
 
-//    Double t_far_min  = INF_PARAM();
-//    for (auto const & face : faces_far_) {
-//        Double t{};
-//        Vector n;
-//        Color  c{};
-//        std::tie(t, n, c) = face->intersect(ray);
-//        t_far_min = std::min(t_far_min, t);
-//    }
+    //    Double t_far_min  = INF_PARAM();
+    //    for (auto const & face : faces_far_) {
+    //        Double t{};
+    //        Vector n;
+    //        Color  c{};
+    //        std::tie(t, n, c) = face->intersect(ray);
+    //        t_far_min = std::min(t_far_min, t);
+    //    }
 
-//    if (t_near_max < t_far_min) {
-//        return rez;
-//    }
+    //    if (t_near_max < t_far_min) {
+    //        return rez;
+    //    }
+
+    auto in_box = [this](Vector const & point) -> bool {
+        auto b1 = b1_.view();
+        auto b2 = b2_.view();
+        auto p  = point.view();
+
+    };
+
     return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
 }
 

@@ -56,6 +56,7 @@ public:
     void      set_cam_pos(Vector const & new_pos) override;
 
 private:
+    Vector b1_, b2_;
     std::vector<std::shared_ptr<FigPlane>> faces_near_;
     std::vector<std::shared_ptr<FigPlane>> faces_far_;
     Color color_;

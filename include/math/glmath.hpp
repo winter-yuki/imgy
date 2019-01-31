@@ -468,6 +468,18 @@ Vector<Type> & Vector<Type>::operator=(Type x)
     }
 }
 
+template <class T1, class T2>
+bool operator<=(Vector<T1> const & a, Vector<T2> const & b)
+{
+    return a[0] <= b[0] && a[1] <= b[1] && a[2] <= b[2];
+}
+
+template <class T1, class T2>
+bool operator>=(Vector<T1> const & a, Vector<T2> const & b)
+{
+    return a[0] >= b[0] && a[1] >= b[1] && a[2] >= b[2];
+}
+
 } // namespace GLMath
 
 #endif // INCLUDE_MATH_GLMATH_HPP

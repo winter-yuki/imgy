@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     try {
         //        parse(argc, argv);
-        test_proc();
+//        test_proc();
         test_render();
     } catch (std::exception const & e) {
         std::cout << e.what() << std::endl;
@@ -125,7 +125,7 @@ void test_render()
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});
     figs.push_back(&p1);
-    Render::FigBox b1({-2, -2, 0}, {-1, -1, 0}, {100, 100, 100}, {0, 0, 0});
+    Render::FigBox b1({-2, -2, 0}, {-1, -1, 1}, {100, 100, 100}, {0, 0, 0});
     figs.push_back(&b1);
 
 
@@ -145,7 +145,7 @@ void test_render()
     Render::Render rnd(img, figs, lts);
     //    rnd.set_pos({1.5, 0.2, -2});
     rnd.set_to({0, 0, 1});
-    rnd.set_pos({5, 2, -12});
+    rnd.set_pos({5, 2, -4});
     rnd.render();
     img.print(path + "render.bmp");
 

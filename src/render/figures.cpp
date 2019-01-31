@@ -29,7 +29,7 @@ Intersect FigSphere::intersect(Ray const & ray) const
     Double k3 = OC * OC - radius_ * radius_;
     Double diskr = k2 * k2 - k1 * k3;
     if (diskr < 0) {
-        return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
+        return NO_INTERSECT();
     }
 
     Double sdiskr = std::sqrt(diskr);
@@ -70,49 +70,41 @@ FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
     faces_far_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 0), b2, color, cam_pos));
     faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b2, color, cam_pos));
     faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b2, color, cam_pos));
+
+    // TODO()
+    faces_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color, cam_pos));
+    faces_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color, cam_pos));
+    faces_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b1, color, cam_pos));
+
+    faces_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 0), b2, color, cam_pos));
+    faces_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b2, color, cam_pos));
+    faces_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b2, color, cam_pos));
 }
 
 
 Intersect FigBox::intersect(Ray const & ray) const
 {
-    // TODO()
-    //    Intersect rez;
-
-    //    Double t_near_max = 0;
-    //    for (auto const & face : faces_near_) {
-    //        Double t{};
-    //        Vector n;
-    //        Color  c{};
-    //        Intersect inter   = face->intersect(ray);
-    //        std::tie(t, n, c) = inter;
-
-    //        if (t_near_max < t && std::abs(t - NO_INTERSECT()) > EPSILON()) {
-    //            t_near_max = t;
-    //            rez        = inter;
-    //        }
-    //    }
-
-    //    Double t_far_min  = INF_PARAM();
-    //    for (auto const & face : faces_far_) {
-    //        Double t{};
-    //        Vector n;
-    //        Color  c{};
-    //        std::tie(t, n, c) = face->intersect(ray);
-    //        t_far_min = std::min(t_far_min, t);
-    //    }
-
-    //    if (t_near_max < t_far_min) {
-    //        return rez;
-    //    }
-
     auto in_box = [this](Vector const & point) -> bool {
-        auto b1 = b1_.view();
-        auto b2 = b2_.view();
-        auto p  = point.view();
-
+        return point >= b1_ && point <= b2_;
     };
 
-    return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
+    Double    t_min = INF_PARAM();
+    Intersect inter = NO_INTERSECT();
+
+    for (auto const & face : faces_) {
+        Double t{};
+        Vector n{};
+        Color  c{};
+        Intersect i = face->intersect(ray);
+        std::tie(t, n, c) = i;
+
+        if (t < t_min && in_box(ray.count(t))) {
+            t_min = t;
+            inter = i;
+        }
+    }
+
+    return inter;
 }
 
 
@@ -144,7 +136,7 @@ Intersect FigPlane::intersect(Ray const & ray) const
     auto r = ray.get_view();
     Double den = n_ * r.D;
     if (std::abs(den) < EPSILON()) {
-        return { NO_INTERSECT(), NO_NORMAL(), BLACK() };
+        return NO_INTERSECT();
     }
 
     Double t = -(n_ * r.O + d_) / den;

@@ -186,7 +186,7 @@ Color Render::what_color (Ray const & ray) const
     Color  color = background_color_;
     std::tie(t, normal, color) = trace_ray(ray);
 
-    if (t <= EPSILON() || std::abs(t - NO_INTERSECT()) < EPSILON()) {
+    if (t <= EPSILON() || std::abs(t - INF_PARAM()) < EPSILON()) {
         return color;
     }
 
@@ -199,7 +199,7 @@ Color Render::what_color (Ray const & ray) const
 
 Intersect Render::trace_ray(Ray const & ray) const
 {
-    Double    t_min  = NO_INTERSECT();
+    Double    t_min  = INF_PARAM();
     Vector    rez_normal;
     Color     rez_color = background_color_;
     Intersect rez_intr(t_min, rez_normal, rez_color);

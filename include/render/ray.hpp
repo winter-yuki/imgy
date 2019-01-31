@@ -32,7 +32,7 @@ public:
         if (std::abs(t0 - t1) < EPSILON() && std::abs(t1 - t2) < EPSILON()) {
             return t0;
         }
-        return NO_INTERSECT();
+        return INF_PARAM();
     }
 
     View get_view() const { return { dir_, from_ }; }

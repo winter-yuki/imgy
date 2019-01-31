@@ -53,25 +53,15 @@ Vector FigSphere::normal(Vector const & point) const
 
 FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
                Vector const & cam_pos)
-    : b1_(b1)
-    , b2_(b2)
+    : b1_(b1 - EPSILON() /*to prevent round issues*/)
+    , b2_(b2 + EPSILON())
     , color_(color)
 {
-    // WARNING (args issue)
     if ((b1[0] <= b2[0] && b1[1] <= b2[1] && b1[2] <= b2[2]) == false) {
         throw std::runtime_error("Coordinates of first point of box should be"
                                  "less than coordinates of second one");
     }
 
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color, cam_pos));
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color, cam_pos));
-    faces_near_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b1, color, cam_pos));
-
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 0), b2, color, cam_pos));
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b2, color, cam_pos));
-    faces_far_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b2, color, cam_pos));
-
-    // TODO()
     faces_.push_back(std::make_shared<FigPlane>(Vector(1, 0, 9), b1, color, cam_pos));
     faces_.push_back(std::make_shared<FigPlane>(Vector(0, 1, 0), b1, color, cam_pos));
     faces_.push_back(std::make_shared<FigPlane>(Vector(0, 0, 1), b1, color, cam_pos));
@@ -110,10 +100,7 @@ Intersect FigBox::intersect(Ray const & ray) const
 
 void FigBox::set_cam_pos(Vector const & new_pos)
 {
-    for (auto & face : faces_near_) {
-        face->set_cam_pos(new_pos);
-    }
-    for (auto & face : faces_far_) {
+    for (auto & face : faces_) {
         face->set_cam_pos(new_pos);
     }
 }

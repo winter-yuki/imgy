@@ -145,7 +145,8 @@ void test_render()
     Render::Render rnd(img, figs, lts);
     //    rnd.set_pos({1.5, 0.2, -2});
     rnd.set_to({0, 0, 1});
-    rnd.set_pos({5, 2, -4});
+    rnd.set_pos({3, 2, -3});
+    rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");
 

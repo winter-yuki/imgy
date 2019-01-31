@@ -57,8 +57,6 @@ public:
 
 private:
     Vector b1_, b2_;
-    std::vector<std::shared_ptr<FigPlane>> faces_near_;
-    std::vector<std::shared_ptr<FigPlane>> faces_far_;
     std::vector<std::shared_ptr<FigPlane>> faces_;
     Color color_;
 };

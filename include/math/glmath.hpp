@@ -280,6 +280,30 @@ auto operator+(Vector<T1> const & a, Vector<T2> const & b)
 }
 
 template <class T1, class T2>
+auto operator+(Vector<T1> const & a, T2 const & b)
+-> Vector<decltype (a[0] + b)>
+{
+    using Type = decltype (a[0] + b);
+    Vector<Type> rez;
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
+        rez[i] = a[i] + b;
+    }
+    return rez;
+}
+
+template <class T1, class T2>
+auto operator+(T1 const & a, Vector<T2> const & b)
+-> Vector<decltype (a + b[0])>
+{
+    using Type = decltype (a + b[0]);
+    Vector<Type> rez;
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
+        rez[i] = a + b[i];
+    }
+    return rez;
+}
+
+template <class T1, class T2>
 auto operator-(Vector<T1> const & a, Vector<T2> const & b)
 -> Vector<decltype (a[0] - b[0])>
 {
@@ -287,6 +311,30 @@ auto operator-(Vector<T1> const & a, Vector<T2> const & b)
     Vector<Type> rez;
     for (SizeT i = 0; i < N_COORDS(); ++i) {
         rez[i] = a[i] - b[i];
+    }
+    return rez;
+}
+
+template <class T1, class T2>
+auto operator-(Vector<T1> const & a, T2 const & b)
+-> Vector<decltype (a[0] - b)>
+{
+    using Type = decltype (a[0] - b);
+    Vector<Type> rez;
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
+        rez[i] = a[i] - b;
+    }
+    return rez;
+}
+
+template <class T1, class T2>
+auto operator-(T1 const & a, Vector<T2> const & b)
+-> Vector<decltype (a - b[0])>
+{
+    using Type = decltype (a - b[0]);
+    Vector<Type> rez;
+    for (SizeT i = 0; i < N_COORDS(); ++i) {
+        rez[i] = a - b[i];
     }
     return rez;
 }

@@ -1,7 +1,6 @@
 #include "include/render/render.hpp"
 
 #include <functional>
-#include <iostream> // TODO(dbg print)
 #include <limits>
 #include <utility>
 
@@ -238,7 +237,7 @@ Double Render::count_light(Vector const & point,
         std::tie(t, n, color) = trace_ray(ray);
 
         if (t > t_max) {
-            intensity += lts->light(normal, point);
+            intensity += lts->light(normal, point, pos_);
         }
     }
     return intensity;

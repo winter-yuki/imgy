@@ -1,48 +1,79 @@
 #include "include/cmd/cmd.hpp"
 
-
-//void parse        (int argc, char *argv[]);
-//void parse_render (int argc, char *argv[]);
-//void parse_process(int argc, char *argv[]);
+#include <stdexcept>
 
 
-//void parse(int argc, char *argv[])
-//{
-//    const size_t min_args = 4;
-//    if (argc < min_args) {
-//        throw std::runtime_error("no arguments");
-//    }
-
-//    const std::string render  = "rnd";
-//    const std::string process = "proc";
-
-//    std::string mode = argv[1];
-
-//    if (mode == render) {
-//        parse_render(argc, argv);
-//    } else if (mode == process) {
-//        parse_process(argc, argv);
-//    } else {
-//        throw std::runtime_error("wrong working mode");
-//    }
-//}
+Cmd::Cmd(int argc, char **argv)
+{
+    for (size_t i = 1; i < argc; ++i) {
+        args_.emplace_back(argv[i]);
+    }
+    parse();
+}
 
 
-//void parse_render (int argc, char *argv[])
-//{
-//    const size_t n_args_need = 4;
-//    if (argc != 4) {
-//        throw std::runtime_error("Wrong number of arguments in render mode.\n"
-//                                 "Need: mode conf_file rez_file");
-//    }
-
-//    std::string conf = argv[2];
-//    std::string out  = argv[3];
-//    // TODO(parse_render)
-//}
+void Cmd::execute()
+{
+    // TODO()
+}
 
 
-//void parse_process(int argc, char *argv[])
-//{
-//    // TODO(process parse)
-//}
+void Cmd::parse() const
+{
+    if (args_.size() < 2) {
+        throw std::runtime_error("no arguments"); // TODO (help msg)
+    }
+
+    const size_t I_QUERY_TYPE = 0;
+    const size_t I_FILENAME   = 1;
+
+    const std::string render  = "rnd";
+    const std::string process = "proc";
+
+    if (args_[I_QUERY_TYPE] == render) {
+        std::ifstream ifs(args_[I_FILENAME]);
+        render_parse(ifs);
+    } else if (args_[I_QUERY_TYPE] == process) {
+        std::ifstream ifs(args_[I_FILENAME]);
+        proc_parse(ifs);
+    } else {
+        throw std::runtime_error("wrong working mode");
+    }
+}
+
+
+void Cmd::render_parse(std::ifstream & ifs) const
+{
+    // TODO()
+}
+
+
+void Cmd::proc_parse(std::ifstream & ifs) const
+{
+    // TODO(xml)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,6 +31,8 @@ public:
     View view() const { return { data_[0], data_[1], data_[2] }; }
     Type norm() const;
     Vector const & normalize();
+    Vector const & normalized();
+    bool is_normalized(Type epsilon);
 
     template <class T2>
     auto dot(Vector<T2> const & v) const
@@ -111,6 +113,20 @@ Vector<Type> const & Vector<Type>::normalize()
         data_[i] /= n;
     }
     return *this;
+}
+
+template <class Type>
+Vector<Type> const & Vector<Type>::normalized()
+{
+    Vector rez = *this;
+    return rez.normalize();
+}
+
+template <class Type>
+bool Vector<Type>::is_normalized(Type epsilon)
+{
+    auto n = norm();
+    return std::abs(n - 1) < epsilon;
 }
 
 template <class T1>

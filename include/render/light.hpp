@@ -15,7 +15,8 @@ public:
     Vector dir_to   (Vector /*from*/)     const override;
     Double pos_param(Ray const & /*ray*/) const override;
     Double light    (Vector const & /*normal*/,
-                     Vector const & /*point*/) const override;
+                     Vector const & /*point*/,
+                     Vector const & /*cam_pos*/) const override;
 
 private:
     Double intensity_;
@@ -30,7 +31,8 @@ public:
     Vector dir_to   (Vector from)     const override;
     Double pos_param(Ray const & ray) const override;
     Double light    (Vector const & normal,
-                     Vector const & point) const override;
+                     Vector const & point,
+                     Vector const & cam_pos) const override;
 
 private:
     Vector pos_;
@@ -46,7 +48,8 @@ public:
     Vector dir_to   (Vector /*from*/)     const override;
     Double pos_param(Ray const & /*ray*/) const override;
     Double light    (Vector const & normal,
-                     Vector const & /*point*/) const override;
+                     Vector const & /*point*/,
+                     Vector const & cam_pos) const override;
 
 private:
     Vector dir_;

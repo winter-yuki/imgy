@@ -22,7 +22,8 @@ Double LightAmbient::pos_param(Ray const & /*ray*/) const
 
 
 Double LightAmbient::light(Vector const & /*normal*/,
-                           Vector const & /*point*/) const
+                           Vector const & /*point*/,
+                           Vector const & /*cam_pos*/) const
 {
     return intensity_;
 }
@@ -47,14 +48,24 @@ Double LightPoint::pos_param(Ray const & ray) const
 
 
 Double LightPoint::light(Vector const & normal,
-                         Vector const & point) const
+                         Vector const & point,
+                         Vector const & cam_pos) const
 {
+    Double rez{};
+
+    // Diffusion
     Vector L = pos_ - point;
     Double coef = (normal * L) / (normal.norm() * L.norm());
     if (coef < 0) {
         return 0;
     }
-    return intensity_ * coef;
+    rez += intensity_ * coef;
+
+    // Specular TODO()
+    Vector cam_pos_point = point - cam_pos;
+    Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
+    rez += intensity_ * std::pow(R * cam_pos_point, 50);
+    return rez;
 }
 
 
@@ -77,8 +88,10 @@ Double LightDirectional::pos_param(Ray const & /*ray*/) const
 
 
 Double LightDirectional::light(Vector const & normal,
-                               Vector const & /*point*/) const
+                               Vector const & /*point*/,
+                               Vector const & cam_pos) const
 {
+    // TODO(specular)
     Double coef = (normal * dir_) / (normal.norm() * dir_.norm());
     if (coef <= 0) {
         return 0;

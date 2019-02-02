@@ -236,7 +236,7 @@ Double Render::count_light(Vector const & point,
         Color  color{};
         std::tie(t, n, color) = trace_ray(ray);
 
-        if (t > t_max) {
+        if (t > t_max || std::abs(t_max - INF_PARAM()) < EPSILON()) {
             intensity += lts->light(normal, point, pos_);
         }
     }

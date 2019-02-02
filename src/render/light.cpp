@@ -1,5 +1,7 @@
 #include "include/render/light.hpp"
 
+#include <cassert>
+
 
 namespace Render
 {
@@ -51,26 +53,31 @@ Double LightPoint::light(Vector const & normal,
                          Vector const & point,
                          Vector const & cam_pos) const
 {
-    Double rez{};
+    assert(normal.is_normalized(EPSILON()));
 
-    // Diffusion
-    Vector L = pos_ - point;
-    Double coef = (normal * L) / (normal.norm() * L.norm());
+    Double rez = 0;
+
+    // Diffuse
+    Vector L = (pos_ - point).normalized();
+    Double coef = normal * L;
     if (coef < 0) {
         return 0;
     }
     rez += intensity_ * coef;
 
-    // Specular TODO()
-    Vector cam_pos_point = point - cam_pos;
+    // Specular
+    const Double SPEC_COEF = 50;
+    Vector cam_pos_point = (point - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
-    rez += intensity_ * std::pow(R * cam_pos_point, 50);
+    R.normalize();
+    rez += intensity_ * std::pow(R * L, SPEC_COEF);
+
     return rez;
 }
 
 
 LightDirectional::LightDirectional(Vector const & direction, Double intensity)
-    : dir_      (direction)
+    : dir_      (direction.normalized())
     , intensity_(intensity)
 {}
 
@@ -88,15 +95,29 @@ Double LightDirectional::pos_param(Ray const & /*ray*/) const
 
 
 Double LightDirectional::light(Vector const & normal,
-                               Vector const & /*point*/,
+                               Vector const & point,
                                Vector const & cam_pos) const
 {
-    // TODO(specular)
-    Double coef = (normal * dir_) / (normal.norm() * dir_.norm());
+    assert(normal.is_normalized(EPSILON()));
+    assert(dir_.is_normalized(EPSILON()));
+
+    Double rez = 0;
+
+    // Diffuse
+    Double coef = normal * (0 - dir_);
     if (coef <= 0) {
         return 0;
     }
-    return intensity_ * coef;
+    rez += intensity_ * coef;
+
+    // Specular
+    const Double SPEC_COEF = 50;
+    Vector cam_pos_point = (point - cam_pos).normalized();
+    Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
+    R.normalize();
+    rez += intensity_ * std::pow(R * (0 - dir_), SPEC_COEF);
+
+    return rez;
 }
 
 } // namespace Render

@@ -227,20 +227,32 @@ Double Render::count_light(Vector const & point,
 {
     Double intensity = 0;
     for (auto const & lts : lts_) {
-        Vector dir = lts->dir_to(point);
-        Ray ray(dir, point);
-        Double t_max = lts->pos_param(ray);
+        auto rps = lts->rays_to(point);
+        del_shadowed(&rps);
 
-        Double t{};
-        Vector n{};
-        Color  color{};
-        std::tie(t, n, color) = trace_ray(ray);
-
-        if (t > t_max || std::abs(t_max - INF_PARAM()) < EPSILON()) {
-            intensity += lts->light(normal, point, pos_);
+        for (auto const & rp : rps) {
+            intensity += lts->light(normal, rp, pos_);
         }
     }
     return intensity;
+}
+
+
+void Render::del_shadowed(RPs * rps) const
+{
+    auto it = rps->begin();
+    while (it != rps->end()) {
+        Double t{};
+        Vector n{};
+        Color  c{};
+        std::tie(t, n, c) = trace_ray(it->first);
+
+        auto next = std::next(it, 1);
+        if (t < it->second) {
+            rps->erase(it);
+        }
+        it = next;
+    }
 }
 
 } // namespace Render

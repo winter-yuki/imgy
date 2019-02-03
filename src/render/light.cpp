@@ -1,6 +1,7 @@
 #include "include/render/light.hpp"
 
 #include <cassert>
+#include <utility>
 
 
 namespace Render
@@ -11,9 +12,9 @@ LightAmbient::LightAmbient(Double intensity)
 {}
 
 
-Vector LightAmbient::dir_to(Vector /*from*/) const
+RPs LightAmbient::rays_to(Vector /*from*/) const
 {
-    return NULL_VECTOR();
+    return { std::make_pair(NULL_RAY(), EPSILON()) };
 }
 
 
@@ -24,7 +25,7 @@ Double LightAmbient::pos_param(Ray const & /*ray*/) const
 
 
 Double LightAmbient::light(Vector const & /*normal*/,
-                           Vector const & /*point*/,
+                           RayPos const & /*rp*/,
                            Vector const & /*cam_pos*/) const
 {
     return intensity_;
@@ -37,9 +38,10 @@ LightPoint::LightPoint(Vector const & position, Double intensity)
 {}
 
 
-Vector LightPoint::dir_to(Vector from) const
+RPs LightPoint::rays_to(Vector from) const
 {
-    return (pos_ - from).normalize();
+    Ray r(pos_ - from, from);
+    return { std::make_pair(r, r.count(pos_)) };
 }
 
 
@@ -50,7 +52,7 @@ Double LightPoint::pos_param(Ray const & ray) const
 
 
 Double LightPoint::light(Vector const & normal,
-                         Vector const & point,
+                         RayPos const & rp,
                          Vector const & cam_pos) const
 {
     assert(normal.is_normalized(EPSILON()));
@@ -58,7 +60,7 @@ Double LightPoint::light(Vector const & normal,
     Double rez = 0;
 
     // Diffuse
-    Vector L = (pos_ - point).normalized();
+    Vector L = (pos_ - rp.first.from()).normalized();
     Double coef = normal * L;
     if (coef < 0) {
         return 0;
@@ -67,7 +69,7 @@ Double LightPoint::light(Vector const & normal,
 
     // Specular
     const Double SPEC_COEF = 50;
-    Vector cam_pos_point = (point - cam_pos).normalized();
+    Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
     R.normalize();
     rez += intensity_ * std::pow(R * L, SPEC_COEF);
@@ -82,9 +84,9 @@ LightDirectional::LightDirectional(Vector const & direction, Double intensity)
 {}
 
 
-Vector LightDirectional::dir_to(Vector /*from*/) const
+RPs LightDirectional::rays_to(Vector from) const
 {
-    return dir_;
+    return { std::make_pair(Ray(dir_, from), INF_PARAM()) };
 }
 
 
@@ -95,7 +97,7 @@ Double LightDirectional::pos_param(Ray const & /*ray*/) const
 
 
 Double LightDirectional::light(Vector const & normal,
-                               Vector const & point,
+                               RayPos const & rp,
                                Vector const & cam_pos) const
 {
     assert(normal.is_normalized(EPSILON()));
@@ -110,9 +112,9 @@ Double LightDirectional::light(Vector const & normal,
     }
     rez += intensity_ * coef;
 
-    // Specular
+    // Specular TODO(specular)
     const Double SPEC_COEF = 50;
-    Vector cam_pos_point = (point - cam_pos).normalized();
+    Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
     R.normalize();
     rez += intensity_ * std::pow(R * (0 - dir_), SPEC_COEF);

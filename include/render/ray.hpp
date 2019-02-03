@@ -2,6 +2,7 @@
 #define INCLUDE_RENDER_RAY_HPP
 
 #include <cmath>
+#include <list>
 #include <utility>
 
 #include "include/render/types.hpp"
@@ -44,6 +45,14 @@ private:
     Vector dir_;
     Vector from_;
 };
+
+
+using RayPos = std::pair<Ray, Double>;
+using RPs    = std::list<RayPos>;
+
+inline Ray NULL_RAY() {
+    static Ray ray(NULL_VECTOR(), NULL_VECTOR()); return ray;
+}
 
 } // namespace Render
 

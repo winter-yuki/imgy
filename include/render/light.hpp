@@ -12,10 +12,10 @@ class LightAmbient final
 public:
     explicit LightAmbient(Double intensity);
 
-    Vector dir_to   (Vector /*from*/)     const override;
+    RPs    rays_to  (Vector /*from*/)     const override;
     Double pos_param(Ray const & /*ray*/) const override;
     Double light    (Vector const & /*normal*/,
-                     Vector const & /*point*/,
+                     RayPos const & /*rp*/,
                      Vector const & /*cam_pos*/) const override;
 
 private:
@@ -28,10 +28,10 @@ class LightPoint final
 public:
     LightPoint(Vector const & position, Double intensity);
 
-    Vector dir_to   (Vector from)     const override;
+    RPs    rays_to  (Vector from)     const override;
     Double pos_param(Ray const & ray) const override;
     Double light    (Vector const & normal,
-                     Vector const & point,
+                     RayPos const & rp,
                      Vector const & cam_pos) const override;
 
 private:
@@ -45,14 +45,33 @@ class LightDirectional final
 public:
     LightDirectional(Vector const & direction, Double intensity);
 
-    Vector dir_to   (Vector /*from*/)     const override;
+    RPs    rays_to  (Vector from)         const override;
     Double pos_param(Ray const & /*ray*/) const override;
     Double light    (Vector const & normal,
-                     Vector const & point,
+                     RayPos const & rp,
                      Vector const & cam_pos) const override;
 
 private:
     Vector dir_;
+    Double intensity_;
+};
+
+
+class LightSpheric final
+        : public ISceneLight {
+public:
+    LightSpheric(Vector const & center, Double radius, Double intensity);
+
+    RPs    rays_to  (Vector from)         const override;
+    Double pos_param(Ray const & /*ray*/) const override;
+    Double light    (Vector const & normal,
+                     RayPos const & rp,
+                     Vector const & cam_pos) const override;
+    // TODO(class LightSpheric)
+
+private:
+    Vector center_;
+    Double radius_;
     Double intensity_;
 };
 

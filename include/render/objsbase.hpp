@@ -33,8 +33,6 @@ public:
     virtual Double light    (Vector const & normal,
                              RayPos const & rp,
                              Vector const & cam_pos) const = 0;
-
-    // TODO(base light)
 };
 
 } // namespace Render

@@ -226,13 +226,6 @@ Double Render::count_light(Vector const & point,
         auto rps = lts->rays_to(point);
         del_shadowed(&rps);
 
-        /* // TODO(dbg)
-        for (auto const & rp : rps) {
-            std::cout << rp.first << std::endl;
-        }
-        std::cout << std::endl;
-        /**/
-
         for (auto const & rp : rps) {
             intensity += lts->light(normal, rp, pos_);
         }

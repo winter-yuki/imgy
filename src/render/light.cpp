@@ -87,14 +87,13 @@ Double LightDirectional::light(Vector const & normal,
     Double rez = 0;
 
     // Diffuse
-    // TODO(operator-)
     Double coef = normal * -dir_;
     if (coef <= 0) {
         return 0;
     }
     rez += intensity_ * coef;
 
-    // Specular TODO(specular)
+    // Specular
     const Double SPEC_COEF = 50;
     Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
@@ -109,13 +108,12 @@ LightSpheric::LightSpheric(Vector const & center,
                            Double radius, Double intensity)
     : center_   (center)
     , radius_   (radius)
-    , intensity_(intensity / accuracy_) // TODO()
+    , intensity_(intensity / accuracy_)
 {}
 
 
 RPs LightSpheric::rays_to(Vector from) const
 {
-    // TODO(LightSpheric::rays_to)
     Vector dir0  = center_ - from;
     Vector base1 = dir0.cross(Vector{1, 1, 1}).normalize();
     Vector base2 = dir0.cross(base1).normalize();
@@ -138,9 +136,9 @@ RPs LightSpheric::rays_to(Vector from) const
 
         // Supposing that radius is rather small.
         Double t1 = r1.count(d1);
-        Double t2 = r1.count(d1);
-        Double t3 = r1.count(d1);
-        Double t4 = r1.count(d1);
+        Double t2 = r1.count(d2);
+        Double t3 = r1.count(d3);
+        Double t4 = r1.count(d4);
 
         auto p1 = std::make_pair(r1, t1);
         auto p2 = std::make_pair(r2, t2);
@@ -163,7 +161,6 @@ Double LightSpheric::light(Vector const & normal,
                            RayPos const & rp,
                            Vector const & /*cam_pos*/) const
 {
-    // TODO(LightSpheric::light)
     Vector to_center = (center_ - rp.first.from()).normalize();
     assert(rp.first.dir().is_normalized(EPSILON()));
     Double k1 = rp.first.dir() * to_center;

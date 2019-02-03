@@ -30,7 +30,6 @@ class ISceneLight
         : public ISceneObj {
 public:
     virtual RPs    rays_to  (Vector from)     const = 0;
-    virtual Double pos_param(Ray const & ray) const = 0;
     virtual Double light    (Vector const & normal,
                              RayPos const & rp,
                              Vector const & cam_pos) const = 0;

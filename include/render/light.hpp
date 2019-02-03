@@ -12,8 +12,7 @@ class LightAmbient final
 public:
     explicit LightAmbient(Double intensity);
 
-    RPs    rays_to  (Vector /*from*/)     const override;
-    Double pos_param(Ray const & /*ray*/) const override;
+    RPs    rays_to  (Vector /*from*/) const override;
     Double light    (Vector const & /*normal*/,
                      RayPos const & /*rp*/,
                      Vector const & /*cam_pos*/) const override;
@@ -28,11 +27,10 @@ class LightPoint final
 public:
     LightPoint(Vector const & position, Double intensity);
 
-    RPs    rays_to  (Vector from)     const override;
-    Double pos_param(Ray const & ray) const override;
-    Double light    (Vector const & normal,
-                     RayPos const & rp,
-                     Vector const & cam_pos) const override;
+    RPs    rays_to (Vector from) const override;
+    Double light   (Vector const & normal,
+                    RayPos const & rp,
+                    Vector const & cam_pos) const override;
 
 private:
     Vector pos_;
@@ -45,11 +43,10 @@ class LightDirectional final
 public:
     LightDirectional(Vector const & direction, Double intensity);
 
-    RPs    rays_to  (Vector from)         const override;
-    Double pos_param(Ray const & /*ray*/) const override;
-    Double light    (Vector const & normal,
-                     RayPos const & rp,
-                     Vector const & cam_pos) const override;
+    RPs    rays_to (Vector from) const override;
+    Double light   (Vector const & normal,
+                    RayPos const & rp,
+                    Vector const & cam_pos) const override;
 
 private:
     Vector dir_;
@@ -62,16 +59,15 @@ class LightSpheric final
 public:
     LightSpheric(Vector const & center, Double radius, Double intensity);
 
-    RPs    rays_to  (Vector from)         const override;
-    Double pos_param(Ray const & /*ray*/) const override;
-    Double light    (Vector const & normal,
-                     RayPos const & rp,
-                     Vector const & cam_pos) const override;
-    // TODO(class LightSpheric)
+    RPs    rays_to (Vector from) const override;
+    Double light   (Vector const & normal,
+                    RayPos const & rp,
+                    Vector const & cam_pos) const override;
 
 private:
     Vector center_;
     Double radius_;
+    Double accuracy_ = 10; // Rays/radius
     Double intensity_;
 };
 

@@ -20,9 +20,9 @@ public:
 
 public:
     Ray(Vector const & dir, Vector const & from)
-        : dir_ (dir)
+        : dir_ (dir.normalized())
         , from_(from)
-    { dir_.normalize(); dir_[3] = 0; }
+    { dir_[3] = 0; }
 
     Vector count(Double t) const { return from_ + dir_ * t; }
     Double count(Vector const & point) const {

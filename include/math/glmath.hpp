@@ -46,6 +46,7 @@ public:
     Type   operator[](SizeT pos) const;
 
     Vector & operator=(Type x);
+    Vector   operator-() const;
 
 private:
     Type data_[SIZE]{};
@@ -170,6 +171,13 @@ Type Vector<Type>::operator[](SizeT pos) const
     assert(pos >= 0);
     assert(pos < SIZE);
     return data_[pos];
+}
+
+template <class Type>
+Vector<Type> Vector<Type>::operator-() const
+{
+    Vector v{ -data_[0], -data_[1], -data_[2], data_[3] };
+    return v;
 }
 
 template <class Type>

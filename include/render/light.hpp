@@ -67,7 +67,7 @@ public:
 private:
     Vector center_;
     Double radius_;
-    Double accuracy_ = 10; // Rays/radius
+    Double accuracy_ = 3; // Rays/radius
     Double intensity_;
 };
 

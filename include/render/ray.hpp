@@ -2,6 +2,7 @@
 #define INCLUDE_RENDER_RAY_HPP
 
 #include <cmath>
+#include <iostream>
 #include <list>
 #include <utility>
 
@@ -45,6 +46,13 @@ private:
     Vector dir_;
     Vector from_;
 };
+
+
+inline std::ostream & operator<<(std::ostream & os, Ray const & r)
+{
+    os << "dir: " << r.dir() << " from: " << r.from();
+    return os;
+}
 
 
 using RayPos = std::pair<Ray, Double>;

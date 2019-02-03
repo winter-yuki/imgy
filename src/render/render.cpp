@@ -178,7 +178,7 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 }
 
 
-Color Render::what_color (Ray const & ray) const
+Color Render::what_color(Ray const & ray) const
 {
     Double t{};
     Vector normal;
@@ -199,9 +199,7 @@ Color Render::what_color (Ray const & ray) const
 Intersect Render::trace_ray(Ray const & ray) const
 {
     Double    t_min  = INF_PARAM();
-    Vector    rez_normal;
-    Color     rez_color = background_color_;
-    Intersect rez_intr(t_min, rez_normal, rez_color);
+    Intersect rez_intr(t_min, Vector(), background_color_);
 
     for (auto const & fig : figs_) {
         Double t{};
@@ -211,10 +209,8 @@ Intersect Render::trace_ray(Ray const & ray) const
         std::tie(t, normal, color) = intr;
 
         if (t + EPSILON() < t_min && t > EPSILON()) {
-            t_min      = t;
-            rez_normal = normal;
-            rez_color  = color;
-            rez_intr   = intr;
+            t_min    = t;
+            rez_intr = intr;
         }
     }
 
@@ -229,6 +225,13 @@ Double Render::count_light(Vector const & point,
     for (auto const & lts : lts_) {
         auto rps = lts->rays_to(point);
         del_shadowed(&rps);
+
+        /* // TODO(dbg)
+        for (auto const & rp : rps) {
+            std::cout << rp.first << std::endl;
+        }
+        std::cout << std::endl;
+        /**/
 
         for (auto const & rp : rps) {
             intensity += lts->light(normal, rp, pos_);

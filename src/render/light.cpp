@@ -54,7 +54,7 @@ Double LightPoint::light(Vector const & normal,
     }
     rez += intensity_ * coef;
 
-    // Specular
+    // Specular TODO(Specular)
     const Double SPEC_COEF = 50;
     Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
@@ -94,10 +94,10 @@ Double LightDirectional::light(Vector const & normal,
     rez += intensity_ * coef;
 
     // Specular
-    const Double SPEC_COEF = 50;
     Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
     Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
     R.normalize();
+    const Double SPEC_COEF = 50;
     rez += intensity_ * std::pow(R * -dir_, SPEC_COEF);
 
     return rez;
@@ -122,6 +122,7 @@ RPs LightSpheric::rays_to(Vector from) const
     Double delta = radius_ / n_rays;
     Double coef  = 0;
 
+    // TODO(LightSpheric::rays_to)
     RPs rps;
     for (SizeT i = 0; i < n_rays; ++i) {
         Vector d1 = dir0 + base1 * coef;

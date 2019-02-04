@@ -21,6 +21,7 @@ class Vector {
 public:
     static const SizeT SIZE     = 4;
     static const SizeT N_COORDS = 3;
+    static const SizeT H_COORD  = 3;
 
 public:
     struct View { Type x, y, z; };

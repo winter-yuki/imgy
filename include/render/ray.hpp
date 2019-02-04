@@ -20,32 +20,62 @@ public:
     };
 
 public:
-    Ray(Vector const & dir, Vector const & from)
-        : dir_ (dir.normalized())
-        , from_(from)
-    { dir_[3] = 0; }
+    Ray(Vector const & dir, Vector const & from);
 
-    Vector count(Double t) const { return from_ + dir_ * t; }
-    Double count(Vector const & point) const {
-        Vector to = point - from_;
-        Double t0 = to[0] / dir_[0];
-        Double t1 = to[1] / dir_[1];
-        Double t2 = to[2] / dir_[2];
-        if (std::abs(t0 - t1) < EPSILON() && std::abs(t1 - t2) < EPSILON()) {
-            return t0;
-        }
-        return INF_PARAM();
-    }
+    Vector count(Double t) const;
+    Double count(Vector const & point) const;
 
-    View get_view() const { return { dir_, from_ }; }
+    Ray reflected(Vector const & normal, Vector const & point) const;
+    Ray reflected(Vector const & normal, Double t)             const;
 
-    Vector dir () const { return dir_;  }
-    Vector from() const { return from_; }
+    View get_view() const;
+
+    Vector dir () const;
+    Vector from() const;
 
 private:
     Vector dir_;
     Vector from_;
 };
+
+
+inline Ray::Ray(Vector const & dir, Vector const & from)
+    : dir_ (dir.normalized())
+    , from_(from)
+{}
+
+inline Vector Ray::count(Double t) const
+{
+    return from_ + dir_ * t;
+}
+
+inline Double Ray::count(Vector const & point) const
+{
+    Vector to = point - from_;
+    Double t0 = to[0] / dir_[0];
+    Double t1 = to[1] / dir_[1];
+    Double t2 = to[2] / dir_[2];
+    if (std::abs(t0 - t1) < EPSILON() && std::abs(t1 - t2) < EPSILON()) {
+        return t0;
+    }
+    return INF_PARAM();
+}
+
+inline Ray Ray::reflected(Vector const & normal, Vector const & point) const
+{
+    Vector to_point = (point - from_).normalize();
+    Vector dir = to_point - normal * 2 * (to_point * normal);
+    return { dir, point };
+}
+
+inline Ray Ray::reflected(Vector const & normal, Double t) const
+{
+    return reflected(normal, count(t));
+}
+
+inline Ray::View Ray::get_view() const { return { dir_, from_ }; }
+inline Vector    Ray::dir     () const { return dir_;            }
+inline Vector    Ray::from    () const { return from_;           }
 
 
 inline std::ostream & operator<<(std::ostream & os, Ray const & r)

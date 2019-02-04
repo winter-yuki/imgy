@@ -189,7 +189,7 @@ Color Render::what_color(Ray const & ray) const
         return color;
     }
 
-    Double i = count_light(ray.count(t), normal);
+    Double i = count_light({ray, t}, normal);
     color.apply_intensity(i);
 
     return color;
@@ -218,16 +218,16 @@ Intersect Render::trace_ray(Ray const & ray) const
 }
 
 
-Double Render::count_light(Vector const & point,
+Double Render::count_light(RayPos const & view,
                            Vector const & normal) const
 {
     Double intensity = 0;
     for (auto const & lts : lts_) {
-        auto rps = lts->rays_to(point);
+        auto rps = lts->rays_to(view.first.count(view.second));
         del_shadowed(&rps);
 
         for (auto const & rp : rps) {
-            intensity += lts->light(normal, rp, pos_);
+            intensity += lts->light(normal, view, rp);
         }
     }
     return intensity;

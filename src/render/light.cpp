@@ -19,8 +19,8 @@ RPs LightAmbient::rays_to(Vector /*from*/) const
 
 
 Double LightAmbient::light(Vector const & /*normal*/,
-                           RayPos const & /*rp*/,
-                           Vector const & /*cam_pos*/) const
+                           RayPos const & /*view*/,
+                           RayPos const & /*to_light*/) const
 {
     return intensity_;
 }
@@ -39,27 +39,24 @@ RPs LightPoint::rays_to(Vector from) const
 }
 
 Double LightPoint::light(Vector const & normal,
-                         RayPos const & rp,
-                         Vector const & cam_pos) const
+                         RayPos const & view,
+                         RayPos const & to_light) const
 {
     assert(normal.is_normalized(EPSILON()));
 
     Double rez = 0;
 
     // Diffuse
-    Vector L = (pos_ - rp.first.from()).normalized();
-    Double coef = normal * L;
+    Double coef = normal * to_light.first.dir();
     if (coef < 0) {
         return 0;
     }
     rez += intensity_ * coef;
 
-    // Specular TODO(Specular)
+    // Specular TODO(Specular as param)
     const Double SPEC_COEF = 50;
-    Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
-    Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
-    R.normalize();
-    rez += intensity_ * std::pow(R * L, SPEC_COEF);
+    auto refl = view.first.reflected(normal, view.second);
+    rez += intensity_ * std::pow(refl.dir() * to_light.first.dir(), SPEC_COEF);
 
     return rez;
 }
@@ -78,8 +75,8 @@ RPs LightDirectional::rays_to(Vector from) const
 
 
 Double LightDirectional::light(Vector const & normal,
-                               RayPos const & rp,
-                               Vector const & cam_pos) const
+                               RayPos const & view,
+                               RayPos const & /*to_light*/) const
 {
     assert(normal.is_normalized(EPSILON()));
     assert(dir_.is_normalized(EPSILON()));
@@ -94,11 +91,9 @@ Double LightDirectional::light(Vector const & normal,
     rez += intensity_ * coef;
 
     // Specular
-    Vector cam_pos_point = (rp.first.from() - cam_pos).normalized();
-    Vector R = cam_pos_point - normal * 2 * (cam_pos_point * normal);
-    R.normalize();
     const Double SPEC_COEF = 50;
-    rez += intensity_ * std::pow(R * -dir_, SPEC_COEF);
+    auto refl = view.first.reflected(normal, view.second);
+    rez += intensity_ * std::pow(refl.dir() * -dir_, SPEC_COEF);
 
     return rez;
 }
@@ -159,18 +154,18 @@ RPs LightSpheric::rays_to(Vector from) const
 
 
 Double LightSpheric::light(Vector const & normal,
-                           RayPos const & rp,
-                           Vector const & /*cam_pos*/) const
+                           RayPos const & /*view*/,
+                           RayPos const & to_light) const
 {
-    Vector to_center = (center_ - rp.first.from()).normalize();
-    assert(rp.first.dir().is_normalized(EPSILON()));
-    Double k1 = rp.first.dir() * to_center;
+    Vector to_center = (center_ - to_light.first.from()).normalize();
+    assert(to_light.first.dir().is_normalized(EPSILON()));
+    Double k1 = to_light.first.dir() * to_center;
     if (k1 < 0) {
         return 0;
     }
 
     assert(normal.is_normalized(EPSILON()));
-    Double k2 = normal * rp.first.dir();
+    Double k2 = normal * to_light.first.dir();
     if (k2 < 0) {
         return 0;
     }

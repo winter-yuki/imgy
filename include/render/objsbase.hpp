@@ -29,10 +29,10 @@ public:
 class ISceneLight
         : public ISceneObj {
 public:
-    virtual RPs    rays_to  (Vector from)     const = 0;
-    virtual Double light    (Vector const & normal,
-                             RayPos const & rp,
-                             Vector const & cam_pos) const = 0;
+    virtual RPs    rays_to(Vector from)     const = 0;
+    virtual Double light  (Vector const & normal,
+                           RayPos const & view,
+                           RayPos const & to_light) const = 0;
 };
 
 } // namespace Render

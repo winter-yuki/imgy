@@ -144,7 +144,7 @@ void test_render()
     lts.push_back(&ld1);
 
     Render::LightSpheric s1({0, 2.3, 0}, 1, 0.5);
-    //    lts.push_back(&s1);
+    lts.push_back(&s1);
 
 
     Render::Render rnd(img, figs, lts);

@@ -49,11 +49,11 @@ public:
 private:
     void      prep_dirs   ();
     void      fill_color  (Color color);
-    Ray       calc_ray_dir(SizeT row, SizeT col)                        const;
-    Color     what_color  (Ray const & ray)                             const;
-    Intersect trace_ray   (Ray const & ray)                             const;
-    Double    count_light (Vector const & point, Vector const & normal) const;
-    void      del_shadowed(RPs * rps)                                   const;
+    Ray       calc_ray_dir(SizeT row, SizeT col)                       const;
+    Color     what_color  (Ray const & ray)                            const;
+    Intersect trace_ray   (Ray const & ray)                            const;
+    Double    count_light (RayPos const & view, Vector const & normal) const;
+    void      del_shadowed(RPs * rps)                                  const;
 
 private:
     Color  background_color_ = BLACK();

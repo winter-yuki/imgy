@@ -12,10 +12,10 @@ class LightAmbient final
 public:
     explicit LightAmbient(Double intensity);
 
-    RPs    rays_to  (Vector /*from*/) const override;
-    Double light    (Vector const & /*normal*/,
-                     RayPos const & /*rp*/,
-                     Vector const & /*cam_pos*/) const override;
+    RPs    rays_to(Vector /*from*/) const override;
+    Double light  (Vector const & /*normal*/,
+                   RayPos const & /*view*/,
+                   RayPos const & /*to_light*/) const override;
 
 private:
     Double intensity_;
@@ -27,10 +27,10 @@ class LightPoint final
 public:
     LightPoint(Vector const & position, Double intensity);
 
-    RPs    rays_to (Vector from) const override;
-    Double light   (Vector const & normal,
-                    RayPos const & rp,
-                    Vector const & cam_pos) const override;
+    RPs    rays_to(Vector from) const override;
+    Double light  (Vector const & normal,
+                   RayPos const & view,
+                   RayPos const & to_light) const override;
 
 private:
     Vector pos_;
@@ -43,10 +43,10 @@ class LightDirectional final
 public:
     LightDirectional(Vector const & direction, Double intensity);
 
-    RPs    rays_to (Vector from) const override;
-    Double light   (Vector const & normal,
-                    RayPos const & rp,
-                    Vector const & cam_pos) const override;
+    RPs    rays_to(Vector from) const override;
+    Double light  (Vector const & normal,
+                   RayPos const & view,
+                   RayPos const & /*to_light*/) const override;
 
 private:
     Vector dir_;
@@ -59,10 +59,10 @@ class LightSpheric final
 public:
     LightSpheric(Vector const & center, Double radius, Double intensity);
 
-    RPs    rays_to (Vector from) const override;
-    Double light   (Vector const & normal,
-                    RayPos const & rp,
-                    Vector const & cam_pos) const override;
+    RPs    rays_to(Vector from) const override;
+    Double light  (Vector const & normal,
+                   RayPos const & /*view*/,
+                   RayPos const & to_light) const override;
 
 private:
     Vector center_;

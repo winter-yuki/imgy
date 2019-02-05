@@ -34,7 +34,7 @@ class FigSphere final
 public:
     FigSphere(Vector const & center, Double radius, Color color);
 
-    Intersect intersect(Ray const & ray)        const override;
+    Intersect intersect  (Ray const & ray)      const override;
     void      set_cam_pos(Vector const & /*new_pos*/) override;
 
 private:

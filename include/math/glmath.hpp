@@ -32,7 +32,7 @@ public:
     View view() const { return { data_[0], data_[1], data_[2] }; }
     Type norm() const;
     Vector const & normalize();
-    Vector const & normalized()      const;
+    Vector         normalized()      const;
     bool is_normalized(Type epsilon) const;
 
     template <class T2>
@@ -76,7 +76,7 @@ public:
                      /* y */ Type b, Type t,
                      /* z */ Type n, Type f);
 
-    Type * base() { return data_; }
+    Type const * base() { return data_; }
 
 private:
     static const SizeT REAL_SIZE = SIZE * SIZE;
@@ -118,7 +118,7 @@ Vector<Type> const & Vector<Type>::normalize()
 }
 
 template <class Type>
-Vector<Type> const & Vector<Type>::normalized() const
+Vector<Type> Vector<Type>::normalized() const
 {
     Vector rez = *this;
     return rez.normalize();

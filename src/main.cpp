@@ -116,7 +116,10 @@ void test_render()
 {
     std::string path = "../test/tmp/";
     std::string RTIMG = "../../RTIMG/";
+    std::string tpath = "../test/src/";
     ImgBmp img(500, 500);
+
+    ImgBmp texture(tpath + "contrast.bmp");
 
     Render::Render::Figures figs;
 
@@ -148,7 +151,7 @@ void test_render()
 
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({-1, 2, -8});
+    rnd.set_pos({-1, 2, -2});
     rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");

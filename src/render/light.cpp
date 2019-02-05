@@ -53,7 +53,7 @@ Double LightPoint::light(Vector const & normal,
     }
     rez += intensity_ * coef;
 
-    // Specular TODO(Specular as param)
+    // Specular
     const Double SPEC_COEF = 50;
     auto refl = view.first.reflected(normal, view.second);
     rez += intensity_ * std::pow(refl.dir() * to_light.first.dir(), SPEC_COEF);
@@ -117,7 +117,6 @@ RPs LightSpheric::rays_to(Vector from) const
     Double delta = radius_ / n_rays;
     Double coef  = 0;
 
-    // TODO(LightSpheric::rays_to)
     RPs rps;
     for (SizeT i = 0; i < n_rays; ++i) {
         Vector d1 = dir0 + base1 * coef;

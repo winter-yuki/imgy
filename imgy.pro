@@ -36,3 +36,4 @@ HEADERS += \
     include/imgproc/ffd.hpp \
     include/imgproc/types.hpp \
     include/utility/color.hpp \
+    include/render/textures.hpp

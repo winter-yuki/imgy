@@ -180,36 +180,30 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 
 Color Render::what_color(Ray const & ray) const
 {
-    Double t{};
-    Vector normal;
-    Color  color = background_color_;
-    std::tie(t, normal, color) = trace_ray(ray);
+    auto intrs = trace_ray(ray);
 
-    if (t <= EPSILON() || std::abs(t - INF_PARAM()) < EPSILON()) {
-        return color;
+    if (intrs.t <= EPSILON() ||
+            std::abs(intrs.t - INF_PARAM()) < EPSILON()) {
+        return intrs.c;
     }
 
-    Double i = count_light({ray, t}, normal);
-    color.apply_intensity(i);
+    Double i = count_light({ray, intrs.t}, intrs.n);
+    intrs.c.apply_intensity(i);
 
-    return color;
+    return intrs.c;
 }
 
 
 Intersect Render::trace_ray(Ray const & ray) const
 {
     Double    t_min  = INF_PARAM();
-    Intersect rez_intr(t_min, Vector(), background_color_);
+    Intersect rez_intr(background_color_);
 
     for (auto const & fig : figs_) {
-        Double t{};
-        Vector normal{};
-        Color  color{};
         auto intr = fig->intersect(ray);
-        std::tie(t, normal, color) = intr;
 
-        if (t + EPSILON() < t_min && t > EPSILON()) {
-            t_min    = t;
+        if (intr.t + EPSILON() < t_min && intr.t > EPSILON()) {
+            t_min    = intr.t;
             rez_intr = intr;
         }
     }
@@ -238,13 +232,10 @@ void Render::del_shadowed(RPs * rps) const
 {
     auto it = rps->begin();
     while (it != rps->end()) {
-        Double t{};
-        Vector n{};
-        Color  c{};
-        std::tie(t, n, c) = trace_ray(it->first);
+        auto inter = trace_ray(it->first);
 
         auto next = std::next(it, 1);
-        if (t < it->second) {
+        if (inter.t < it->second) {
             rps->erase(it);
         }
         it = next;

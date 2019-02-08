@@ -12,10 +12,12 @@
 namespace Render
 {
 
-FigSphere::FigSphere(Vector const & center, Double radius, Color color)
+FigSphere::FigSphere(Vector const & center, Double radius,
+                     Color color, Material m)
     : center_(center)
     , radius_(radius)
     , color_ (color)
+    , m_(m)
 {}
 
 
@@ -37,7 +39,7 @@ Intersect FigSphere::intersect(Ray const & ray) const
     Double t2 = -k2 - sdiskr;
 
     auto t = std::min(t1, t2);
-    return { t, normal(ray.count(t)), color_ };
+    return { t, normal(ray.count(t)), color_, m_ };
 }
 
 
@@ -52,10 +54,11 @@ Vector FigSphere::normal(Vector const & point) const
 
 
 FigBox::FigBox(Vector const & b1, Vector const & b2, Color color,
-               Vector const & cam_pos)
+               Vector const & cam_pos, Material m)
     : b1_(b1 - EPSILON() /*to prevent round issues*/)
     , b2_(b2 + EPSILON())
     , color_(color)
+    , m_(m)
 {
     if ((b1[0] <= b2[0] && b1[1] <= b2[1] && b1[2] <= b2[2]) == false) {
         throw std::runtime_error("Coordinates of first point of box should be"
@@ -82,14 +85,10 @@ Intersect FigBox::intersect(Ray const & ray) const
     Intersect inter = NO_INTERSECT();
 
     for (auto const & face : faces_) {
-        Double t{};
-        Vector n{};
-        Color  c{};
-        Intersect i = face->intersect(ray);
-        std::tie(t, n, c) = i;
+        auto i = face->intersect(ray);
 
-        if (t < t_min && in_box(ray.count(t))) {
-            t_min = t;
+        if (i.t < t_min && in_box(ray.count(i.t))) {
+            t_min = i.t;
             inter = i;
         }
     }
@@ -107,11 +106,12 @@ void FigBox::set_cam_pos(Vector const & new_pos)
 
 
 FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
-                   Vector const & cam_pos)
+                   Vector const & cam_pos, Material m)
     : n_    (n)
     , p_    (p)
     , d_    (-(n_ * p_))
     , color_(color)
+    , m_(m)
 {
     // Direct normal to cam
     set_cam_pos(cam_pos);
@@ -127,7 +127,7 @@ Intersect FigPlane::intersect(Ray const & ray) const
     }
 
     Double t = -(n_ * r.O + d_) / den;
-    return { t, n_, color_ };
+    return { t, n_, color_, m_ };
 }
 
 

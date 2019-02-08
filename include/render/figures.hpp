@@ -14,7 +14,7 @@ class FigPlane final
         : public ISceneFig {
 public:
     FigPlane(Vector const & n, Vector const & p, Color color,
-             Vector const & cam_pos);
+             Vector const & cam_pos, Material m = Material());
 
     Intersect intersect  (Ray const & ray) const  override;
     void      set_cam_pos(Vector const & new_pos) override;
@@ -22,17 +22,19 @@ public:
 private:
     Double count(Vector const & point);
 
-    Vector n_; // {a, b, c}
-    Vector p_;
-    Double d_; // ax + by + cz + d = 0
-    Color  color_;
+    Vector   n_; // {a, b, c}
+    Vector   p_;
+    Double   d_; // ax + by + cz + d = 0
+    Color    color_;
+    Material m_;
 };
 
 
 class FigSphere final
         : public ISceneFig {
 public:
-    FigSphere(Vector const & center, Double radius, Color color);
+    FigSphere(Vector const & center, Double radius,
+              Color color, Material m = Material());
 
     Intersect intersect  (Ray const & ray)      const override;
     void      set_cam_pos(Vector const & /*new_pos*/) override;
@@ -40,9 +42,10 @@ public:
 private:
     Vector normal(Vector const & point) const;
 
-    Vector center_;
-    Double radius_;
-    Color  color_;
+    Vector   center_;
+    Double   radius_;
+    Color    color_;
+    Material m_;
 };
 
 
@@ -50,7 +53,7 @@ class FigBox final
         : public ISceneFig {
 public:
     FigBox(Vector const & b1, Vector const & b2, Color color,
-           Vector const & cam_pos);
+           Vector const & cam_pos, Material m = Material());
 
     Intersect intersect  (Ray const & ray) const  override;
     void      set_cam_pos(Vector const & new_pos) override;
@@ -58,7 +61,8 @@ public:
 private:
     Vector b1_, b2_;
     std::vector<std::shared_ptr<FigPlane>> faces_;
-    Color color_;
+    Color    color_;
+    Material m_;
 };
 
 }  // namespace Render

@@ -138,11 +138,11 @@ void test_render()
     Render::LightPoint lp1({1, 2, 1.1}, 0.5);
     lts.push_back(&lp1);
     Render::LightPoint lp2({-0.3, 1.4, 1}, 1.5);
-    //    lts.push_back(&lp2);
+    lts.push_back(&lp2);
     Render::LightPoint lp3({-0.6, -0.5, 1}, 1.5);
     lts.push_back(&lp3);
     Render::LightAmbient la1(0.2);
-    //    lts.push_back(&la1);
+    lts.push_back(&la1);
     Render::LightDirectional ld1({1, -2, 1}, 1);
     lts.push_back(&ld1);
 

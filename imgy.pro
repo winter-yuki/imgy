@@ -11,11 +11,13 @@ SOURCES += \
     src/imgproc/warp.cpp \
     src/imgproc/ffd.cpp \
     src/file/bmp.cpp \
-    src/render/figures.cpp \
     src/render/light.cpp \
     src/imgproc/luteffects.cpp \
     src/imgproc/bayer.cpp \
     src/imgproc/errdiff.cpp \
+    src/render/figures/sphere.cpp \
+    src/render/figures/plane.cpp \
+    src/render/figures/box.cpp
 
 HEADERS += \
     include/math/glmath.hpp \

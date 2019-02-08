@@ -22,7 +22,7 @@ void test_render();
 
 
 
-int main(int argc, char *argv[])
+int main(int /*argc*/, char */*argv*/[])
 {
     try {
         //        parse(argc, argv);

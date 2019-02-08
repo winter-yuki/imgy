@@ -146,12 +146,12 @@ void test_render()
     Render::LightDirectional ld1({1, -2, 1}, 1);
     lts.push_back(&ld1);
 
-    Render::LightSpheric s1({0, 2.3, 0}, 1, 0.5);
+    Render::LightSpheric s1({0, 2.3, 0}, 1, 0.1);
     lts.push_back(&s1);
 
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({-1, 2, -2});
+    rnd.set_pos({-1, 0.5, -2});
     rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");

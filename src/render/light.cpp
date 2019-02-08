@@ -106,7 +106,7 @@ LightSpheric::LightSpheric(Vector const & center,
     , intensity_(intensity / accuracy_)
 {}
 
-
+/*
 RPs LightSpheric::rays_to(Vector from) const
 {
     Vector dir0  = center_ - from;
@@ -148,6 +148,37 @@ RPs LightSpheric::rays_to(Vector from) const
         coef += delta;
     }
 
+    return rps;
+}
+/**/
+
+RPs LightSpheric::rays_to(Vector from) const
+{
+    Vector dir0  = center_ - from;
+    Double t0    = Ray(dir0, from).count(center_);
+    Vector base1 = dir0.cross(Vector{1, 1, 1}).normalize();
+    Vector base2 = dir0.cross(base1).normalize();
+
+    SizeT  n_circles   = std::floor(radius_ * accuracy_);
+    Double delta_c     = radius_ / n_circles;
+    Double curr_radius = 0;
+
+    auto rays_quarter = [](SizeT circle) ->SizeT {
+        return circle + 1;
+    };
+
+    RPs rps;
+    for (SizeT circle = 0; circle < n_circles;
+         ++circle, curr_radius += delta_c) {
+        const auto rays     = 4 * rays_quarter(circle);
+        const Double t_max  = M_PI;
+        const Double t_step = t_max / rays;
+        Double t = 0;
+        for (SizeT i = 0; i < rays; ++i, t += t_step) {
+            Vector d = dir0 + base1 * std::cos(t) + base2 * std::sin(t);\
+            rps.push_back(std::make_pair(Ray{d, from}, t0));
+        }
+    }
     return rps;
 }
 

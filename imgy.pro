@@ -18,8 +18,8 @@ SOURCES += \
     src/render/figures/sphere.cpp \
     src/render/figures/plane.cpp \
     src/render/figures/box.cpp \
-    src/render/texturing/textures.cpp \
-    src/render/texturing/hyper.cpp
+    src/render/texturing/hyper.cpp \
+    src/render/texturing/color.cpp
 
 HEADERS += \
     include/math/glmath.hpp \

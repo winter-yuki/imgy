@@ -25,13 +25,14 @@ class HyperTexture final
         : public IMapping {
 public:
     using Noise = std::function<Double (Vector v)>;
-    HyperTexture(Color c1, Color c2, Double p, Noise noise);
+    HyperTexture(Color const & c1, Color const & c2,
+                 Double p, Noise noise);
 
     Color operator()(Vector const & point) const override;
     Color operator()(Double u, Double v)   const override;
 
 private:
-    Double func(Double a, Vector const &) const;
+    Double func(Double a, Vector const & p) const;
 
     Color  c1_, c2_;
     Double p_;

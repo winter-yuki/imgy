@@ -43,10 +43,10 @@ private:
 class FigColor final
         : public IMapping {
 public:
-    explicit FigColor(Color c);
+    explicit FigColor(Color const & c);
 
-    Color operator()(Vector const & point) const override;
-    Color operator()(Double u, Double v)   const override;
+    Color operator()(Vector const & /*point*/)   const override;
+    Color operator()(Double /*u*/, Double /*v*/) const override;
 
 private:
     Color c_;

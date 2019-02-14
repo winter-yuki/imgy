@@ -106,7 +106,7 @@ LightSpheric::LightSpheric(Vector const & center,
     , intensity_(intensity / accuracy_)
 {}
 
-/*
+/**/
 RPs LightSpheric::rays_to(Vector from) const
 {
     Vector dir0  = center_ - from;
@@ -152,6 +152,7 @@ RPs LightSpheric::rays_to(Vector from) const
 }
 /**/
 
+/*
 RPs LightSpheric::rays_to(Vector from) const
 {
     Vector dir0  = center_ - from;
@@ -164,7 +165,7 @@ RPs LightSpheric::rays_to(Vector from) const
     Double curr_radius = 0;
 
     auto rays_quarter = [](SizeT circle) ->SizeT {
-        return circle + 1;
+        return 10 * circle + 1;
     };
 
     RPs rps;
@@ -181,7 +182,7 @@ RPs LightSpheric::rays_to(Vector from) const
     }
     return rps;
 }
-
+/**/
 
 Double LightSpheric::light(Vector const & normal,
                            RayPos const & /*view*/,

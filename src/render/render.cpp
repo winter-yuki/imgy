@@ -181,7 +181,6 @@ Ray Render::calc_ray_dir(SizeT row, SizeT col) const
 Color Render::what_color(Ray const & ray) const
 {
     auto intrs = trace_ray(ray);
-
     if (intrs.t <= EPSILON() ||
             std::abs(intrs.t - INF_PARAM()) < EPSILON()) {
         return intrs.c;

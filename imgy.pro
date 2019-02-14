@@ -17,7 +17,9 @@ SOURCES += \
     src/imgproc/errdiff.cpp \
     src/render/figures/sphere.cpp \
     src/render/figures/plane.cpp \
-    src/render/figures/box.cpp
+    src/render/figures/box.cpp \
+    src/render/texturing/textures.cpp \
+    src/render/texturing/hyper.cpp
 
 HEADERS += \
     include/math/glmath.hpp \

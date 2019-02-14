@@ -140,18 +140,17 @@ void test_render()
     Render::LightPoint lp2({-0.3, 1.4, 1}, 1.5);
     lts.push_back(&lp2);
     Render::LightPoint lp3({-0.6, -0.5, 1}, 1.5);
-    lts.push_back(&lp3);
+//    lts.push_back(&lp3);
     Render::LightAmbient la1(0.2);
-    lts.push_back(&la1);
+//    lts.push_back(&la1);
     Render::LightDirectional ld1({1, -2, 1}, 1);
-    lts.push_back(&ld1);
+//    lts.push_back(&ld1);
 
-    Render::LightSpheric s1({0, 2.3, 0}, 1, 0.1);
-    lts.push_back(&s1);
-
+    Render::LightSpheric s1({0, 2.3, 0}, 0.5, 1);
+//    lts.push_back(&s1);
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({-1, 0.5, -2});
+    rnd.set_pos({-1, 0.5, -4});
     rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");

@@ -32,8 +32,8 @@ struct Material final {
 
 struct Intersect final {
     Intersect() = default;
-    explicit Intersect(Color bg) : c(bg) {}
-    Intersect(Double t, Vector const & n, Color c, Material m)
+    explicit Intersect(Color const & bg) : c(bg) {}
+    Intersect(Double t, Vector const & n, Color const & c, Material m)
         : t(t), n(n), c(c), m(m) {}
 
     Double   t = INF_PARAM();

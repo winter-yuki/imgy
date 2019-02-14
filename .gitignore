@@ -5,3 +5,7 @@ Release
 *.autosave
 .vscode
 *.txt
+<<<<<<< HEAD
+=======
+Release
+>>>>>>> new gitignore

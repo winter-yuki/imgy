@@ -22,9 +22,9 @@ public:
 
     Double get_intermediate_color() const;
 
-    RawCP r() const { return color_.r; }
-    RawCP g() const { return color_.g; }
-    RawCP b() const { return color_.b; }
+    RawCP r() const { return clamp_color(color_.r); }
+    RawCP g() const { return clamp_color(color_.g); }
+    RawCP b() const { return clamp_color(color_.b); }
 
     RawCP set_r(ColorPart r);
     RawCP set_g(ColorPart g);

@@ -17,8 +17,9 @@ HyperTexture::HyperTexture(Color const & c1, Color const & c2,
 
 Color HyperTexture::operator()(Vector const & point) const
 {
-    auto p = point.view();
-    return c1_ + (c1_ - c2_) * func(std::sqrt(p.x * p.x + p.y * p.y), point);
+    auto p = point.normalized().view();
+    auto k = func(std::sqrt(p.x * p.x + p.y * p.y) * 10 /* TODO() */, point);
+    return c1_ + k * (c2_ - c1_);
 }
 
 

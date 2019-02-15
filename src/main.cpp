@@ -9,6 +9,7 @@
 #include "include/render/figures.hpp"
 #include "include/render/light.hpp"
 #include "include/render/render.hpp"
+#include "include/render/textures.hpp"
 #include "include/render/types.hpp"
 
 
@@ -123,9 +124,15 @@ void test_render()
 
     Render::Render::Figures figs;
 
-    Render::FigSphere sphere1{{ 0, 0, 2 }, 0.5, {0, 0, 100}};
+    Render::FigColor c1({0, 0, 100});
+    Render::FigSphere sphere1{{ 0, 0, 2 }, 0.5, c1};
     figs.push_back(&sphere1);
-    Render::FigSphere sphere2{{ 1, 1, 4 }, 0.8, {0, 100, 0}};
+
+    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5,
+                            [](Render::Vector const & /*v*/) {
+        return 0.0;
+    });
+    Render::FigSphere sphere2{{ 1, 1, 4 }, 2, ht};
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});
     figs.push_back(&p1);
@@ -137,12 +144,12 @@ void test_render()
 
     Render::LightPoint lp1({1, 2, 1.1}, 0.5);
     lts.push_back(&lp1);
-    Render::LightPoint lp2({-0.3, 1.4, 1}, 1.5);
+    Render::LightPoint lp2({-0.3, 1.4, 1}, .1);
     lts.push_back(&lp2);
-    Render::LightPoint lp3({-0.6, -0.5, 1}, 1.5);
+    Render::LightPoint lp3({-0.6, -0.5, 1}, 1);
 //    lts.push_back(&lp3);
-    Render::LightAmbient la1(0.2);
-//    lts.push_back(&la1);
+    Render::LightAmbient la1(.5);
+    lts.push_back(&la1);
     Render::LightDirectional ld1({1, -2, 1}, 1);
 //    lts.push_back(&ld1);
 
@@ -150,7 +157,7 @@ void test_render()
 //    lts.push_back(&s1);
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({-1, 0.5, -4});
+    rnd.set_pos({5, 0.5, -4});
     rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");

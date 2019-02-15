@@ -4,9 +4,9 @@
 namespace Render
 {
 
-FigPlane::FigPlane(Vector const & n, Vector const & p, Color color,
+FigPlane::FigPlane(Vector const & n, Vector const & p, Color const & color,
                    Vector const & cam_pos, Material m)
-    : n_    (n)
+    : n_    (n.normalized())
     , p_    (p)
     , d_    (-(n_ * p_))
     , color_(color)

@@ -5,11 +5,11 @@ namespace Render
 {
 
 FigSphere::FigSphere(Vector const & center, Double radius,
-                     Color color, Material m)
+                     IMapping const & map, Material m)
     : center_(center)
     , radius_(radius)
-    , color_ (color)
-    , m_(m)
+    , m_     (m)
+    , map_   (map)
 {}
 
 
@@ -31,7 +31,8 @@ Intersect FigSphere::intersect(Ray const & ray) const
     Double t2 = -k2 - sdiskr;
 
     auto t = std::min(t1, t2);
-    return { t, normal(ray.count(t)), color_, m_ };
+    auto p = ray.count(t);
+    return { t, normal(p), map_(shift_map(p)), m_ };
 }
 
 
@@ -42,6 +43,12 @@ void FigSphere::set_cam_pos(Vector const & /*new_pos*/)
 Vector FigSphere::normal(Vector const & point) const
 {
     return (point - center_).normalize();
+}
+
+
+Vector FigSphere::shift_map(Vector const & p) const
+{
+    return p - center_;
 }
 
 } // namespace Render

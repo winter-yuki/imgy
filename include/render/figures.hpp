@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "include/render/objsbase.hpp"
+#include "include/render/textures.hpp"
 
 
 namespace Render
@@ -13,7 +14,7 @@ namespace Render
 class FigPlane final
         : public ISceneFig {
 public:
-    FigPlane(Vector const & n, Vector const & p, Color color,
+    FigPlane(Vector const & n, Vector const & p, Color const & color,
              Vector const & cam_pos, Material m = Material());
 
     Intersect intersect  (Ray const & ray) const  override;
@@ -24,7 +25,7 @@ private:
 
     Vector   n_; // {a, b, c}
     Vector   p_;
-    Double   d_; // ax + by + cz + d = 0
+    Double   d_; // ax + by + cz + d_ = 0
     Color    color_;
     Material m_;
 };
@@ -34,18 +35,19 @@ class FigSphere final
         : public ISceneFig {
 public:
     FigSphere(Vector const & center, Double radius,
-              Color color, Material m = Material());
+              IMapping const & map, Material m = Material());
 
     Intersect intersect  (Ray const & ray)      const override;
     void      set_cam_pos(Vector const & /*new_pos*/) override;
 
 private:
     Vector normal(Vector const & point) const;
+    Vector shift_map(Vector const & p) const;
 
     Vector   center_;
     Double   radius_;
-    Color    color_;
     Material m_;
+    IMapping const & map_;
 };
 
 

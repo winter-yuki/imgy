@@ -132,7 +132,7 @@ inline Color operator*(Color::Double x, Color const & c) {
     new_c.color_.b = Color::ColorPart(x * c.color_.b);
     new_c.color_.g = Color::ColorPart(x * c.color_.g);
     new_c.color_.r = Color::ColorPart(x * c.color_.r);
-    return c;
+    return new_c;
 }
 
 inline Color operator*(Color const & c, Color::Double x) {

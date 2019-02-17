@@ -8,6 +8,7 @@
 #include "include/imgproc/imgproc.hpp"
 #include "include/render/figures.hpp"
 #include "include/render/light.hpp"
+#include "include/render/noise.hpp"
 #include "include/render/render.hpp"
 #include "include/render/textures.hpp"
 #include "include/render/types.hpp"
@@ -128,10 +129,8 @@ void test_render()
     Render::FigSphere sphere1{{ 0, 0, 2 }, 0.5, c1};
     figs.push_back(&sphere1);
 
-    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5,
-                            [](Render::Vector const & /*v*/) {
-        return 0.0;
-    });
+    Render::PerlinNoise noise;
+    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5, noise);
     Render::FigSphere sphere2{{ 1, 1, 4 }, 2, ht};
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});
@@ -157,7 +156,7 @@ void test_render()
 //    lts.push_back(&s1);
 
     Render::Render rnd(img, figs, lts);
-    rnd.set_pos({5, 0.5, -4});
+    rnd.set_pos({9, 0.5, -3});
     rnd.set_up({0, 1, 0});
     rnd.render();
     img.print(path + "render.bmp");

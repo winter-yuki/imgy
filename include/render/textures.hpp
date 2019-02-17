@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "include/render/noise.hpp"
 #include "include/render/types.hpp"
 #include "include/utility/color.hpp"
 
@@ -12,7 +13,8 @@ namespace Render
 
 class IMapping {
 public:
-    IMapping() = default;
+    IMapping()                             = default;
+    virtual ~IMapping()                    = default;
     IMapping(IMapping const &)             = delete;
     IMapping & operator=(IMapping const &) = delete;
 

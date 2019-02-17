@@ -19,7 +19,8 @@ SOURCES += \
     src/render/figures/plane.cpp \
     src/render/figures/box.cpp \
     src/render/texturing/hyper.cpp \
-    src/render/texturing/color.cpp
+    src/render/texturing/color.cpp \
+    src/render/texturing/noise.cpp
 
 HEADERS += \
     include/math/glmath.hpp \
@@ -40,4 +41,5 @@ HEADERS += \
     include/imgproc/ffd.hpp \
     include/imgproc/types.hpp \
     include/utility/color.hpp \
-    include/render/textures.hpp
+    include/render/textures.hpp \
+    include/render/noise.hpp

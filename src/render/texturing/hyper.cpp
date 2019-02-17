@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 #include "include/render/textures.hpp"
 
 
@@ -18,7 +20,7 @@ HyperTexture::HyperTexture(Color const & c1, Color const & c2,
 Color HyperTexture::operator()(Vector const & point) const
 {
     auto p = point.normalized().view();
-    auto k = func(std::sqrt(p.x * p.x + p.y * p.y) * 10 /* TODO() */, point);
+    auto k = func(std::sqrt(p.x * p.x + p.y * p.y) * 100 /* TODO() */, point);
     return c1_ + k * (c2_ - c1_);
 }
 

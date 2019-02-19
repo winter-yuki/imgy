@@ -116,6 +116,7 @@ void test_proc()
 
 void test_render()
 {
+    using Vector = Render::Vector;
     std::string path = "../test/tmp/";
     std::string RTIMG = "../../RTIMG/";
     std::string tpath = "../test/src/";
@@ -129,8 +130,10 @@ void test_render()
     Render::FigSphere sphere1{{ 0, 0, 2 }, 0.5, c1};
     figs.push_back(&sphere1);
 
-    Render::PerlinNoise noise;
-    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5, noise);
+    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5,  Render::PerlinNoise());
+//    Render::HyperTexture ht({0, 0, 0}, {0, 255, 0}, 0.5, [](Vector const & v) {
+//        return std::sin(v[0] * 100);
+//    });
     Render::FigSphere sphere2{{ 1, 1, 4 }, 2, ht};
     figs.push_back(&sphere2);
     Render::FigPlane p1({0, 1, 0}, {0, -2, 3}, {100, 0, 0}, {0, 0, 0});

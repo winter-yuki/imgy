@@ -48,7 +48,8 @@ Vector FigSphere::normal(Vector const & point) const
 
 Vector FigSphere::shift_map(Vector const & p) const
 {
-    return p - center_;
+//    return p - center_;
+    return p;
 }
 
 } // namespace Render

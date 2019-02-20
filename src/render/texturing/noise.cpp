@@ -70,10 +70,10 @@ Double PerlinNoise::interp(Rng const & x, Rng const & y, Rng const & z) const
     Double x10 = rnd_[index(x1, y1, z2)] * (1 - fx) + rnd_[index(x2, y1, z2)] * fx;
     Double x11 = rnd_[index(x1, y2, z2)] * (1 - fx) + rnd_[index(x2, y2, z2)] * fx;
 
-    Double y00 = x00 * (1 - fy) + x01;
-    Double y01 = x10 * (1 - fy) + x11;
+    Double y00 = x00 * (1 - fy) + x01 * fy;
+    Double y01 = x10 * (1 - fy) + x11 * fy;
 
-    Double z0 = y00 * (1 - fz) + y01;
+    Double z0 = y00 * (1 - fz) + y01 * fz;
 
     return z0;
 }

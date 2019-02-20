@@ -17,7 +17,7 @@ using Vector    = GLMath::Vector<Double>;
 using Matrix    = GLMath::Matrix<Double>;
 
 
-inline constexpr Double EPSILON()   { return 1e-7; }
+inline constexpr Double EPSILON()   { return 1e-5; }
 inline constexpr Double INF_PARAM() {
     return std::numeric_limits<Double>::max(); }
 inline Vector NULL_VECTOR() { return Vector{0, 0, 0, 0}; }
